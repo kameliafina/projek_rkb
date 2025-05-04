@@ -1,0 +1,71 @@
+<?= $this->extend('main/layout') ?>
+
+<?= $this->section('judul') ?>
+BERITA
+<?= $this->endSection('judul') ?>
+
+<?= $this->section('isi') ?>
+Tambah Berita
+
+<div class="d-flex justify-content-end">
+<a href="<?= site_url('barangctrl/databarang') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+<img src="<?php echo base_url('asset-pelanggan') ?>/images/back.png" alt="Category Thumbnail">Kembali</a>
+</div>
+<?= $this->endSection('isi') ?>
+
+<?= $this->section('form') ?>
+
+<form action="<?= site_url('/ctrllifestyle/update/' . $datalifestyle['id']) ?>" method="post" enctype="multipart/form-data">
+<input type="hidden" name="id" value="<?= $datalifestyle['id'] ?>">
+
+  <div class="row mb-3">
+    <label for="nama_penyiar" class="col-sm-2 col-form-label">Nama Penyiar</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="nama_penyiar" name="nama_penyiar" value="<?= esc($datalifestyle['nama_penyiar']) ?>" required>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <label for="judul_berita" class="col-sm-2 col-form-label">Judul Berita</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="judul" name="judul" value="<?= esc($datalifestyle['judul']) ?>" required>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <label for="deskripsi" class="col-sm-2 col-form-label">Deskripsi Berita</label>
+    <div class="col-sm-10">
+        <textarea class="form-control" id="deskripsi" name="deskripsi" required><?= esc($datalifestyle['deskripsi']) ?></textarea>
+    </div>
+  </div>
+  <div class="mb-3">
+        <label for="foto" class="form-label">Foto Barang</label>
+        <input type="file" class="form-control" id="foto" name="foto">
+        <?php if ($datalifestyle['foto']): ?>
+            <img src="<?= base_url('upload/' . $datalifestyle['foto']) ?>" alt="<?= esc($datalifestyle['ket_foto']) ?>" width="150">
+        <?php endif; ?>
+    </div>
+  <div class="row mb-3">
+    <label for="ket_foto" class="col-sm-2 col-form-label">Ket Foto</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="ket_foto" name="ket_foto" value="<?= esc($datalifestyle['ket_foto']) ?>" required>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <label for="kategori_id" class="col-sm-2 col-form-label">Kategori</label>
+    <div class="col-sm-10">
+    <select class="form-control" id="kategori_id" name="kategori_id">
+            <option value="">-- Pilih Kategori --</option>
+            <?php foreach ($kategori as $kat): ?>
+                <option value="<?= $kat['id'] ?>" <?= (old('kategori_id', $datalifestyle['kategori_id']) == $kat['id']) ? 'selected' : '' ?>>
+                    <?= $kat['nama_kategori_l'] ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+</div>
+  
+  
+  <button type="submit" class="btn btn-primary">Input </button>
+
+            </form>
+<?= $this->endSection('form') ?>
