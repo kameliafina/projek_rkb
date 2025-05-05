@@ -66,6 +66,8 @@ class CtrlJadwal extends BaseController
         // Set flashdata for success message
         session()->setFlashdata('pesan', 'Data berhasil disimpan');
 
+        date_default_timezone_set('Asia/Jakarta');
+
         // Redirect to the data list page
         return redirect()->to(site_url('/datajadwal'));
     }

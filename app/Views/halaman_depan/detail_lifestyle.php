@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
-<body>
+
 
   <!-- navbar -->
   <header>
@@ -45,70 +45,85 @@
 
       <div class="container">
         <!-- jadwal radio -->
-        
-
-        <!-- play -->
-        
-      
-
-        <!-- berita -->
         <div class="row">
-          <div class="col-12 col-md-6 p-3">
             
         </div>
-        
-            <div class="col-12 col-md-6">
-                <div class="row">
-                  <div class="">    
-                </div>
-                
-                </div>
-                <div class="row">
-                    
-                </div>
-            </div>
-        </div>
 
-        <!-- berita foto -->
-        <div class="photo-news">
-          <h2 class="section-title">BERITA FOTO</h2>
-          <div class="photo-grid">
-          <?php foreach ($program as $program) : ?>
-              <div class="photo-item">
-                  <img src="<?= base_url('upload/' . $program['foto']) ?>" alt="program">
-                  <div class="overlay">
-                      <h4><?= esc($program['judul']) ?></h4>
-                      <a href="<?= esc($program['link']) ?>" target="_blank" rel="noopener">selengkapnya →</a>
+        <!-- play -->
+        <div class="row">
+            <div class="col-12 p-3">
+              <div class="container">
+                <div class="row g-2">
+                  <div class="col-12">
+                    <div class="category-buttons d-flex flex-wrap gap-3">
+                      <a href="coba_beritapkl.html" class="btn-category active">Kota Pekalongan</a>
+                      <a href="coba_beritapkl.html" class="btn-category">Jawa Tengah</a>
+                      <a href="/kategori/nasional" class="btn-category">Nasional</a>
+                      <a href="/kategori/internasional" class="btn-category">Internasional</a>
+                    </div>
                   </div>
+                </div>
               </div>
-                <?php endforeach; ?>
-          </div>
-      </div>
-              
-          </div>
-      </div>
-      
-
-        <!-- infografis -->
-        <div class="row">
-    <!-- Infografis -->
-    
-
-    <!-- Youtube -->
-    
-</div>
-
-
-        <!-- statement -->
-        <div class="row">
-            <div class="col-12 col-md-6 p-3">
-                
             </div>
-            <div class="col-12 col-md-6 p-3">
-                
-            </div>
+          </div>          
+        </div>
+      </div>
+
+      <div class="container my-5 d-flex flex-column flex-md-row gap-4">
+    <!-- Konten Berita -->
+    <div class="flex-grow-1">
+        <h2 class="fw-bold"><?= esc($lifestyle['judul']) ?></h2>
+        <p class="text-muted"><?= esc($lifestyle['penulis'] ?? 'Admin') ?> - <span class="text-primary"><?= esc($lifestyle['nama_kategori_b']) ?></span></p>
+        <p><small><?= date('l, d F Y H:i', strtotime($lifestyle['created_at'])) ?> WIB</small></p>
+        
+        <?php if (!empty($lifestyle['gambar'])): ?>
+            <img src="<?= base_url('upload/' . $lifestyle['foto']) ?>" alt="<?= esc($lifestyle['judul']) ?>" class="img-fluid rounded mb-3"/>
+        <?php else: ?>
+            <img src="<?= base_url('upload/' . $lifestyle['foto']) ?>" alt="Berita" class="img-fluid rounded mb-3"/>
+        <?php endif; ?>
+        
+        <p class="caption"><?= esc($lifestyle['caption'] ?? '') ?></p>
+        <div class="isi-berita">
+            <?= $lifestyle['deskripsi'] ?>
         </div>
     </div>
+
+    <aside class="sidebar">
+                <div class="row">
+                  <div class="popular-news">
+                    <div class="title">
+                        <h2>BERITA POPULER</h2>
+                    </div>
+                    <div class="news-list">
+                      <?php $no = 1; foreach ($lifestylePopuler as $lifestyle): ?>
+                        <div class="news-item" style="display: flex; align-items: center; height: 80px; overflow: hidden; padding: 4px;">
+                          <span class="rank" style="margin-right: 6px; font-size: 16px; color: purple; flex-shrink: 0;"><?= $no++; ?></span>
+                          <img src="<?= base_url('upload/' . $lifestyle['foto']) ?>" alt="Berita" class="news-img"
+                          style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px; flex-shrink: 0; margin-right: 6px;">
+                          
+                          <div class="news-content" style="max-width: 120px; overflow: hidden;">
+                            <h4 style="font-size: 13px; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                              <?= $lifestyle['judul']; ?>
+                            </h4>
+                            
+                            <p class="views" style="font-size: 12px; color: #777; margin: 0;">
+                              <img src="<?= base_url('asset-radio') ?>/img/mata.png" alt="Views" class="icon-view" style="width: 14px; height: 14px; margin-right: 3px;">
+                              <?= $lifestyle['views']; ?>
+                            </p>
+                          </div>
+                        </div>
+
+                        <?php endforeach; ?>
+                      </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+                      </aside>
+
+</div>
+
 
     <!-- footer -->
     <footer class="footer">
@@ -134,7 +149,7 @@
           <div class="col-md-4 text-end">
             <p class="fw-bold mb-0">Link Terkait</p>
             <p class="mb-1">Kominfo Pekalongan</p>
-            <p>Radio Kota Batik</p>
+            <a href="<?= site_url('/login') ?>">Radio Kota Batik</a>
           </div>
         </div>
         <div class="text-center mt-4">

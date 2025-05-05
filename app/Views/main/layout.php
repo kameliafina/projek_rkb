@@ -75,7 +75,7 @@
                         <a class="collapse-item" href="<?= site_url('/berita2')?>">Kelola Berita</a>
                         <a class="collapse-item" href="<?= site_url('/berita_foto')?>">Kelola Berita Foto</a>
                         <a class="collapse-item" href="<?= site_url('/lifestyle')?>">Lifestyle</a>
-                        <a class="collapse-item" href="<?= site_url('/berita_foto')?>">Program</a>
+                        <a class="collapse-item" href="<?= site_url('/program2')?>">Program</a>
                     </div>
                 </div>
             </li>
@@ -109,7 +109,7 @@
                     <span>Statement</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?= site_url('/berita_foto')?>">
+                <a class="nav-link" href="<?= site_url('/historia2')?>">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Historia</span></a>
             </li>

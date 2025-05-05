@@ -90,6 +90,9 @@ class CtrlBerita extends BaseController
             log_message('error', 'Gagal simpan data berita: ' . json_encode($berita->errors()));
             return redirect()->back()->withInput()->with('errors', ['general' => 'Gagal menyimpan data.']);
         }
+
+        date_default_timezone_set('Asia/Jakarta');
+
     
         // Success, redirect
         session()->setFlashdata('pesan', 'Data berhasil disimpan');

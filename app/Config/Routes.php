@@ -29,6 +29,8 @@ $routes->get('/ctrlberitafoto/delete/(:num)', 'CtrlBeritaFoto::delete/$1');
 
 $routes->get('/lifestyle', 'CtrlLifestyle::index');
 $routes->get('/lifestyle2', 'CtrlLifestyle::lifestyle2');
+$routes->get('/lifestyle2/(:num)', 'CtrlLifestyle::detail/$1');
+$routes->get('/lifestyle/kategori/(:segment)', 'CtrlLifestyle::kategori/$1');
 $routes->get('/detaillf/(:num)', 'CtrlLifestyle::detail/$1');
 $routes->get('/datalifestyle', 'CtrlLifestyle::datalifestyle');
 $routes->get('/tambahlifestyle', 'CtrlLifestyle::tambah');
@@ -77,6 +79,14 @@ $routes->post('ctrlhistoria/simpan', 'CtrlHistoria::simpan');
 $routes->get('/ctrlhistoria/edit/(:num)', 'CtrlHistoria::edit/$1');
 $routes->post('/ctrlhistoria/update/(:num)', 'CtrlHistoria::update/$1');
 $routes->get('/ctrlhistoria/delete/(:num)', 'CtrlHistoria::delete/$1');
+
+$routes->get('/program2', 'CtrlProgram::index');
+$routes->get('/dataprogram', 'CtrlProgram::dataprogram');
+$routes->get('/tambahprogram', 'CtrlProgram::tambah');
+$routes->post('ctrlprogram/simpan', 'CtrlProgram::simpan');
+$routes->get('/ctrlProgram/edit/(:num)', 'CtrlProgram::edit/$1');
+$routes->post('/ctrlprogram/update/(:num)', 'CtrlProgram::update/$1');
+$routes->get('/ctrlprogram/delete/(:num)', 'CtrlProgram::delete/$1');
 
 $routes->get('/petinggi', 'CtrlPetinggi::index');
 

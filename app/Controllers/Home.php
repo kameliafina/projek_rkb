@@ -49,8 +49,16 @@ class Home extends BaseController
 
         $url = "https://www.googleapis.com/youtube/v3/search?key={$apiKey}&channelId={$channelId}&order=date&part=snippet&type=video&maxResults={$maxResults}";
 
-        $dataJson = file_get_contents($url);
-        $dataArray = json_decode($dataJson, true);
+        $ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // bisa dihilangkan di server production
+$response = curl_exec($ch);
+curl_close($ch);
+
+$dataArray = json_decode($response, true);
+
+        
         
         $youtubeVideos = [];
 

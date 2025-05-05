@@ -76,6 +76,8 @@ class CtrlLifestyle extends BaseController
         // Set flashdata for success message
         session()->setFlashdata('pesan', 'Data berhasil disimpan');
 
+        date_default_timezone_set('Asia/Jakarta');
+
         // Redirect to the data list page
         return redirect()->to(site_url('/datalifestyle'));
     }
@@ -157,30 +159,80 @@ class CtrlLifestyle extends BaseController
         return redirect()->to(site_url('/datalifestyle'));
     }
 
-    public function detail($id)
-    {
-        $lifestyle = new LifestyleModel();
-        $ambil = $lifestyle->find($id);
-
-        $data = [
-            'datalifestyle' => $ambil
-        ];
-        return view('lifestyle/detaillifestyle', $data);
-    }
 
     public function lifestyle2()
     {
-        $lifestyle = new LifestyleModel();
-        
-        $ambil = $lifestyle
-        ->select('lifestyle.*, kategori_lifestyle.nama_kategori_l')
-        ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
-        ->orderBy('lifestyle.created_at', 'DESC')
-        ->findAll();
+        $lifestyleModel = new LifestyleModel();
+
+        // Lifestyle terbaru (dengan pagination)
+        $lifestyle = $lifestyleModel
+            ->select('lifestyle.*, kategori_lifestyle.nama_kategori_l')
+            ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
+            ->orderBy('lifestyle.created_at', 'DESC')
+            ->paginate(5, 'lifestyle');
+
+        // Lifestyle populer
+        $lifestylePopuler = $lifestyleModel
+            ->select('lifestyle.*, kategori_lifestyle.nama_kategori_l')
+            ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
+            ->orderBy('lifestyle.views', 'DESC')
+            ->findAll(5);
 
         $data = [
-            'datalifestyle' => $ambil
+            'datalifestyle' => $lifestyle,
+            'lifestylePopuler' => $lifestylePopuler,
+            'pager' => $lifestyleModel->pager
         ];
+
         return view('halaman_depan/lifestyle', $data);
+    }
+
+    public function detail($id)
+    {
+        $lifestyleModel = new LifestyleModel();
+
+        $lifestyle = $lifestyleModel
+            ->select('lifestyle.*, kategori_lifestyle.nama_kategori_l')
+            ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
+            ->where('lifestyle.id', $id)
+            ->first();
+
+        $lifestylePopuler = $lifestyleModel
+            ->select('lifestyle.*, kategori_lifestyle.nama_kategori_l')
+            ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
+            ->orderBy('lifestyle.views', 'DESC')
+            ->findAll(5);
+
+        if (!$lifestyle) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Lifestyle tidak ditemukan.');
+        }
+
+        // tambah views
+        $lifestyleModel->update($id, ['views' => $lifestyle['views'] + 1]);
+
+        return view('halaman_depan/detail_lifestyle', [
+            'lifestyle' => $lifestyle,
+            'lifestylePopuler' => $lifestylePopuler
+        ]);
+    }
+
+    public function kategori($kategori)
+    {
+        $lifestyleModel = new LifestyleModel();
+
+        // ambil data berdasarkan kategori (wisata, hiburan, kesehatan, tips dan trik)
+        $dataKategori = $lifestyleModel
+            ->select('lifestyle.*, kategori_lifestyle.nama_kategori_l')
+            ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
+            ->where('kategori_lifestyle.nama_kategori_l', strtolower($kategori))
+            ->orderBy('lifestyle.created_at', 'DESC')
+            ->findAll();
+
+        $data = [
+            'datalifestyle' => $dataKategori,
+            'kategori' => ucfirst($kategori)
+        ];
+
+        return view('halaman_depan/lifestyle_kategori', $data);
     }
 }

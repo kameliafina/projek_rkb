@@ -3,51 +3,48 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\BeritaFotoModel;
-use App\Models\Kategori2Model;
+use App\Models\ProgramModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class CtrlBeritaFoto extends BaseController
+class CtrlProgram extends BaseController
 {
     public function index()
     {
-        $berita = new BeritaFotoModel();
-        $ambil = $berita->findAll();
+        $program = new ProgramModel();
+        $ambil = $program->findAll();
 
         $data = [
-            'databerita' => $ambil
+            'dataprogram' => $ambil
         ];
-        return view('berita_foto/index', $data);
+        return view('program/index', $data);
     }
 
-    public function databerita2()
+    public function dataprogram()
     {
-        $berita = new BeritaFotoModel();
-        $ambil = $berita->findAll();
+        $program = new ProgramModel();
+        $ambil = $program->findAll();
 
         $data = [
-            'databerita' => $ambil
+            'dataprogram' => $ambil
         ];
-        return view('berita_foto/index', $data);
+        return view('program/index', $data);
     }
 
     public function tambah()
     {
         helper('form');
 
-        return view('berita_foto/tambah');
+        return view('program/tambah');
     }
 
     public function simpan()
     {
-        $berita = new BeritaFotoModel();
+        $program = new ProgramModel();
 
         // Validation rules
         $validationRules = [
-            'nama_penyiar' => 'required',
             'judul' => 'required',
-            'deskripsi' => 'required',
-            'ket_foto' => 'required',
+            'link' => 'required',
             'foto' => 'uploaded[foto]|max_size[foto,2048]|is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png,image/gif]'
         ];
 
@@ -62,11 +59,9 @@ class CtrlBeritaFoto extends BaseController
         $foto->move('upload', $namafoto); // Move the file to the 'upload' directory
 
         // Insert data into the database
-        $berita->insert([
-            'nama_penyiar' => $this->request->getVar('nama_penyiar'),
+        $program->insert([
             'judul' => $this->request->getVar('judul'),
-            'deskripsi' => $this->request->getVar('deskripsi'),
-            'ket_foto' => $this->request->getVar('ket_foto'),
+            'link' => $this->request->getVar('link'),
             'foto' => $namafoto
         ]);
 
@@ -75,32 +70,30 @@ class CtrlBeritaFoto extends BaseController
 
         date_default_timezone_set('Asia/Jakarta');
 
-
         // Redirect to the data list page
-        return redirect()->to(site_url('/databerita2'));
+        return redirect()->to(site_url('/dataprogram'));
     }
 
     public function edit($id)
     {
-        $berita = new BeritaFotoModel();
-        $ambil = $berita->find($id);
+        $program = new ProgramModel();
+        $ambil = $program->find($id);
 
         $data = [
-            'databerita' => $ambil
+            'dataprogram' => $ambil
         ];
-        return view('berita_foto/edit', $data);
+        return view('program/edit', $data);
     }
 
     public function update($id)
     {
-        $berita = new BeritaFotoModel();
+        $program = new ProgramModel();
+        $ambil = $program->find($id);
 
         // Validation rules
         $validationRules = [
-            'nama_penyiar' => 'required',
             'judul' => 'required',
-            'deskripsi' => 'required',
-            'ket_foto' => 'required',
+            'link' => 'required'
         ];
 
         if ($this->request->getFile('foto')->isValid()) {
@@ -118,37 +111,76 @@ class CtrlBeritaFoto extends BaseController
             $namafoto = $foto->getRandomName(); // Generate a random name for the file
             $foto->move('upload', $namafoto); // Move the file to the 'upload' directory
 
-            // Update the foto field in the database
-            $berita->update($id, [
-                'foto' => $namafoto
-            ]);
+            // Delete the old file if it exists
+            if (file_exists('upload/' . $ambil['foto'])) {
+                unlink('upload/' . $ambil['foto']);
+            }
+        } else {
+            $namafoto = $ambil['foto']; // Keep the old file name
         }
 
-        // Update other fields in the database
-        $berita->update($id, [
-            'nama_penyiar' => $this->request->getVar('nama_penyiar'),
+        // Update data in the database
+        $program->update($id, [
             'judul' => $this->request->getVar('judul'),
-            'deskripsi' => $this->request->getVar('deskripsi'),
-            'ket_foto' => $this->request->getVar('ket_foto'),
+            'link' => $this->request->getVar('link'),
+            'foto' => $namafoto
         ]);
 
         // Set flashdata for success message
         session()->setFlashdata('pesan', 'Data berhasil diupdate');
 
         // Redirect to the data list page
-        return redirect()->to(site_url('/databerita2'));
+        return redirect()->to(site_url('/dataprogram'));
     }
 
     public function delete($id)
     {
-        $berita = new BeritaFotoModel();
-        $berita->delete($id);
+        $program = new ProgramModel();
+        $ambil = $program->find($id);
+
+        // Delete the file if it exists
+        if (file_exists('upload/' . $ambil['foto'])) {
+            unlink('upload/' . $ambil['foto']);
+        }
+
+        // Delete data from the database
+        $program->delete($id);
 
         // Set flashdata for success message
         session()->setFlashdata('pesan', 'Data berhasil dihapus');
 
         // Redirect to the data list page
-        return redirect()->to(site_url('/databerita2'));
+        return redirect()->to(site_url('/dataprogram'));
     }
 
+    public function detail($id)
+    {
+        $program = new ProgramModel();
+        $ambil = $program->find($id);
+
+        $data = [
+            'dataprogram' => $ambil
+        ];
+        return view('historia/detail', $data);
+    }
+
+    public function hapus($id)
+    {
+        $program = new ProgramModel();
+        $ambil = $program->find($id);
+
+        // Delete the file if it exists
+        if (file_exists('upload/' . $ambil['foto'])) {
+            unlink('upload/' . $ambil['foto']);
+        }
+
+        // Delete data from the database
+        $program->delete($id);
+
+        // Set flashdata for success message
+        session()->setFlashdata('pesan', 'Data berhasil dihapus');
+
+        // Redirect to the data list page
+        return redirect()->to(site_url('/dataprogram'));
+    }
 }
