@@ -688,7 +688,7 @@ ul li a{
   position:relative;
   text-decoration:none;
   padding:5px;
-  font-size:18px;
+  font-size:15px;
   font-family: sans-serif;
   color:#fff;
   text-transform:uppercase;
@@ -702,7 +702,8 @@ ul:hover li a{
 }
 
 ul li a:hover{
-  transform:scale(2);
+  transform:scale(1.2);
+  font-size: 20px;
   opacity:1;
   filter:blur(0);
   text-decoration:none;
@@ -721,6 +722,7 @@ ul li a:before{
   transform-origin:right;
   transform:scaleX(0);
   z-index:-1;
+  border-radius: 7px;
 }
 
 ul li a:hover:before{
