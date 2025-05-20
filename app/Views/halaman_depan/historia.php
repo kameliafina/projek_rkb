@@ -78,7 +78,7 @@
                   <img src="<?= base_url('upload/' . $historia['foto']) ?>" alt="historia">
                   <div class="overlay">
                       <h4><?= esc($historia['judul']) ?></h4>
-                      <a href="<?= site_url('/detail/' . $historia['id']) ?>">selengkapnya →</a>
+                      <a href="<?= site_url('/detail_his/' . $historia['id']) ?>">selengkapnya →</a>
                   </div>
               </div>
                 <?php endforeach; ?>

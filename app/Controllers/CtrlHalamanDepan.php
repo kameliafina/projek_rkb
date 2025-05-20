@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\BeritaFotoModel;
 use App\Models\BeritaModel;
+use App\Models\HistoriaDetailModel;
 use App\Models\HistoriaModel;
 use App\Models\IklanModel;
 use App\Models\InfografisModel;
@@ -167,7 +168,7 @@ class CtrlHalamanDepan extends BaseController
     $beritaPekalongan = $beritaModel
         ->select('berita.*, kategori_berita.nama_kategori_b')
         ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
-        ->where('kategori_berita.nama_kategori_b', 'pekalongan') // filter berdasarkan nama kategori Pekalongan
+        ->where('kategori_berita.nama_kategori_b', 'Kota Pekalongan') // filter berdasarkan nama kategori Pekalongan
         ->orderBy('berita.created_at', 'DESC')
         ->findAll();
 
@@ -186,7 +187,7 @@ class CtrlHalamanDepan extends BaseController
         $beritaNasional = $beritaModel
             ->select('berita.*, kategori_berita.nama_kategori_b')
             ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
-            ->where('kategori_berita.nama_kategori_b', 'nasional') // filter berdasarkan nama kategori Nasional
+            ->where('kategori_berita.nama_kategori_b', 'Nasional') // filter berdasarkan nama kategori Nasional
             ->orderBy('berita.created_at', 'DESC')
             ->findAll();
 
@@ -204,7 +205,7 @@ class CtrlHalamanDepan extends BaseController
         $beritaInternasional = $beritaModel
             ->select('berita.*, kategori_berita.nama_kategori_b')
             ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
-            ->where('kategori_berita.nama_kategori_b', 'internasional') // filter berdasarkan nama kategori Internasional
+            ->where('kategori_berita.nama_kategori_b', 'Internasional') // filter berdasarkan nama kategori Internasional
             ->orderBy('berita.created_at', 'DESC')
             ->findAll();
 
@@ -223,7 +224,7 @@ class CtrlHalamanDepan extends BaseController
         $beritaJateng = $beritaModel
             ->select('berita.*, kategori_berita.nama_kategori_b')
             ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
-            ->where('kategori_berita.nama_kategori_b', 'jawa tengah') // filter berdasarkan nama kategori Jawa Tengah
+            ->where('kategori_berita.nama_kategori_b', 'Jawa Tengah') // filter berdasarkan nama kategori Jawa Tengah
             ->orderBy('berita.created_at', 'DESC')
             ->findAll();
 
@@ -232,6 +233,25 @@ class CtrlHalamanDepan extends BaseController
         ];
 
         return view('halaman_depan/berita_jateng', $data);
+    }
+
+    public function berita_olahraga()
+    {
+        $beritaModel = new BeritaModel();
+
+        // ambil berita dengan kategori nama 'Jawa Tengah'
+        $beritaJateng = $beritaModel
+            ->select('berita.*, kategori_berita.nama_kategori_b')
+            ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
+            ->where('kategori_berita.nama_kategori_b', 'Olahraga') // filter berdasarkan nama kategori Jawa Tengah
+            ->orderBy('berita.created_at', 'DESC')
+            ->findAll();
+
+        $data = [
+            'databerita' => $beritaJateng
+        ];
+
+        return view('halaman_depan/berita_olahraga', $data);
     }
 
 
@@ -250,6 +270,38 @@ class CtrlHalamanDepan extends BaseController
 
         return view('halaman_depan/historia', $data);
     }
+
+    public function detail_his($id)
+{
+    $historiaModel = new HistoriaModel();
+    $historiaFotoModel = new HistoriaDetailModel();
+    $beritaModel = new BeritaModel();
+
+    $historia = $historiaModel->find($id);
+
+    if (!$historia) {
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Historia tidak ditemukan.");
+    }
+
+    $fotoDeskripsi = $historiaFotoModel
+        ->where('historia_id', $id)
+        ->findAll();
+
+    $beritaPopuler = $beritaModel
+        ->select('berita.*, kategori_berita.nama_kategori_b')
+        ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
+        ->orderBy('berita.views', 'DESC')
+        ->findAll(5);
+
+    $data = [
+        'historia' => $historia,
+        'fotoDeskripsi' => $fotoDeskripsi,
+        'beritaPopuler' => $beritaPopuler
+    ];
+
+    return view('halaman_depan/detail_historia', $data);
+}
+
 
     public function lifestyle()
     {
