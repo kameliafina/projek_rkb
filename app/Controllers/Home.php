@@ -62,6 +62,11 @@ $dataArray = json_decode($response, true);
         
         $youtubeVideos = [];
 
+//         echo '<pre>';
+// print_r($dataArray);
+// echo '</pre>';
+// exit;
+
         if (!empty($dataArray['items'])) {
             foreach ($dataArray['items'] as $item) {
                 $youtubeVideos[] = [

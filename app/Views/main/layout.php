@@ -287,7 +287,7 @@
                     <div class="copyright text-center my-auto">
                         <span><div class="copyright">
                             2025, made with <span class="text-danger">❤</span> by
-                            <a href="https://www.instagram.com/kkaryuna/">Fina</a>
+                            <a href="https://www.instagram.com/pinkkamelia/">Fina</a>
                         </div>
                     </span>
                     </div>

@@ -36,19 +36,14 @@
                     <li><a href="<?= site_url('/historia') ?>">Historia</a></li>
                 </ul>
                 <form class="d-flex" action="<?= site_url('/berita/search') ?>" method="get">
-                    <input class="form-control me-2" type="search" name="q" placeholder="Search..." aria-label="Search">
+                    <input class="form-control me-2" type="search" name="q" placeholder="" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
                 </div>
             </div>
         </nav>
-    </header>
-
-      <div class="container">
-        <!-- jadwal radio -->
-        <div class="row">
         <div class="col-12 p-3 jadwal-radio">
-    Jadwal Radio Hari Ini
+    Jadwal Hari Ini
     <div class="jadwal-wrapper">
         <div class="jadwal-scroll">
             <div class="jadwal-track">
@@ -73,13 +68,8 @@
     </div>
 </div>
 
-
-</div>
-
-        <!-- play -->
-        <div class="row">
-          <div class="col-12 p-3">
-              <div class="container">
+            <div class="radio-wra">
+              <div class="radio-container">
                   <div class="row g-2">
                       <div class="col-6">
                           <div class="radio-card p-3 border rounded-5">
@@ -98,8 +88,36 @@
                       </div>
                   </div>
               </div>
-          </div>
-      </div>
+
+              <div class="radio-container2">
+                  <div class="row g-2">
+                      <div class="col-6">
+                          <div class="radio-card2 p-3 border rounded-5">
+                          
+                              <h1>bagian live</h1>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              </div>
+              
+
+
+    </header>
+
+      <div class="container">
+        <!-- jadwal radio -->
+        <div class="row">
+        <div class="col-12 p-3 jadwal-radio">
+    
+</div>
+
+
+</div>
+
+        <!-- play -->
+        
       
 
         <!-- berita -->
@@ -250,7 +268,10 @@
 
         
         <!-- Gambar kedua -->
-        <div class="col-md-6">
+        
+</div>
+
+<div class="col-md-6">
                     <div id="infografisCarousel2" class="carousel slide" data-bs-ride="carousel">
                     <?php if (!empty($statement)): ?>
                         <div class="carousel-inner rounded-4 shadow">
@@ -285,10 +306,11 @@
             <span class="visually-hidden">Berikutnya</span>
         </button>
     </div>
-</div>
 
     </div>
 </div>
+
+
 
     <!-- Youtube -->
      <div class="col-lg-4 p-3">
@@ -312,6 +334,9 @@
 <?php endforeach; ?>
 </div>
 </div>
+
+
+
 
 </div>
 

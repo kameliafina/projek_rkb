@@ -82,7 +82,7 @@
             <img src="<?= base_url('upload/' . $berita['foto']) ?>" alt="Berita" class="img-fluid rounded mb-3"/>
         <?php endif; ?>
         
-        <p class="caption"><?= esc($berita['caption'] ?? '') ?></p>
+        <p class="caption"><?= esc($berita['ket_foto'] ?? '') ?></p>
         <div class="isi-berita">
             <?= $berita['deskripsi'] ?>
         </div>

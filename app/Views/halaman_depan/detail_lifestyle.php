@@ -82,7 +82,7 @@
             <img src="<?= base_url('upload/' . $lifestyle['foto']) ?>" alt="Berita" class="img-fluid rounded mb-3"/>
         <?php endif; ?>
         
-        <p class="caption"><?= esc($lifestyle['caption'] ?? '') ?></p>
+        <p class="caption"><?= esc($lifestyle['ket_foto'] ?? '') ?></p>
         <div class="isi-berita">
             <?= $lifestyle['deskripsi'] ?>
         </div>

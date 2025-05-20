@@ -172,10 +172,35 @@
 
 
 
+.radio-container2 {
+  justify-content: flex-start;
+}
+
+.radio-row {
+  display: flex;
+  justify-content: flex-start; /* atau center jika mau tengah */
+  gap: 20px; /* jarak antar kotak */
+  flex-wrap: wrap; /* biar responsif */
+}
+
+radio-card2 {
+  margin: auto;
+}
 
 
 
-  
+
+.radio-wrapper {
+  display: flex;
+  gap: 20px; /* Jarak antar kotak */
+  justify-content: center; /* Pusatkan jika mau */
+  flex-wrap: wrap; /* Supaya responsif jika layar kecil */
+}
+
+
+  .radio-container {
+  justify-content: flex-start;
+}
 
 .radio-card {
   display: flex;
@@ -185,6 +210,8 @@
   padding: 15px;
   border-radius: 15px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+   width: 600px;
+  margin-left: 20px; 
 }
 
 .radio-logo {
@@ -240,6 +267,7 @@
   outline: none;
   margin-right: 9px;
 }
+
 
 .berita {
   width: 180px; 
@@ -495,7 +523,14 @@
   align-items: center;
 }
 
-.custom-img2 {
+.infografis-card {
+  width: fit-content;
+  max-width: 100%;
+  padding: 5px;
+  margin: 0 auto;
+}
+
+.custom-img3 {
   width: 100%;
   border-radius: 10px;
 }
