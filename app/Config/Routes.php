@@ -88,6 +88,14 @@ $routes->get('/ctrlProgram/edit/(:num)', 'CtrlProgram::edit/$1');
 $routes->post('/ctrlprogram/update/(:num)', 'CtrlProgram::update/$1');
 $routes->get('/ctrlprogram/delete/(:num)', 'CtrlProgram::delete/$1');
 
+$routes->get('/profil2', 'CtrlProfil::index');
+$routes->get('/dataprofil', 'CtrlProfil::dataprofil');
+$routes->get('/tambahprofil', 'CtrlProfil::tambah');
+$routes->post('ctrlprofil/simpan', 'CtrlProfil::simpan');
+$routes->get('/ctrlprofil/edit/(:num)', 'CtrlProfil::edit/$1');
+$routes->post('/ctrlprofil/update/(:num)', 'CtrlProfil::update/$1');
+$routes->get('/ctrlprofil/delete/(:num)', 'CtrlProfil::delete/$1');
+
 $routes->get('/petinggi', 'CtrlPetinggi::index');
 
 $routes->get('/login', 'CtrlLogin::index');

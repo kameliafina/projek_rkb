@@ -85,34 +85,9 @@
     <!-- Struktur Organisasi -->
     <div class="card mb-4 shadow p-4" style="background-color: #87CEFA;">
       <h5 class="fw-bold text-center">STRUKTUR ORGANISASI</h5>
-      <div class="d-flex justify-content-center my-4">
-        <div class="text-center">
-          <div class="bg-white rounded-circle mx-auto" style="width: 60px; height: 60px;"></div>
-          <p class="mt-2">Pimpinan</p>
-        </div>
-      </div>
-      <div class="d-flex justify-content-around flex-wrap">
-        <div class="text-center">
-          <div class="bg-white rounded-circle mx-auto" style="width: 50px; height: 50px;"></div>
-          <p class="mt-2">Pimpinan</p>
-        </div>
-        <div class="text-center">
-          <div class="bg-white rounded-circle mx-auto" style="width: 50px; height: 50px;"></div>
-          <p class="mt-2">Pimpinan</p>
-        </div>
-        <div class="text-center">
-          <div class="bg-white rounded-circle mx-auto" style="width: 50px; height: 50px;"></div>
-          <p class="mt-2">Pimpinan</p>
-        </div>
-        <div class="text-center">
-          <div class="bg-white rounded-circle mx-auto" style="width: 50px; height: 50px;"></div>
-          <p class="mt-2">Pimpinan</p>
-        </div>
-        <div class="text-center">
-          <div class="bg-white rounded-circle mx-auto" style="width: 50px; height: 50px;"></div>
-          <p class="mt-2">Pimpinan</p>
-        </div>
-      </div>
+      <?php foreach ($profil as $profil): ?>
+      <img src="<?= base_url('upload/' . $profil['foto']) ?>" alt="">
+      <?php endforeach; ?>
     </div>
   </section>
   

@@ -113,14 +113,14 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>Historia</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= site_url('/profil2')?>">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Profil</span></a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
 
             
 

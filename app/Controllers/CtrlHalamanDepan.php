@@ -10,6 +10,7 @@ use App\Models\HistoriaModel;
 use App\Models\IklanModel;
 use App\Models\InfografisModel;
 use App\Models\JadwalModel;
+use App\Models\ProfilModel;
 use App\Models\ProgramModel;
 use App\Models\StatementModel;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -309,7 +310,13 @@ class CtrlHalamanDepan extends BaseController
     }
     public function profil()
     {
-        return view('halaman_depan/profil');
+        $profil = new ProfilModel();
+        $ambil = $profil->findAll();
+
+        $data = [
+            'profil' => $ambil
+        ];
+        return view('halaman_depan/profil', $data);
     }
     public function program()
     {
