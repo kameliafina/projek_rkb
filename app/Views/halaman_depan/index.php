@@ -68,7 +68,7 @@
     </div>
 </div>
 
-            <div class="radio-wra">
+            <div class="radio-wrapper">
               <div class="radio-container">
                   <div class="row g-2">
                       <div class="col-6">
@@ -91,13 +91,16 @@
 
               <div class="radio-container2">
                   <div class="row g-2">
-                      <div class="col-6">
-                          <div class="radio-card2 p-3 border rounded-5">
-                          
-                              <h1>bagian live</h1>
-                          </div>
-                      </div>
-                  </div>
+  <div class="col-6">
+    <div class="radio-card p-3 border rounded-5">
+      <audio id="radio-player" src="https://studio1.indostreamers.com:8010/stream/1/" type="audio/mpeg"></audio>
+      <img src="<?php echo base_url('asset-radio') ?>/img/logo-rkb.png" alt="Radio Kota Batik" class="radio-logo">
+      <div class="radio-info">
+        <p id="live-schedule" class="text-danger fw-bold"></p> <!-- Tampilkan waktu live -->
+      </div>
+    </div>
+  </div>
+</div>
               </div>
 
               </div>
@@ -224,96 +227,84 @@
       </div>
 
         <div class="row">
-            <div class="col-lg-8">
-                <h2 class="section-title">Infografis</h2>
-                <div class="row g-2">
-                    
-                <!-- Gambar pertama -->
-                 <div class="col-md-6">
-                    <div id="infografisCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="col-lg-6">
+        <h2 class="section-title">Infografis</h2>
+
+        <div class="row g-2 justify-content-center">
+            <!-- Gambar pertama -->
+            <div class="col-md-8 d-flex justify-content-center">
+                <div id="infografisCarousel" class="carousel slide" data-bs-ride="carousel" style="width: 100%; max-width: 400px;">
                     <?php if (!empty($infografis)): ?>
                         <div class="carousel-inner rounded-4 shadow">
-                            
-                        <?php if (!empty($infografis[0])): ?>
-                            <div class="carousel-item active">
-                                <img src="<?= base_url('upload/' . $infografis[0]['foto']) ?>" alt="1" class="custom-img2 d-block w-100" style="max-height: 300px; object-fit: cover;">
-                            </div>
-                        <?php endif; ?>
-
-                        <?php if (!empty($infografis[1])): ?>
-                            <div class="carousel-item active">
-                                <img src="<?= base_url('upload/' . $infografis[1]['foto']) ?>" alt="1" class="custom-img2 d-block w-100" style="max-height: 300px; object-fit: cover;">
-                            </div>
-                        <?php endif; ?>
-
+                            <?php if (!empty($infografis[0])): ?>
+                                <div class="carousel-item active">
+                                    <img src="<?= base_url('upload/' . $infografis[0]['foto']) ?>" class="d-block w-100" style="max-height: 700px; object-fit: cover;">
+                                </div>
+                            <?php endif; ?>
+                            <?php if (!empty($infografis[1])): ?>
+                                <div class="carousel-item">
+                                    <img src="<?= base_url('upload/' . $infografis[1]['foto']) ?>" class="d-block w-100" style="max-height: 700px; object-fit: cover;">
+                                </div>
+                            <?php endif; ?>
                             <?php if (!empty($infografis[2])): ?>
-                            <div class="carousel-item active">
-                                <img src="<?= base_url('upload/' . $infografis[2]['foto']) ?>" alt="1" class="custom-img2 d-block w-100" style="max-height: 300px; object-fit: cover;">
-                            </div>
-                        <?php endif; ?>
+                                <div class="carousel-item">
+                                    <img src="<?= base_url('upload/' . $infografis[2]['foto']) ?>" class="d-block w-100" style="max-height: 700px; object-fit: cover;">
+                                </div>
+                            <?php endif; ?>
                         </div>
+                    <?php endif; ?>
 
-                        <?php endif; ?>
-        <!-- Kontrol Geser -->
-         <button class="carousel-control-prev" type="button" data-bs-target="#infografisCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Sebelumnya</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#infografisCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Berikutnya</span>
-        </button>
-    </div>
-</div>
+                    <!-- Kontrol Geser -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#infografisCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Sebelumnya</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#infografisCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Berikutnya</span>
+                    </button>
+                </div>
+            </div>
 
-        
-        <!-- Gambar kedua -->
-        
-</div>
-
-<div class="col-md-6">
-                    <div id="infografisCarousel2" class="carousel slide" data-bs-ride="carousel">
+            <!-- Gambar kedua -->
+            <div class="col-md-8 d-flex justify-content-center mt-4">
+                <div id="infografisCarousel2" class="carousel slide" data-bs-ride="carousel" style="width: 100%; max-width: 400px;">
                     <?php if (!empty($statement)): ?>
                         <div class="carousel-inner rounded-4 shadow">
-                            
-                        <?php if (!empty($statement[0])): ?>
-                            <div class="carousel-item active">
-                                <img src="<?= base_url('upload/' . $statement[0]['foto']) ?>" alt="1" class="custom-img2 d-block w-100" style="max-height: 300px; object-fit: cover;">
-                            </div>
-                        <?php endif; ?>
-
-                        <?php if (!empty($statement[1])): ?>
-                            <div class="carousel-item active">
-                                <img src="<?= base_url('upload/' . $statement[1]['foto']) ?>" alt="1" class="custom-img2 d-block w-100" style="max-height: 300px; object-fit: cover;">
-                            </div>
-                        <?php endif; ?>
-
+                            <?php if (!empty($statement[0])): ?>
+                                <div class="carousel-item active">
+                                    <img src="<?= base_url('upload/' . $statement[0]['foto']) ?>" class="d-block w-100" style="max-height: 700px; object-fit: cover;">
+                                </div>
+                            <?php endif; ?>
+                            <?php if (!empty($statement[1])): ?>
+                                <div class="carousel-item">
+                                    <img src="<?= base_url('upload/' . $statement[1]['foto']) ?>" class="d-block w-100" style="max-height: 700px; object-fit: cover;">
+                                </div>
+                            <?php endif; ?>
                             <?php if (!empty($statement[2])): ?>
-                            <div class="carousel-item active">
-                                <img src="<?= base_url('upload/' . $statement[2]['foto']) ?>" alt="1" class="custom-img2 d-block w-100" style="max-height: 300px; object-fit: cover;">
-                            </div>
-                        <?php endif; ?>
+                                <div class="carousel-item">
+                                    <img src="<?= base_url('upload/' . $statement[2]['foto']) ?>" class="d-block w-100" style="max-height: 700px; object-fit: cover;">
+                                </div>
+                            <?php endif; ?>
                         </div>
+                    <?php endif; ?>
 
-                        <?php endif; ?>
-        <!-- Kontrol Geser -->
-         <button class="carousel-control-prev" type="button" data-bs-target="#infografisCarousel2" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Sebelumnya</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#infografisCarousel2" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Berikutnya</span>
-        </button>
+                    <!-- Kontrol Geser -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#infografisCarousel2" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Sebelumnya</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#infografisCarousel2" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Berikutnya</span>
+                    </button>
+                </div>
+            </div>            
+        </div>
     </div>
-
-    </div>
-</div>
-
-
 
     <!-- Youtube -->
-     <div class="col-lg-4 p-3">
+     <div class="col-lg-6 p-3">
         <h2 class="section-title">Youtube</h2>
         <div class="row g-2">
             <?php foreach ($youtubeVideos as $video): ?>
@@ -334,6 +325,13 @@
 <?php endforeach; ?>
 </div>
 </div>
+
+
+  <div class="">
+          <h2 class="section-title"></h2>
+          <div class="photo-grid">
+          </div>
+      </div>
 
 
 
@@ -404,6 +402,32 @@
   volumeSlider.addEventListener('input', () => {
     audioPlayer.volume = volumeSlider.value / 100;
   });
+
+
+  const API_KEY = 'AIzaSyB7ueBHS8NGCzIdL0i46dPMYJJeqGEbHtA';
+  const CHANNEL_ID = 'UCbeghIwxvjCV2zsRUhrD1aQ';
+  const apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${CHANNEL_ID}&eventType=live&type=video&key=${API_KEY}`;
+
+  fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+      console.log("DATA YOUTUBE:", data); // Untuk debugging
+
+      if (data.items && data.items.length > 0) {
+        const videoId = data.items[0].id.videoId;
+        const title = data.items[0].snippet.title;
+        const scheduleTime = new Date(data.items[0].snippet.publishedAt).toLocaleString('id-ID');
+
+        document.getElementById('live-schedule').innerHTML =
+          `<a href="https://www.youtube.com/watch?v=${videoId}" target="_blank" class="text-danger">Live : ${title} (${scheduleTime})</a>`;
+      } else {
+        document.getElementById('live-schedule').innerText = "Tidak ada live dijadwalkan.";
+      }
+    })
+    .catch(error => {
+      console.error('Error YouTube API:', error);
+      document.getElementById('live-schedule').innerText = "Gagal memuat jadwal live.";
+    });
 </script>
 
 </body>

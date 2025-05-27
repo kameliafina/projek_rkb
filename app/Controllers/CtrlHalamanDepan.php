@@ -51,7 +51,7 @@ class CtrlHalamanDepan extends BaseController
 
         $apiKey = 'AIzaSyB7ueBHS8NGCzIdL0i46dPMYJJeqGEbHtA';
         $channelId = 'UCbeghIwxvjCV2zsRUhrD1aQ';
-        $maxResults = 4;
+        $maxResults = 6;
 
         $url = "https://www.googleapis.com/youtube/v3/search?key={$apiKey}&channelId={$channelId}&order=date&part=snippet&type=video&maxResults={$maxResults}";
 
