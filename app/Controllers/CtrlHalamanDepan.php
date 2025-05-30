@@ -10,6 +10,7 @@ use App\Models\HistoriaModel;
 use App\Models\IklanModel;
 use App\Models\InfografisModel;
 use App\Models\JadwalModel;
+use App\Models\PengunjungModel;
 use App\Models\ProfilModel;
 use App\Models\ProgramModel;
 use App\Models\StatementModel;
@@ -56,16 +57,22 @@ class CtrlHalamanDepan extends BaseController
         $url = "https://www.googleapis.com/youtube/v3/search?key={$apiKey}&channelId={$channelId}&order=date&part=snippet&type=video&maxResults={$maxResults}";
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // bisa dihilangkan di server production
-        $response = curl_exec($ch);
-        curl_close($ch);
-        
-        $dataArray = json_decode($response, true);
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // bisa dihilangkan di server production
+$response = curl_exec($ch);
+curl_close($ch);
+
+$dataArray = json_decode($response, true);
 
         
+        
         $youtubeVideos = [];
+
+//         echo '<pre>';
+// print_r($dataArray);
+// echo '</pre>';
+// exit;
 
         if (!empty($dataArray['items'])) {
             foreach ($dataArray['items'] as $item) {
@@ -78,6 +85,44 @@ class CtrlHalamanDepan extends BaseController
             }
         }
 
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+            // Hitung pengunjung hari ini
+            $today = date('Y-m-d');
+            $pengunjungHariIni = $pengunjungModel
+                ->where('last_activity >=', $today . ' 00:00:00')
+                ->countAllResults();
+                
+                // Hitung pengunjung online
+                $pengunjungOnline = $pengunjungModel
+                    ->where('last_activity >=', date('Y-m-d H:i:s', strtotime('-5 minutes')))
+                    ->countAllResults();
+
 
     $data = [
         'databerita' => $berita,
@@ -88,12 +133,14 @@ class CtrlHalamanDepan extends BaseController
         'iklan' => $iklan,
         'jadwal' => $jadwal,
         'youtubeVideos' => $youtubeVideos,
+        'pengunjungHariIni' => $pengunjungHariIni,
+        'pengunjungOnline' => $pengunjungOnline,
         'pager' => $beritaModel->pager
     ];
 
     
         return view('halaman_depan/index', $data);
-    }
+}
 
     private function fetchYoutubeData($url)
     {

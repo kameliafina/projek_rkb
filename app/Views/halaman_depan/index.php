@@ -74,7 +74,7 @@
                       <div class="col-6">
                           <div class="radio-card p-3 border rounded-5">
                           <audio id="radio-player" src="https://studio1.indostreamers.com:8010/stream/1/" type="audio/mpeg"></audio>
-                              <img src="<?php echo base_url('asset-radio') ?>/img/logo-rkb.png" alt="Radio Kota Batik" class="radio-logo">
+                              <img src="<?php echo base_url('asset-radio') ?>/img/streaming.png" alt="Radio Kota Batik" class="radio-logo">
                               <div class="radio-info">
                                   <h4>Radio Kota Batik</h4>
                                   <p>91.2 FM</p>
@@ -94,7 +94,7 @@
   <div class="col-6">
     <div class="radio-card p-3 border rounded-5">
       <audio id="radio-player" src="https://studio1.indostreamers.com:8010/stream/1/" type="audio/mpeg"></audio>
-      <img src="<?php echo base_url('asset-radio') ?>/img/logo-rkb.png" alt="Radio Kota Batik" class="radio-logo">
+      <img src="<?php echo base_url('asset-radio') ?>/img/streaming_yt.png" alt="Radio Kota Batik" class="radio-logo">
       <div class="radio-info">
         <p id="live-schedule" class="text-danger fw-bold"></p> <!-- Tampilkan waktu live -->
       </div>
@@ -324,6 +324,15 @@
     </div>
 <?php endforeach; ?>
 </div>
+
+<div class="mt-4">
+    <h2 class="section-title">Pengunjung hari ini</h2>
+    <div class="photo-grid">
+            <p class="mb-1">Total Pengunjung Hari Ini: <strong><?= $pengunjungHariIni ?></strong></p>
+            <p class="mb-0">Sedang Online: <strong><?= $pengunjungOnline ?></strong></p>
+    </div>
+</div>
+
 </div>
 
 
