@@ -94,7 +94,9 @@
   <div class="col-6">
     <div class="radio-card p-3 border rounded-5">
       <audio id="radio-player" src="https://studio1.indostreamers.com:8010/stream/1/" type="audio/mpeg"></audio>
-      <img src="<?php echo base_url('asset-radio') ?>/img/streaming_yt.png" alt="Radio Kota Batik" class="radio-logo">
+      <a class="navbar-brand" href='https://www.youtube.com/@radiokotabatikpekalongan/streams' target="_blank" rel="noopener noreferrer">
+        <img src="<?php echo base_url('asset-radio') ?>/img/streaming_yt.png" alt="Radio Kota Batik" class="radio-logo">
+        </a>
       <div class="radio-info">
         <p id="live-schedule" class="text-danger fw-bold"></p> <!-- Tampilkan waktu live -->
       </div>
@@ -267,6 +269,7 @@
             </div>
 
             <!-- Gambar kedua -->
+            <h2 class="section-title">Infografis</h2>
             <div class="col-md-8 d-flex justify-content-center mt-4">
                 <div id="infografisCarousel2" class="carousel slide" data-bs-ride="carousel" style="width: 100%; max-width: 400px;">
                     <?php if (!empty($statement)): ?>

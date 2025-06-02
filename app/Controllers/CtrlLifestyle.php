@@ -171,16 +171,10 @@ class CtrlLifestyle extends BaseController
             ->orderBy('lifestyle.created_at', 'DESC')
             ->paginate(5, 'lifestyle');
 
-        // Lifestyle populer
-        $lifestylePopuler = $lifestyleModel
-            ->select('lifestyle.*, kategori_lifestyle.nama_kategori_l')
-            ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
-            ->orderBy('lifestyle.views', 'DESC')
-            ->findAll(5);
+
 
         $data = [
             'datalifestyle' => $lifestyle,
-            'lifestylePopuler' => $lifestylePopuler,
             'pager' => $lifestyleModel->pager
         ];
 
@@ -197,22 +191,14 @@ class CtrlLifestyle extends BaseController
             ->where('lifestyle.id', $id)
             ->first();
 
-        $lifestylePopuler = $lifestyleModel
-            ->select('lifestyle.*, kategori_lifestyle.nama_kategori_l')
-            ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
-            ->orderBy('lifestyle.views', 'DESC')
-            ->findAll(5);
 
         if (!$lifestyle) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Lifestyle tidak ditemukan.');
         }
 
-        // tambah views
-        $lifestyleModel->update($id, ['views' => $lifestyle['views'] + 1]);
 
         return view('halaman_depan/detail_lifestyle', [
-            'lifestyle' => $lifestyle,
-            'lifestylePopuler' => $lifestylePopuler
+            'lifestyle' => $lifestyle
         ]);
     }
 
