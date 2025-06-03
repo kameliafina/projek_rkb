@@ -96,6 +96,10 @@ $routes->get('/ctrlprofil/edit/(:num)', 'CtrlProfil::edit/$1');
 $routes->post('/ctrlprofil/update/(:num)', 'CtrlProfil::update/$1');
 $routes->get('/ctrlprofil/delete/(:num)', 'CtrlProfil::delete/$1');
 
+$routes->get('/ilm', 'CtrlIlm::index');
+$routes->get('/tambahilm', 'CtrlIlm::tambah');
+$routes->post('/ctrlilm/simpan', 'CtrlIlm::simpan');
+
 $routes->get('/petinggi', 'CtrlPetinggi::index');
 
 $routes->get('/login', 'CtrlLogin::index');
@@ -108,6 +112,7 @@ $routes->get('/berita', 'CtrlHalamanDepan::berita');
 $routes->get('/program', 'CtrlHalamanDepan::program');
 $routes->get('/historia', 'CtrlHalamanDepan::historia');
 $routes->get('/profil', 'CtrlHalamanDepan::profil');
+$routes->get('/ilm2', 'CtrlHalamanDepan::ilm');
 $routes->get('/detail/(:num)', 'CtrlHalamanDepan::detail/$1');
 $routes->get('/detail_his/(:num)', 'CtrlHalamanDepan::detail_his/$1');
 $routes->get('/berita_pkl', 'CtrlHalamanDepan::berita_pkl');

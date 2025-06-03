@@ -8,6 +8,7 @@ use App\Models\BeritaModel;
 use App\Models\HistoriaDetailModel;
 use App\Models\HistoriaModel;
 use App\Models\IklanModel;
+use App\Models\IlmModel;
 use App\Models\InfografisModel;
 use App\Models\JadwalModel;
 use App\Models\PengunjungModel;
@@ -374,6 +375,18 @@ $dataArray = json_decode($response, true);
         ];
 
         return view('halaman_depan/program', $data);
+    }
+
+    public function ilm()
+    {
+        $ilm = new IlmModel();
+        $ambil = $ilm->findAll();
+
+        $data = [
+            'datailm' => $ambil
+        ];
+
+        return view('halaman_depan/ilm', $data);
     }
 
 }

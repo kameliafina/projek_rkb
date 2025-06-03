@@ -433,6 +433,12 @@ radio-card2 {
   border-radius: 10px;
 }
 
+.photo-news2 {
+  background: linear-gradient(to bottom #e2d0f300);
+  padding: 20px;
+  border-radius: 10px;
+}
+
 /* Judul */
 .section-title {
   font-size: 24px;

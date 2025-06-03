@@ -118,6 +118,11 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>Profil</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= site_url('/ilm')?>">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>ILM</span></a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
