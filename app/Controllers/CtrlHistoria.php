@@ -48,7 +48,8 @@ class CtrlHistoria extends BaseController
             'judul' => 'required',
             'deskripsi' => 'required',
             'ket_foto' => 'required',
-            'foto' => 'uploaded[foto]|max_size[foto,2048]|is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png,image/gif]'
+            'foto' => 'uploaded[foto]|max_size[foto,2048]|is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png,image/gif]',
+            'audio' => 'permit_empty|max_size[audio,10240]|mime_in[audio,audio/mpeg,audio/mp3,audio/wav]'
         ];
 
         if (!$this->validate($validationRules)) {
@@ -61,36 +62,44 @@ class CtrlHistoria extends BaseController
         $namafoto = $foto->getRandomName(); // Generate a random name for the file
         $foto->move('upload', $namafoto); // Move the file to the 'upload' directory
 
+        $audio = $this->request->getFile('audio');
+        $namaAudio = null;
+        
+        if ($audio && $audio->isValid() && !$audio->hasMoved()) {
+            $namaAudio = $audio->getRandomName();
+            $audio->move('upload/audio', $namaAudio);
+        }
+
+
         // Insert data into the database
         $historia->insert([
             'nama_penyiar' => $this->request->getVar('nama_penyiar'),
             'judul' => $this->request->getVar('judul'),
             'deskripsi' => $this->request->getVar('deskripsi'),
             'ket_foto' => $this->request->getVar('ket_foto'),
-            'foto' => $namafoto
+            'foto' => $namafoto,
+             'audio' => $namaAudio
         ]);
 
-        // Setelah insert ke historia utama
-$idHistoria = $historia->insertID();
+        $idHistoria = $historia->insertID();
+        
+        $fotoDetail = $this->request->getFiles()['foto_detail'];
+        $deskripsiDetail = $this->request->getVar('deskripsi_detail');
 
-// Ambil array foto & deskripsi detail
-$fotoDetail = $this->request->getFiles()['foto_detail'];
-$deskripsiDetail = $this->request->getVar('deskripsi_detail');
+        foreach ($fotoDetail as $i => $foto) {
+            if ($foto->isValid() && !$foto->hasMoved()) {
+                $namaFile = $foto->getRandomName();
+                $foto->move('upload', $namaFile);
 
-foreach ($fotoDetail as $i => $foto) {
-    if ($foto->isValid() && !$foto->hasMoved()) {
-        $namaFile = $foto->getRandomName();
-        $foto->move('upload', $namaFile);
-
-        // Simpan ke tabel historia_detail
-        $db = \Config\Database::connect();
-        $db->table('historia_detail')->insert([
-            'historia_id' => $idHistoria,
-            'foto' => $namaFile,
-            'deskripsi' => $deskripsiDetail[$i],
-        ]);
-    }
-}
+    
+                $db = \Config\Database::connect();
+                $db->table('historia_detail')->insert([
+                    'historia_id' => $idHistoria,
+                    'foto' => $namaFile,
+                    'deskripsi' => $deskripsiDetail[$i],
+                ]);
+            }
+        }
 
 
         // Set flashdata for success message

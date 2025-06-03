@@ -47,6 +47,15 @@
         <img src="<?= base_url('upload/' . $historia['foto']) ?>" alt="<?= esc($historia['judul']) ?>" class="img-fluid rounded mb-3"/>
       <?php endif; ?>
 
+      <?php if ($historia['audio']): ?>
+        <audio controls style="width: 100%; height: 30px;">
+          <source src="<?= base_url('upload/audio/' . $historia['audio']) ?>" type="audio/mpeg">
+          Browser tidak mendukung pemutar audio.
+        </audio>
+      <?php else: ?>
+        <p class="text-muted">Tidak ada audio</p>
+      <?php endif; ?>
+
       <div class="mb-4">
         <?= $historia['deskripsi'] ?>
       </div>

@@ -25,9 +25,9 @@ Tambah Historia
       <th scope="col">No</th>
       <th scope="col">Nama Penyiar</th>
       <th scope="col">Judul</th>
-      <th scope="col">Deskripsi</th>
       <th scope="col">Foto</th>
       <th scope="col">Ket Foto</th>
+      <th scope="col">Audio</th>
       <th scope="col">Dibuat</th>
       <th scope="col">Diupdate</th>
       <th scope="col">Aksi</th>
@@ -41,11 +41,19 @@ Tambah Historia
     <th scope="row"><?= $nomor++;?></th>
       <td><?= $his['nama_penyiar']?></td>
       <td><?= $his['judul']?></td>
-      <td><?= $his['deskripsi']?></td>
       <td>
       <img src="<?= base_url('upload/' . $his['foto']) ?>"  width="100" height="auto">
       </td>
       <td><?= $his['ket_foto']?></td>
+      <td>
+        <?php if ($his['audio']): ?>
+          <audio controls>
+            <source src="<?= base_url('upload/audio/' . $his['audio']) ?>" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+        <?php else: ?>
+          Tidak ada audio
+        <?php endif; ?>
       <td><?= $his['created_at']?></td>
       <td><?= $his['updated_at']?></td>
       <td>

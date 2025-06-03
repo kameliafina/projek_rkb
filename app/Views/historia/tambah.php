@@ -37,6 +37,11 @@ Tambah Historia
         <input type="text" name="ket_foto" class="form-control" required>
     </div>
 
+    <div class="mb-3">
+        <label>Upload Audio (Opsional)</label>
+        <input type="file" name="audio" class="form-control" accept="audio/*">
+    </div>
+
     <hr>
     <h5>Foto & Deskripsi Tambahan</h5>
 
