@@ -56,11 +56,10 @@
                 <div class="row g-2">
                   <div class="col-12">
                     <div class="category-buttons d-flex flex-wrap gap-3">
-                      <a href="<?= site_url('/berita_pkl') ?>" class="btn-category">Kota Pekalongan</a>
-                      <a href="<?= site_url('/berita_jateng') ?>" class="btn-category">Jawa Tengah</a>
-                      <a href="<?= site_url('/berita_nasional') ?>" class="btn-category active">Nasional</a>
-                      <a href="<?= site_url('/berita_internasional') ?>" class="btn-category">Internasional</a>
-                      <a href="<?= site_url('/berita_olahraga') ?>" class="btn-category">Olahraga</a>
+                      <a href="<?= site_url('/wisata') ?>" class="btn-category active">Wisata</a>
+                      <a href="<?= site_url('/hiburan') ?>" class="btn-category">Hiburan</a>
+                      <a href="<?= site_url('/kesehatan') ?>" class="btn-category">Kesehatan</a>
+                      <a href="<?= site_url('/tips') ?>" class="btn-category">Tips & Trik</a>
                     </div>
                   </div>
                 </div>
@@ -73,23 +72,25 @@
           <div class="col-12 col-md-6 p-3">
             <div class="container">
                 <div class="row g-2">
-                  <?php foreach ($databerita as $b) : ?>
-                    <div class="col-12">
-                    <a href="<?= url_to('App\Controllers\CtrlHalamanDepan::detail', $b['id']) ?>" class="text-decoration-none text-dark">
-                        <div class="news-card p-3 border bg-light rounded-4 d-flex">
-                          <img src="<?= base_url('upload/' . $b['foto']) ?>" alt="Berita" class="berita rounded-4">
-                          <div class="news-content">
-                            <span class="kategori"><?= esc($b['nama_kategori_b']) ?></span>
-                            <h4 class="judul-berita"><?= esc($b['judul']) ?></h4>
-                            <p class="waktu">
-                              <img src="<?php echo base_url('asset-radio') ?>/img/jam.png" alt="Jam" class="icon-jam">
-                              <?= time_elapsed_string($b['created_at']) ?>
-                            </p>
+                <?php foreach ($datalifestyle as $b) : ?>
+                      <div class="col-12">
+                        <a href="<?= site_url('/detail/' . $b['id']) ?>" class="text-decoration-none text-dark">
+                          <div class="news-card p-3 border bg-light rounded-4 d-flex">
+                            <img src="<?= base_url('upload/' . $b['foto']) ?>" alt="Berita" class="berita rounded-4">
+                            <div class="news-content">
+                              <span class="kategori"><?= esc($b['nama_kategori_l']) ?></span>
+                              <h4 class="judul-berita"><?= esc($b['judul']) ?></h4>
+                              <p class="waktu">
+                                <img src="<?php echo base_url('asset-radio') ?>/img/jam.png" alt="Jam" class="icon-jam">
+                                <?= time_elapsed_string($b['created_at']) ?> 
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      </a>
-                    </div>
-                    <?php endforeach; ?>
+                        </a>
+                      </div>
+                      <?php endforeach; ?>
+                    
+                
                 </div>
             </div>
         </div>

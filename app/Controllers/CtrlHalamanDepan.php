@@ -11,6 +11,7 @@ use App\Models\IklanModel;
 use App\Models\IlmModel;
 use App\Models\InfografisModel;
 use App\Models\JadwalModel;
+use App\Models\LifestyleModel;
 use App\Models\PengunjungModel;
 use App\Models\ProfilModel;
 use App\Models\ProgramModel;
@@ -304,10 +305,7 @@ $dataArray = json_decode($response, true);
     }
 
 
-    public function detail_berita()
-    {
-        return view('halaman_depan/detail_berita');
-    }
+    
 
     public function historia()
     {
@@ -356,6 +354,102 @@ $dataArray = json_decode($response, true);
     {
         return view('halaman_depan/lifestyle');
     }
+
+     public function wisata()
+    {
+        $lifestyleModel = new LifestyleModel();
+
+        // ambil berita dengan kategori nama 'Jawa Tengah'
+        $wisata = $lifestyleModel
+            ->select('lifestyle.*, kategori_lifestyle.nama_kategori_l')
+            ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
+            ->where('kategori_lifestyle.nama_kategori_l', 'Wisata') // filter berdasarkan nama kategori Jawa Tengah
+            ->orderBy('lifestyle.created_at', 'DESC')
+            ->findAll();
+        $data = [
+            'datalifestyle' => $wisata
+        ];
+        return view('halaman_depan/wisata', $data);
+            
+    }
+
+    public function hiburan()
+    {
+        $lifestyleModel = new LifestyleModel();
+
+        // ambil berita dengan kategori nama 'Jawa Tengah'
+        $wisata = $lifestyleModel
+            ->select('lifestyle.*, kategori_lifestyle.nama_kategori_l')
+            ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
+            ->where('kategori_lifestyle.nama_kategori_l', 'hiburan') // filter berdasarkan nama kategori Jawa Tengah
+            ->orderBy('lifestyle.created_at', 'DESC')
+            ->findAll();
+        $data = [
+            'datalifestyle' => $wisata
+        ];
+        return view('halaman_depan/hiburan', $data);
+            
+    }
+
+    public function kesehatan()
+    {
+        $lifestyleModel = new LifestyleModel();
+
+        // ambil berita dengan kategori nama 'Jawa Tengah'
+        $wisata = $lifestyleModel
+            ->select('lifestyle.*, kategori_lifestyle.nama_kategori_l')
+            ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
+            ->where('kategori_lifestyle.nama_kategori_l', 'kesehatan') // filter berdasarkan nama kategori Jawa Tengah
+            ->orderBy('lifestyle.created_at', 'DESC')
+            ->findAll();
+        $data = [
+            'datalifestyle' => $wisata
+        ];
+        return view('halaman_depan/kesehatan', $data);
+            
+    }
+
+    public function tips()
+    {
+        $lifestyleModel = new LifestyleModel();
+
+        // ambil berita dengan kategori nama 'Jawa Tengah'
+        $wisata = $lifestyleModel
+            ->select('lifestyle.*, kategori_lifestyle.nama_kategori_l')
+            ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
+            ->where('kategori_lifestyle.nama_kategori_l', 'tips dan trik') // filter berdasarkan nama kategori Jawa Tengah
+            ->orderBy('lifestyle.created_at', 'DESC')
+            ->findAll();
+        $data = [
+            'datalifestyle' => $wisata
+        ];
+        return view('halaman_depan/tips', $data);
+            
+    }
+
+    public function detail_l($id)
+    {
+        $lifestyleModel = new LifestyleModel();
+        $lifestyle = $lifestyleModel
+        ->select('lifestyle.*, kategori_lifestyle.nama_kategori_l')
+        ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
+        ->where('lifestyle.id', $id)
+        ->first();
+
+    $beritaModel = new BeritaModel();
+    $beritaPopuler = $beritaModel
+        ->select('berita.*, kategori_berita.nama_kategori_b')
+        ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
+        ->orderBy('berita.views', 'DESC')
+        ->findAll(5);
+
+    if (!$lifestyle) {
+        throw new \CodeIgniter\Exceptions\PageNotFoundException('Berita tidak ditemukan.');
+    }
+
+    return view('halaman_depan/detail_l', ['lifestyle' => $lifestyle, 'beritaPopuler' => $beritaPopuler]);
+}
+
     public function profil()
     {
         $profil = new ProfilModel();

@@ -56,10 +56,10 @@
                 <div class="row g-2">
                   <div class="col-12">
                     <div class="category-buttons d-flex flex-wrap gap-3">
-                      <a href="coba_beritapkl.html" class="btn-category">Wisata</a>
-                      <a href="coba_beritapkl.html" class="btn-category">Hiburan</a>
-                      <a href="/kategori/nasional" class="btn-category">Kesehatan</a>
-                      <a href="/kategori/internasional" class="btn-category">Tips & Trik</a>
+                      <a href="<?= site_url('/wisata') ?>" class="btn-category">Wisata</a>
+                      <a href="<?= site_url('/hiburan') ?>" class="btn-category">Hiburan</a>
+                      <a href="<?= site_url('/kesehatan') ?>" class="btn-category">Kesehatan</a>
+                      <a href="<?= site_url('/tips') ?>" class="btn-category">Tips & Trik</a>
                     </div>
                   </div>
                 </div>
@@ -74,7 +74,7 @@
                 <div class="row g-2">
                 <?php foreach ($datalifestyle as $b) : ?>
                       <div class="col-12">
-                        <a href="<?= site_url('/detail/' . $b['id']) ?>" class="text-decoration-none text-dark">
+                        <a href="<?= site_url('/detail_l/' . $b['id']) ?>" class="text-decoration-none text-dark">
                           <div class="news-card p-3 border bg-light rounded-4 d-flex">
                             <img src="<?= base_url('upload/' . $b['foto']) ?>" alt="Berita" class="berita rounded-4">
                             <div class="news-content">

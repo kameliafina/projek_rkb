@@ -56,7 +56,7 @@
                 <div class="row g-2">
                   <div class="col-12">
                     <div class="category-buttons d-flex flex-wrap gap-3">
-                      <a href="<?= site_url('/berita_pkl') ?>" class="btn-category">Kota Pekalongan</a>
+                      <a href="<?= site_url('/berita_pkl') ?>" class="btn-category active">Kota Pekalongan</a>
                       <a href="<?= site_url('/berita_jateng') ?>" class="btn-category">Jawa Tengah</a>
                       <a href="<?= site_url('/berita_nasional') ?>" class="btn-category">Nasional</a>
                       <a href="<?= site_url('/berita_internasional') ?>" class="btn-category">Internasional</a>
