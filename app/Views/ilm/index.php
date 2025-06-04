@@ -55,9 +55,9 @@ Tambah Berita
             <?php endif; ?>
           </td>
           <td>
-            <a href="/ctrljadwal/delete/<?= $item['id'] ?>" class="btn btn-danger btn-circle">
+            <a href="/ctrlilm/hapus/<?= $item['id'] ?>" class="btn btn-danger btn-circle">
               <i class="fas fa-trash"></i></a>
-            <a href="/ctrljadwal/edit/<?= $item['id'] ?>" class="btn btn-success btn-circle">
+            <a href="/ctrlilm/edit/<?= $item['id'] ?>" class="btn btn-success btn-circle">
               <i class="fas fa-edit"></i></a>
           </td>
         </tr>

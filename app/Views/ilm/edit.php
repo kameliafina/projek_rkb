@@ -1,48 +1,50 @@
 <?= $this->extend('main/layout') ?>
 
 <?= $this->section('judul') ?>
-BERITA
+EDIT ILM
 <?= $this->endSection('judul') ?>
 
 <?= $this->section('isi') ?>
-Tambah Berita
-
-<div class="d-flex justify-content-end">
-<a href="<?= site_url('barangctrl/databarang') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-<img src="<?php echo base_url('asset-pelanggan') ?>/images/back.png" alt="Category Thumbnail">Kembali</a>
+<div class="d-flex justify-content-end mb-3">
+    <a href="<?= site_url('ctrlilm/datailm') ?>" class="btn btn-sm btn-primary shadow-sm">
+        <img src="<?= base_url('asset-pelanggan/images/back.png') ?>" alt="Kembali"> Kembali
+    </a>
 </div>
 <?= $this->endSection('isi') ?>
 
 <?= $this->section('form') ?>
+<form action="<?= site_url('/ctrlilm/update/' . $data['id']) ?>" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="<?= $data['id'] ?>">
 
-<form action="<?= site_url('/ctrljadwal/update/' . $datajadwal['id']) ?>" method="post" enctype="multipart/form-data">
-<input type="hidden" name="id" value="<?= $datajadwal['id'] ?>">
-
-  <div class="row mb-3">
-    <label for="jam" class="col-sm-2 col-form-label">Jam</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="jam" name="jam" value="<?= esc($datajadwal['jam']) ?>" required>
+    <div class="mb-3">
+        <label for="judul" class="form-label">Judul</label>
+        <input type="text" class="form-control" name="judul" id="judul" value="<?= esc($data['judul']) ?>" required>
     </div>
-  </div>
-  <div class="row mb-3">
-    <label for="judul" class="col-sm-2 col-form-label">Judul</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="judul" name="judul" value="<?= esc($datajadwal['judul']) ?>" required>
-    </div>
-  </div>
-  <div class="row mb-3">
-    <label for="pembawa" class="col-sm-2 col-form-label">Pembawa Acara</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="pembawa" name="pembawa" value="<?= esc($datajadwal['pembawa']) ?>" required>
-    </div>
-  </div>
-</div>
 
-  
-</div>
-  
-  
-  <button type="submit" class="btn btn-primary">Input </button>
+    <div class="mb-3">
+        <label for="keterangan" class="form-label">Keterangan</label>
+        <textarea class="form-control" name="keterangan" id="keterangan" rows="4" required><?= esc($data['keterangan']) ?></textarea>
+    </div>
 
-            </form>
+    <div class="mb-3">
+        <label for="gambar" class="form-label">Gambar Saat Ini:</label><br>
+        <?php if ($data['gambar']): ?>
+            <img src="<?= base_url('upload/gambar/' . $data['gambar']) ?>" alt="Gambar ILM" width="200">
+        <?php endif; ?>
+        <input type="file" class="form-control mt-2" name="gambar" id="gambar">
+    </div>
+
+    <div class="mb-3">
+        <label for="audio" class="form-label">Audio Saat Ini:</label><br>
+        <?php if ($data['audio']): ?>
+            <audio controls>
+                <source src="<?= base_url('uploads/audio/' . $data['audio']) ?>" type="audio/mpeg">
+                Browser Anda tidak mendukung audio.
+            </audio>
+        <?php endif; ?>
+        <input type="file" class="form-control mt-2" name="audio" id="audio">
+    </div>
+
+    <button type="submit" class="btn btn-success">Update</button>
+</form>
 <?= $this->endSection('form') ?>

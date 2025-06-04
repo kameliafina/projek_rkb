@@ -99,6 +99,9 @@ $routes->get('/ctrlprofil/delete/(:num)', 'CtrlProfil::delete/$1');
 $routes->get('/ilm', 'CtrlIlm::index');
 $routes->get('/tambahilm', 'CtrlIlm::tambah');
 $routes->post('/ctrlilm/simpan', 'CtrlIlm::simpan');
+$routes->get('/ctrlilm/edit/(:num)', 'CtrlIlm::edit/$1');
+$routes->post('/ctrlilm/update/(:num)', 'CtrlIlm::update/$1');
+$routes->get('/ctrlilm/hapus/(:num)', 'CtrlIlm::hapus/$1');
 
 $routes->get('/petinggi', 'CtrlPetinggi::index');
 

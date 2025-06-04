@@ -1,11 +1,11 @@
 <?= $this->extend('main/layout') ?>
 
 <?= $this->section('judul') ?>
-HISTORIA
+PROFIL
 <?= $this->endSection('judul') ?>
 
 <?= $this->section('isi') ?>
-Tambah Historia
+Edit Profil
 
 <div class="d-flex justify-content-end">
 <a href="<?= site_url('dataprogram') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
