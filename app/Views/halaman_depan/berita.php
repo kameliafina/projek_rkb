@@ -126,6 +126,9 @@
                           </div>
                         </div>
                         <?php endforeach; ?>
+                        <div class="mt-3">
+                        <?= $pager->links('beritapage') ?>
+                    </div>
                       </div>
                     </div>
                 </div>

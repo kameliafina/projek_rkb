@@ -89,6 +89,9 @@
                         </a>
                       </div>
                       <?php endforeach; ?>
+                      <div class="mt-3">
+                        <?= $pager->links('lifestyle') ?>
+                    </div>
                     
                 
                 </div>

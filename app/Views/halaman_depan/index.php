@@ -148,6 +148,10 @@
                         </a>
                       </div>
                       <?php endforeach; ?>
+                      <div class="mt-3">
+                        <?= $pager->links('beritapage') ?>
+                    </div>
+
                     
                 </div>
             </div>
@@ -369,7 +373,7 @@
             <p class="mb-2">Jl. Kurinci No.7, Podosugih, Kec. Pekalongan Barat., Kota Pekalongan, Jawa Tengah 51111</p>
             <p class="fw-bold">hubungi kami</p>
             <div class="social-icons">
-              <i class="bi bi-twitter"></i>
+              <i class="bi bi-x"></i>
               <i class="bi bi-instagram"></i>
               <i class="bi bi-facebook"></i>
               <i class="bi bi-tiktok"></i>

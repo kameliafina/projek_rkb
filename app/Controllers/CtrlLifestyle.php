@@ -171,8 +171,7 @@ class CtrlLifestyle extends BaseController
             ->orderBy('lifestyle.created_at', 'DESC')
             ->paginate(5, 'lifestyle');
 
-
-
+        $pager = \Config\Services::pager();
         $data = [
             'datalifestyle' => $lifestyle,
             'pager' => $lifestyleModel->pager
