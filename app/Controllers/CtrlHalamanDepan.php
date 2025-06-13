@@ -11,6 +11,7 @@ use App\Models\IklanModel;
 use App\Models\IlmModel;
 use App\Models\InfografisModel;
 use App\Models\JadwalModel;
+use App\Models\KomentarModel;
 use App\Models\LifestyleModel;
 use App\Models\PengunjungModel;
 use App\Models\ProfilModel;
@@ -185,6 +186,8 @@ $dataArray = json_decode($response, true);
     public function detail($id)
 {
     $beritaModel = new BeritaModel();
+    $komentarModel = new KomentarModel();
+
     $berita = $beritaModel
         ->select('berita.*, kategori_berita.nama_kategori_b')
         ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
@@ -204,7 +207,21 @@ $dataArray = json_decode($response, true);
     // tambah 1 view
     $beritaModel->update($id, ['views' => $berita['views'] + 1]);
 
-    return view('halaman_depan/detail_berita', ['berita' => $berita, 'beritaPopuler' => $beritaPopuler]);
+    $komentar = $komentarModel
+        ->where('target_id', $id)
+        ->where('target_type', 'berita')
+        ->orderBy('created_at', 'desc')
+        ->paginate(5, 'komentar');
+
+        $pager = \Config\Services::pager();
+
+
+    return view('halaman_depan/detail_berita', [
+        'berita' => $berita, 
+        'beritaPopuler' => $beritaPopuler,
+        'komentar' => $komentar,
+        'pager' => $pager
+    ]);
 }
 
 
@@ -323,6 +340,7 @@ $dataArray = json_decode($response, true);
     $historiaModel = new HistoriaModel();
     $historiaFotoModel = new HistoriaDetailModel();
     $beritaModel = new BeritaModel();
+    $komentarModel = new KomentarModel();
 
     $historia = $historiaModel->find($id);
 
@@ -340,10 +358,20 @@ $dataArray = json_decode($response, true);
         ->orderBy('berita.views', 'DESC')
         ->findAll(5);
 
+        $komentar = $komentarModel
+        ->where('target_id', $id)
+        ->where('target_type', 'historia')
+        ->orderBy('created_at', 'desc')
+        ->paginate(5, 'komentar');
+
+        $pager = \Config\Services::pager();
+
     $data = [
         'historia' => $historia,
         'fotoDeskripsi' => $fotoDeskripsi,
-        'beritaPopuler' => $beritaPopuler
+        'beritaPopuler' => $beritaPopuler,
+        'komentar' => $komentar,
+        'pager' => $pager
     ];
 
     return view('halaman_depan/detail_historia', $data);
@@ -430,6 +458,8 @@ $dataArray = json_decode($response, true);
     public function detail_l($id)
     {
         $lifestyleModel = new LifestyleModel();
+        $komentarModel = new KomentarModel();
+
         $lifestyle = $lifestyleModel
         ->select('lifestyle.*, kategori_lifestyle.nama_kategori_l')
         ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
@@ -443,11 +473,24 @@ $dataArray = json_decode($response, true);
         ->orderBy('berita.views', 'DESC')
         ->findAll(5);
 
+        $komentar = $komentarModel
+        ->where('target_id', $id)
+        ->where('target_type', 'lifestyle')
+        ->orderBy('created_at', 'desc')
+        ->paginate(5, 'komentar');
+
+        $pager = \Config\Services::pager();
+
     if (!$lifestyle) {
         throw new \CodeIgniter\Exceptions\PageNotFoundException('Berita tidak ditemukan.');
     }
 
-    return view('halaman_depan/detail_l', ['lifestyle' => $lifestyle, 'beritaPopuler' => $beritaPopuler]);
+    return view('halaman_depan/detail_l', [
+        'lifestyle' => $lifestyle, 
+        'beritaPopuler' => $beritaPopuler,
+        'komentar' => $komentar,
+        'pager' => $pager
+    ]);
 }
 
     public function profil()
@@ -482,5 +525,36 @@ $dataArray = json_decode($response, true);
 
         return view('halaman_depan/ilm', $data);
     }
+
+    public function simpankomentar()
+    {
+        $komentarModel = new KomentarModel();
+
+        $data = [
+            'nama' => $this->request->getPost('nama'),
+            'komentar' => $this->request->getPost('komentar'),
+            'target_id' => $this->request->getPost('target_id'),
+            'target_type' => $this->request->getPost('target_type'),
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+
+        $komentarModel->insert($data);
+
+        // Redirect balik ke halaman detail
+        $targetType = $data['target_type'];
+        $targetId = $data['target_id'];
+
+        if ($targetType === 'berita') {
+            return redirect()->to(site_url('detail/' . $targetId));
+        } elseif ($targetType === 'lifestyle') {
+            return redirect()->to(site_url('detail_l/' . $targetId));
+        } elseif ($targetType === 'historia') {
+            return redirect()->to(site_url('detail_his/' . $targetId));
+        }
+
+        // Jika target_type tidak dikenal
+        return redirect()->back()->with('error', 'Tipe komentar tidak dikenali.');
+    }
+
 
 }

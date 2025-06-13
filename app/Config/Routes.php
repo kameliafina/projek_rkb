@@ -128,5 +128,8 @@ $routes->get('/wisata', 'CtrlHalamanDepan::wisata');
 $routes->get('/hiburan', 'CtrlHalamanDepan::hiburan');
 $routes->get('/kesehatan', 'CtrlHalamanDepan::kesehatan');
 $routes->get('/tips', 'CtrlHalamanDepan::tips');
+$routes->post('/komentar/simpan', 'CtrlHalamanDepan::simpankomentar');
+$routes->get('/detail_lifestyle/(:num)', 'CtrlHalamanDepan::detail_lifestyle/$1');
+
 
 $routes->get('/fina', 'CtrlFina::index');

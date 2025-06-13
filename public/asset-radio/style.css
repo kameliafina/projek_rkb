@@ -774,3 +774,29 @@ ul li a:hover:before{
   transform-origin:left;
   transform:scaleX(1);
 }
+
+
+ .pagination li a,
+    .pagination li span {
+        color: black !important; /* Ubah warna teks jadi hitam */
+    }
+
+    .pagination .active span {
+        background-color: #e0e0e0; /* warna latar nomor aktif */
+        border-color: #ccc;
+        color: black !important; /* warna teks halaman aktif */
+    }
+
+    .pagination li a:hover {
+        color: #000 !important;
+    }
+
+    .pagination-komentar .pagination li a,
+    .pagination-komentar .pagination li span {
+        color: black !important;
+    }
+
+    .pagination-komentar .pagination .active span {
+        background-color: #e0e0e0;
+        color: black !important;
+    }
