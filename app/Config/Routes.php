@@ -128,3 +128,5 @@ $routes->get('/wisata', 'CtrlHalamanDepan::wisata');
 $routes->get('/hiburan', 'CtrlHalamanDepan::hiburan');
 $routes->get('/kesehatan', 'CtrlHalamanDepan::kesehatan');
 $routes->get('/tips', 'CtrlHalamanDepan::tips');
+
+$routes->get('/fina', 'CtrlFina::index');

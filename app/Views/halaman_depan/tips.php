@@ -183,7 +183,14 @@
           <div class="col-md-4 text-end">
             <p class="fw-bold mb-0">Link Terkait</p>
             <p class="mb-1">Kominfo Pekalongan</p>
-            <p>Radio Kota Batik</p>
+            <p><a href="<?= site_url('/login') ?>" class="text-dark text-decoration-none" target="_blank">
+                Radio Kota Batik
+            </a>
+            </p>
+            <p><a href="https://forms.gle/NnuF3Jk3cv3D9icJ7" class="text-dark text-decoration-none" target="_blank">
+                Kritik Saran dan Bug Aplikasi
+            </a>
+            </p>
           </div>
         </div>
         <div class="text-center mt-4">

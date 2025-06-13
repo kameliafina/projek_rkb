@@ -123,6 +123,11 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>ILM</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= site_url('/fina')?>">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>FINA</span></a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
