@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= esc($berita['judul']) ?></title>
+    <title>Radio Kota Batik</title>
     <link rel="stylesheet" href="<?php echo base_url('asset-radio') ?>/style.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -35,6 +35,7 @@
                     <li><a href="<?= site_url('/lifestyle2') ?>">Lifestyle</a></li>
                     <li><a href="<?= site_url('/profil') ?>">Profil</a></li>
                     <li><a href="<?= site_url('/historia') ?>">Historia</a></li>
+                    <li><a href="<?= site_url('/ilm2') ?>">ILM</a></li>
                 </ul>
                 <form class="d-flex" action="<?= site_url('/berita/search') ?>" method="get">
                     <input class="form-control me-2" type="search" name="q" placeholder="Search..." aria-label="Search">
@@ -45,127 +46,10 @@
       </nav>
   </header>
 
-      <div class="container">
-        <!-- jadwal radio -->
-        <div class="row">
-            
-        </div>
+      
 
-        
+<?= $this->renderSection('isi') ?>
 
-      <div class="container my-5 d-flex flex-column flex-md-row gap-4">
-    <!-- Konten Berita -->
-    <div class="flex-grow-1">
-        <h2 class="fw-bold"><?= esc($berita['judul']) ?></h2>
-        <p class="text-muted"><?= esc($berita['nama_penyiar'] ?? 'Admin') ?> - <span class="text-primary"><?= esc($berita['nama_kategori_b']) ?></span></p>
-        <p><small><?= date('l, d F Y H:i', strtotime($berita['created_at'])) ?> WIB</small></p>
-        
-        <?php if (!empty($berita['gambar'])): ?>
-            <img src="<?= base_url('upload/' . $berita['foto']) ?>" alt="<?= esc($berita['judul']) ?>" class="img-fluid rounded mb-3"/>
-        <?php else: ?>
-            <img src="<?= base_url('upload/' . $berita['foto']) ?>" alt="Berita" class="img-fluid rounded mb-3"/>
-        <?php endif; ?>
-        
-        <p class="caption"><?= esc($berita['ket_foto'] ?? '') ?></p>
-        <div class="isi-berita">
-            <?= $berita['deskripsi'] ?>
-        </div>
-    </div>
-
-    <aside class="sidebar">
-                <div class="row">
-                  <div class="popular-news">
-                    <div class="title">
-                        <h2>BERITA POPULER</h2>
-                    </div>
-                    <div class="news-list">
-                      <?php $no = 1; foreach ($beritaPopuler as $populer): ?>
-                        <div class="news-item" style="display: flex; align-items: center; height: 80px; overflow: hidden; padding: 4px;">
-                          <span class="rank" style="margin-right: 6px; font-size: 16px; color: purple; flex-shrink: 0;"><?= $no++; ?></span>
-                          <img src="<?= base_url('upload/' . $populer['foto']) ?>" alt="Berita" class="news-img"
-                          style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px; flex-shrink: 0; margin-right: 6px;">
-                          
-                          <div class="news-content" style="max-width: 120px; overflow: hidden;">
-                            <h4 style="font-size: 13px; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                              <?= $populer['judul']; ?>
-                            </h4>
-                            
-                            <p class="views" style="font-size: 12px; color: #777; margin: 0;">
-                              <img src="<?= base_url('asset-radio') ?>/img/mata.png" alt="Views" class="icon-view" style="width: 14px; height: 14px; margin-right: 3px;">
-                              <?= $populer['views']; ?>
-                            </p>
-                          </div>
-                        </div>
-
-                        <?php endforeach; ?>
-
-                        <!-- Form Komentar -->
-                         <div class="card mt-5">
-                          <div class="card-header text-white" style="background-color: #5a6ba2;"> Tinggalkan Komentar </div>
-                          <div class="card-body">
-                            <?php if (session()->getFlashdata('success')): ?>
-                              <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
-                              <?php endif; ?>
-
-                              <form action="<?= site_url('komentar/simpan') ?>" method="post">
-                                <input type="hidden" name="target_id" value="<?= $berita['id'] ?>">
-                                <input type="hidden" name="target_type" value="berita">
-
-                                <?php if (session()->get('logged_in')): ?>
-  <form action="<?= site_url('simpankomentar') ?>" method="post">
-      <input type="hidden" name="target_id" value="<?= $berita['id'] ?>">
-      <input type="hidden" name="target_type" value="<?= $target_type ?>"> 
-      <div class="mb-2">
-          <label>Komentar</label>
-          <textarea name="komentar" class="form-control" required></textarea>
-      </div>
-      <button type="submit" class="btn text-white" style="background-color:rgb(163, 183, 248);">Kirim Komentar</button>
-  </form>
-<?php else: ?>
-  <div class="alert alert-warning">
-    Untuk memberikan komentar, 
-    <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a> atau 
-    <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Buat Akun</a>
-</div>
-
-<?php endif; ?>
-                              </form>
-                            </div>
-                          </div>
-
-                          <!-- Daftar Komentar -->
-                          <div class="mt-4">
-                            <h5>Komentar</h5>
-                            <?php if (!empty($komentar)): ?>
-                              <?php foreach ($komentar as $k): ?>
-                                <div class="border rounded p-3 mb-3 shadow-sm">
-                                  <strong><?= esc($k['nama']) ?></strong>
-                                  <p class="mb-1"><small class="text-muted"><?= date('d M Y H:i', strtotime($k['created_at'])) ?></small></p>
-                                  <p class="mb-0"><?= esc($k['komentar']) ?></p>
-                                </div>
-                                <?php endforeach; ?>
-
-                                <!-- Pagination -->
-                                 <div class="pagination-komentar mt-3">
-                                  <?= $pager->links('komentar', 'default_full') ?>
-                                </div>
-                                <?php else: ?>
-                                  <p class="text-muted">Belum ada komentar.</p>
-                                  <?php endif; ?>
-                                </div>
-
-                      </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-        </div>
-        
-                      </aside>
-
-                      
-
-</div>
 
     <!-- footer -->
     <footer class="footer">

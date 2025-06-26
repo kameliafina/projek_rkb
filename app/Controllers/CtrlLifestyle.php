@@ -63,10 +63,14 @@ class CtrlLifestyle extends BaseController
         $namafoto = $foto->getRandomName(); // Generate a random name for the file
         $foto->move('upload', $namafoto); // Move the file to the 'upload' directory
 
+        helper('text'); 
+        $slug = url_title($this->request->getPost('judul'), '-', true);
+
         // Insert data into the database
         $lifestyle->insert([
             'nama_penyiar' => $this->request->getVar('nama_penyiar'),
             'judul' => $this->request->getVar('judul'),
+            'slug' => $slug, 
             'deskripsi' => $this->request->getVar('deskripsi'),
             'ket_foto' => $this->request->getVar('ket_foto'),
             'kategori_id' => $this->request->getVar('kategori_id'),

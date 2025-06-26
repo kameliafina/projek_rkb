@@ -48,6 +48,9 @@ class CtrlLogin extends BaseController
                     case 'petinggi':
                         return redirect()->to('/petinggi');
                         break;
+                    case 'pendengar':
+                        return redirect()->to('/halamanindex');
+                        break;
                     default:
                         session()->setFlashdata('pesan', 'yahh akunmu belum terdaftar nih, hubungi admin ya'); //menampilkan pesan error
                         return redirect()->to('/login');
@@ -63,6 +66,37 @@ class CtrlLogin extends BaseController
             return redirect()->to('/login');
         }
     }
+
+    public function registerAction()
+{
+    $userModel = new \App\Models\UserModel();
+
+    $name = $this->request->getPost('name');
+    $username = $this->request->getPost('username');
+    $password = $this->request->getPost('password');
+    $password_confirm = $this->request->getPost('password_confirm');
+
+    // Validasi sederhana
+    if ($password !== $password_confirm) {
+        return redirect()->back()->with('register_error', 'Password tidak cocok.');
+    }
+
+    // Cek apakah username sudah digunakan
+    if ($userModel->where('username', $username)->first()) {
+        return redirect()->back()->with('register_error', 'Username sudah digunakan.');
+    }
+
+    // Simpan user
+    $userModel->save([
+        'name' => $name,
+        'username' => $username,
+        'password' => password_hash($password, PASSWORD_DEFAULT),
+        'level' => 'pendengar' // default level
+    ]);
+
+    return redirect()->to('/halaman_depan/index')->with('pesan', 'Akun berhasil dibuat, silakan login.');
+}
+
 
     public function logout()
     {

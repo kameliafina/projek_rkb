@@ -216,7 +216,8 @@ class CtrlHalamanDepan extends BaseController
         'berita' => $berita, 
         'beritaPopuler' => $beritaPopuler,
         'komentar' => $komentar,
-        'pager' => $pager
+        'pager' => $pager,
+        'target_type' => 'berita'
     ]);
 }
 
@@ -407,7 +408,8 @@ public function detail_foto($slug)
         'fotoDeskripsi' => $fotoDeskripsi,
         'beritaPopuler' => $beritaPopuler,
         'komentar' => $komentar,
-        'pager' => $pager
+        'pager' => $pager,
+        'target_type' => 'historia'
     ];
 
     return view('halaman_depan/detail_historia', $data);
@@ -492,16 +494,17 @@ public function detail_foto($slug)
             
     }
 
-    public function detail_l($id)
+    public function detail_l($slug)
     {
         $lifestyleModel = new LifestyleModel();
         $komentarModel = new KomentarModel();
 
         $lifestyle = $lifestyleModel
-        ->select('lifestyle.*, kategori_lifestyle.nama_kategori_l')
-        ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
-        ->where('lifestyle.id', $id)
-        ->first();
+            ->select('lifestyle.*, kategori_lifestyle.nama_kategori_l')
+            ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
+            ->where('slug', $slug)
+            ->first();
+
 
     $beritaModel = new BeritaModel();
     $beritaPopuler = $beritaModel
@@ -511,7 +514,7 @@ public function detail_foto($slug)
         ->findAll(5);
 
         $komentar = $komentarModel
-        ->where('target_id', $id)
+        ->where('target_id', $lifestyle['id'])
         ->where('target_type', 'lifestyle')
         ->orderBy('created_at', 'desc')
         ->paginate(5, 'komentar');
@@ -526,7 +529,8 @@ public function detail_foto($slug)
         'lifestyle' => $lifestyle, 
         'beritaPopuler' => $beritaPopuler,
         'komentar' => $komentar,
-        'pager' => $pager
+        'pager' => $pager,
+        'target_type' => 'lifestyle'
     ]);
 }
 
@@ -568,7 +572,7 @@ public function detail_foto($slug)
         $komentarModel = new KomentarModel();
 
         $data = [
-            'nama' => $this->request->getPost('nama'),
+            'nama' => session()->get('name'),
             'komentar' => $this->request->getPost('komentar'),
             'target_id' => $this->request->getPost('target_id'),
             'target_type' => $this->request->getPost('target_type'),
@@ -582,11 +586,17 @@ public function detail_foto($slug)
         $targetId = $data['target_id'];
 
         if ($targetType === 'berita') {
-            return redirect()->to(site_url('detail/' . $targetId));
+            $beritaModel = new \App\Models\BeritaModel();
+            $slug = $beritaModel->find($targetId)['slug'];
+            return redirect()->to(site_url('detail/' . $slug));
         } elseif ($targetType === 'lifestyle') {
-            return redirect()->to(site_url('detail_l/' . $targetId));
+            $lifestyleModel = new \App\Models\LifestyleModel();
+            $slug = $lifestyleModel->find($targetId)['slug'];
+            return redirect()->to(site_url('detail_l/' . $slug));
         } elseif ($targetType === 'historia') {
-            return redirect()->to(site_url('detail_his/' . $targetId));
+            $historiaModel = new \App\Models\HistoriaModel();
+            $slug = $historiaModel->find($targetId)['slug'];
+            return redirect()->to(site_url('detail_his/' . $slug));
         }
 
         // Jika target_type tidak dikenal

@@ -117,6 +117,7 @@ $routes->get('/login', 'CtrlLogin::index');
 $routes->post('/login/action', 'CtrlLogin::LoginAction');
 $routes->get('/login/logout', 'CtrlLogin::logout');
 $routes->get('/hash', 'CtrlLogin::hash');
+$routes->post('/register-action', 'CtrlLogin::registerAction');
 
 $routes->get('/halamanindex', 'CtrlHalamanDepan::index');
 $routes->get('/berita', 'CtrlHalamanDepan::berita');
@@ -141,3 +142,4 @@ $routes->get('/detail_lifestyle/(:segment)', 'CtrlHalamanDepan::detail_lifestyle
 $routes->get('/detail_foto/(:segment)', 'CtrlHalamanDepan::detail_foto/$1');
 
 
+$routes->get('/main', 'Home::main');

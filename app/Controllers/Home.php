@@ -151,5 +151,10 @@ private function fetchYoutubeData($url)
         return $response;
     }
 
+    public function main()
+    {
+        return view('main/layout2');
+    }   
+
     
 }
