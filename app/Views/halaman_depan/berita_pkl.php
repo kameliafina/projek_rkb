@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Berita Pekalongan</title>
     <link rel="stylesheet" href="<?php echo base_url('asset-radio') ?>/style.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -75,7 +75,7 @@
                 <div class="row g-2">
                   <?php foreach ($databerita as $b) : ?>
                     <div class="col-12">
-                    <a href="<?= url_to('App\Controllers\CtrlHalamanDepan::detail', $b['id']) ?>" class="text-decoration-none text-dark">
+                    <a href="<?= site_url('/detail/' . $b['slug']) ?>" class="text-decoration-none text-dark">
                         <div class="news-card p-3 border bg-light rounded-4 d-flex">
                           <img src="<?= base_url('upload/' . $b['foto']) ?>" alt="Berita" class="berita rounded-4">
                           <div class="news-content">

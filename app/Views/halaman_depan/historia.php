@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Radio Kota Batik</title>
     <link rel="stylesheet" href="<?php echo base_url('asset-radio') ?>/style.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -33,6 +33,7 @@
                     <li><a href="<?= site_url('/lifestyle2') ?>">Lifestyle</a></li>
                     <li><a href="<?= site_url('/profil') ?>">Profil</a></li>
                     <li><a href="<?= site_url('/historia') ?>">Historia</a></li>
+                    <li><a href="<?= site_url('/ilm2') ?>">Ilm</a></li>
                 </ul>
                 <form class="d-flex" action="<?= site_url('/berita/search') ?>" method="get">
                     <input class="form-control me-2" type="search" name="q" placeholder="Search..." aria-label="Search">
@@ -78,7 +79,7 @@
                   <img src="<?= base_url('upload/' . $historia['foto']) ?>" alt="historia">
                   <div class="overlay">
                       <h4><?= esc($historia['judul']) ?></h4>
-                      <a href="<?= site_url('/detail_his/' . $historia['id']) ?>">selengkapnya →</a>
+                      <a href="<?= site_url('/detail_his/' . $historia['slug']) ?>">selengkapnya →</a>
                   </div>
               </div>
                 <?php endforeach; ?>

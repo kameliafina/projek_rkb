@@ -56,14 +56,18 @@ class CtrlBeritaFoto extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Handle file upload
+        
         $foto = $this->request->getFile('foto');
-        $namafoto = $foto->getRandomName(); // Generate a random name for the file
-        $foto->move('upload', $namafoto); // Move the file to the 'upload' directory
+        $namafoto = $foto->getRandomName(); 
+        $foto->move('upload', $namafoto); 
 
-        // Insert data into the database
+        
+        helper('text');
+            $slug = url_title($this->request->getPost('judul'), '-', true);
+
         $berita->insert([
             'nama_penyiar' => $this->request->getVar('nama_penyiar'),
+            'slug' => $slug,
             'judul' => $this->request->getVar('judul'),
             'deskripsi' => $this->request->getVar('deskripsi'),
             'ket_foto' => $this->request->getVar('ket_foto'),

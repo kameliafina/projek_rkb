@@ -9,7 +9,7 @@ class HistoriaModel extends Model
     protected $table            = 'historia';
     protected $primaryKey       = 'id';
 
-    protected $allowedFields    = ['nama_penyiar', 'judul', 'deskripsi', 'foto', 'ket_foto', 'audio'];
+    protected $allowedFields    = ['nama_penyiar', 'judul', 'deskripsi', 'foto', 'ket_foto', 'audio', 'slug'];
 
     protected $useTimestamps    = true; 
     protected $createdField     = 'created_at';

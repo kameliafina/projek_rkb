@@ -33,6 +33,7 @@
                     <li><a href="<?= site_url('/lifestyle2') ?>">Lifestyle</a></li>
                     <li><a href="<?= site_url('/profil') ?>">Profil</a></li>
                     <li><a href="<?= site_url('/historia') ?>">Historia</a></li>
+                    <li><a href="<?= site_url('/ilm2') ?>">Ilm</a></li>
                 </ul>
                 <form class="d-flex" action="<?= site_url('/berita/search') ?>" method="get">
                     <input class="form-control me-2" type="search" name="q" placeholder="Search..." aria-label="Search">
@@ -76,7 +77,7 @@
                     
                     <?php foreach ($databerita as $b) : ?>
                       <div class="col-12">
-                        <a href="<?= site_url('/detail/' . $b['id']) ?>" class="text-decoration-none text-dark">
+                        <a href="<?= site_url('/detail/' . $b['slug']) ?>" class="text-decoration-none text-dark">
                           <div class="news-card p-3 border bg-light rounded-4 d-flex">
                             <img src="<?= base_url('upload/' . $b['foto']) ?>" alt="Berita" class="berita rounded-4">
                             <div class="news-content">

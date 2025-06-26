@@ -54,7 +54,7 @@
     <!-- Konten Berita -->
     <div class="flex-grow-1">
         <h2 class="fw-bold"><?= esc($berita['judul']) ?></h2>
-        <p class="text-muted"><?= esc($berita['nama_penyiar'] ?? 'Admin') ?> - <span class="text-primary"><?= esc($berita['nama_kategori_b']) ?></span></p>
+        <p class="text-muted"><?= esc($berita['nama_penyiar'] ?? 'Admin') ?> <span class="text-primary"></span></p>
         <p><small><?= date('l, d F Y H:i', strtotime($berita['created_at'])) ?> WIB</small></p>
         
         <?php if (!empty($berita['gambar'])): ?>

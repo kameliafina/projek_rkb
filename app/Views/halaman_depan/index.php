@@ -133,7 +133,7 @@
                 <div class="row g-2">
                     <?php foreach ($databerita as $b) : ?>
                       <div class="col-12">
-                        <a href="<?= site_url('/detail/' . $b['id']) ?>" class="text-decoration-none text-dark">
+                        <a href="<?= site_url('/detail/' . $b['slug']) ?>" class="text-decoration-none text-dark">
                           <div class="news-card p-3 border bg-light rounded-4 d-flex">
                             <img src="<?= base_url('upload/' . $b['foto']) ?>" alt="Berita" class="berita rounded-4">
                             <div class="news-content">
@@ -148,9 +148,7 @@
                         </a>
                       </div>
                       <?php endforeach; ?>
-                      <div class="mt-3">
-                        <?= $pager->links('beritapage') ?>
-                    </div>
+                      
 
                     
                 </div>
@@ -170,7 +168,10 @@
                           <span class="rank"><?= $no++; ?></span>
                           <img src="<?= base_url('upload/' . $berita['foto']) ?>" alt="Berita" class="news-img"> <!-- Pastikan kolom gambar ada -->
                           <div class="news-content">
-                            <h4><?= $berita['judul']; ?></h4>
+                            <h4>
+                                <a href="<?= site_url('/detail/' . $berita['id']) ?>" class="text-decoration-none text-dark">
+                                    <?= esc($berita['judul']) ?></a>
+                            </h4>
                             <p class="views">
                               <img src="<?= base_url('asset-radio') ?>/img/mata.png" alt="Views" class="icon-view"> 
                               <?= $berita['views']; ?>
@@ -226,7 +227,7 @@
                   <img src="<?= base_url('upload/' . $beritafoto['foto']) ?>" alt="Berita Foto">
                   <div class="overlay">
                       <h4><?= esc($beritafoto['judul']) ?></h4>
-                      <a href="<?= site_url('/detail/' . $beritafoto['id']) ?>">selengkapnya →</a>
+                      <a href="<?= site_url('/detail_foto/' . $beritafoto['slug']) ?>">selengkapnya →</a>
                   </div>
               </div>
                 <?php endforeach; ?>
@@ -274,7 +275,7 @@
             </div>
 
             <!-- Gambar kedua -->
-            <h2 class="section-title">Infografis</h2>
+            <h2 class="section-title">Statement</h2>
             <div class="col-md-8 d-flex justify-content-center mt-4">
                 <div id="infografisCarousel2" class="carousel slide" data-bs-ride="carousel" style="width: 100%; max-width: 400px;">
                     <?php if (!empty($statement)): ?>

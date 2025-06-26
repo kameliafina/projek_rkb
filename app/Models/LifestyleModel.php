@@ -9,7 +9,7 @@ class LifestyleModel extends Model
     protected $table      = 'lifestyle';
     protected $primaryKey = 'id';
 
-    protected $allowedFields = ['nama_penyiar', 'judul', 'deskripsi', 'foto', 'ket_foto', 'kategori_id'];
+    protected $allowedFields = ['nama_penyiar', 'judul', 'deskripsi', 'foto', 'ket_foto', 'kategori_id', 'slug'];
 
     protected $useTimestamps = true; 
     protected $createdField  = 'created_at';

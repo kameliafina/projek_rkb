@@ -70,11 +70,15 @@ class CtrlHistoria extends BaseController
             $audio->move('upload/audio', $namaAudio);
         }
 
+        helper('text');
+        $slug = url_title($this->request->getPost('judul'), '-', true);
+
 
         // Insert data into the database
         $historia->insert([
             'nama_penyiar' => $this->request->getVar('nama_penyiar'),
             'judul' => $this->request->getVar('judul'),
+            'slug' => url_title($this->request->getVar('judul'), '-', true), // Generate slug from title
             'deskripsi' => $this->request->getVar('deskripsi'),
             'ket_foto' => $this->request->getVar('ket_foto'),
             'foto' => $namafoto,

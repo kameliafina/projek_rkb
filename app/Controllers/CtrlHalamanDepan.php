@@ -60,16 +60,14 @@ class CtrlHalamanDepan extends BaseController
         $url = "https://www.googleapis.com/youtube/v3/search?key={$apiKey}&channelId={$channelId}&order=date&part=snippet&type=video&maxResults={$maxResults}";
 
         $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // bisa dihilangkan di server production
-$response = curl_exec($ch);
-curl_close($ch);
-
-$dataArray = json_decode($response, true);
-
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // bisa dihilangkan di server production
+        $response = curl_exec($ch);
+        curl_close($ch);
         
-        
+        $dataArray = json_decode($response, true);
+
         $youtubeVideos = [];
 
 //         echo '<pre>';
@@ -183,7 +181,7 @@ $dataArray = json_decode($response, true);
         return view('halaman_depan/berita', $data);
     }
 
-    public function detail($id)
+    public function detail($slug)
 {
     $beritaModel = new BeritaModel();
     $komentarModel = new KomentarModel();
@@ -191,8 +189,47 @@ $dataArray = json_decode($response, true);
     $berita = $beritaModel
         ->select('berita.*, kategori_berita.nama_kategori_b')
         ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
-        ->where('berita.id', $id)
+        ->where('berita.slug', $slug)
         ->first();
+
+    if (!$berita) {
+        throw new \CodeIgniter\Exceptions\PageNotFoundException('Berita tidak ditemukan.');
+    }
+
+    $beritaPopuler = $beritaModel
+        ->select('berita.*, kategori_berita.nama_kategori_b')
+        ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
+        ->orderBy('berita.views', 'DESC')
+        ->findAll(5);
+
+    $beritaModel->update($berita['id'], ['views' => $berita['views'] + 1]);
+
+    $komentar = (new \App\Models\KomentarModel())
+        ->where('target_id', $berita['id'])
+        ->where('target_type', 'berita')
+        ->orderBy('created_at', 'desc')
+        ->paginate(5, 'komentar');
+
+    $pager = \Config\Services::pager();
+
+    return view('halaman_depan/detail_berita', [
+        'berita' => $berita, 
+        'beritaPopuler' => $beritaPopuler,
+        'komentar' => $komentar,
+        'pager' => $pager
+    ]);
+}
+
+
+public function detail_foto($slug)
+    {
+    $beritafotoModel = new BeritaFotoModel();
+    $beritaModel = new BeritaModel();
+    $komentarModel = new KomentarModel();
+
+    $berita = $beritafotoModel
+    ->where('slug', $slug)
+    ->first();
 
     $beritaPopuler = $beritaModel
         ->select('berita.*, kategori_berita.nama_kategori_b')
@@ -204,27 +241,22 @@ $dataArray = json_decode($response, true);
         throw new \CodeIgniter\Exceptions\PageNotFoundException('Berita tidak ditemukan.');
     }
 
-    // tambah 1 view
-    $beritaModel->update($id, ['views' => $berita['views'] + 1]);
-
     $komentar = $komentarModel
-        ->where('target_id', $id)
-        ->where('target_type', 'berita')
+        ->where('target_id', $berita['id'])
+        ->where('target_type', 'berita_foto')
         ->orderBy('created_at', 'desc')
         ->paginate(5, 'komentar');
 
         $pager = \Config\Services::pager();
 
 
-    return view('halaman_depan/detail_berita', [
+    return view('halaman_depan/detail_foto', [
         'berita' => $berita, 
         'beritaPopuler' => $beritaPopuler,
         'komentar' => $komentar,
         'pager' => $pager
     ]);
 }
-
-
 
 
     public function berita_pkl()
@@ -335,21 +367,25 @@ $dataArray = json_decode($response, true);
         return view('halaman_depan/historia', $data);
     }
 
-    public function detail_his($id)
+    public function detail_his($slug)
 {
     $historiaModel = new HistoriaModel();
     $historiaFotoModel = new HistoriaDetailModel();
     $beritaModel = new BeritaModel();
     $komentarModel = new KomentarModel();
 
-    $historia = $historiaModel->find($id);
+    // Ambil satu historia berdasarkan slug
+    $historia = $historiaModel
+        ->where('slug', $slug)
+        ->first();
 
     if (!$historia) {
         throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Historia tidak ditemukan.");
     }
 
+    // Ambil daftar foto berdasarkan historia_id
     $fotoDeskripsi = $historiaFotoModel
-        ->where('historia_id', $id)
+        ->where('historia_id', $historia['id'])
         ->findAll();
 
     $beritaPopuler = $beritaModel
@@ -358,13 +394,13 @@ $dataArray = json_decode($response, true);
         ->orderBy('berita.views', 'DESC')
         ->findAll(5);
 
-        $komentar = $komentarModel
-        ->where('target_id', $id)
+    $komentar = $komentarModel
+        ->where('target_id', $historia['id'])
         ->where('target_type', 'historia')
         ->orderBy('created_at', 'desc')
         ->paginate(5, 'komentar');
 
-        $pager = \Config\Services::pager();
+    $pager = \Config\Services::pager();
 
     $data = [
         'historia' => $historia,
@@ -376,6 +412,7 @@ $dataArray = json_decode($response, true);
 
     return view('halaman_depan/detail_historia', $data);
 }
+
 
 
     public function lifestyle()

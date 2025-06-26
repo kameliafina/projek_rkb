@@ -5,7 +5,10 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Database\Migrations\Berita;
 use App\Models\BeritaModel;
+use App\Models\HistoriaModel;
 use App\Models\KategoriModel;
+use App\Models\LifestyleModel;
+use App\Models\ProgramModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class CtrlBerita extends BaseController
@@ -73,11 +76,15 @@ class CtrlBerita extends BaseController
             log_message('error', 'Gagal memindahkan file foto ke folder upload.');
             return redirect()->back()->withInput()->with('errors', ['foto' => 'Gagal memindahkan file foto.']);
         }
+
+        helper('text'); 
+        $slug = url_title($this->request->getPost('judul'), '-', true);
     
         // Insert data into database
         $data = [
             'nama_penyiar' => $this->request->getVar('nama_penyiar'),
             'judul' => $this->request->getVar('judul'),
+            'slug' => $slug,
             'deskripsi' => $this->request->getVar('deskripsi'),
             'ket_foto' => $this->request->getVar('ket_foto'),
             'kategori_id' => $this->request->getVar('kategori_id'),
@@ -182,13 +189,40 @@ class CtrlBerita extends BaseController
 {
     $keyword = $this->request->getGet('q');
 
-    $beritaModel = new \App\Models\BeritaModel();
-    $results = $beritaModel
-                ->like('judul', $keyword)
-                ->orLike('deskripsi', $keyword)
-                ->findAll();
+    $beritaModel = new BeritaModel();
+    $programModel = new ProgramModel();
+    $kategoriModel = new KategoriModel();
+    $historiaModel = new HistoriaModel();
+    $lifeStyleModel = new LifestyleModel();
 
-    return view('search_result', ['results' => $results, 'keyword' => $keyword]);
+     $hasilBerita = $beritaModel
+                    ->like('judul', $keyword)
+                    ->orLike('deskripsi', $keyword)
+                    ->findAll();
+
+    $hasilProgram = $programModel
+                    ->like('judul', $keyword)
+                    ->findAll();
+
+    $hasilHistoria = $historiaModel
+                    ->like('judul', $keyword)
+                    ->orLike('deskripsi', $keyword)
+                    ->findAll();
+
+    $hasilLifestyle = $lifeStyleModel
+                    ->like('judul', $keyword)
+                    ->orLike('deskripsi', $keyword)
+                    ->findAll();
+
+    $data = [
+        'keyword' => $keyword,
+        'hasilBerita' => $hasilBerita,
+        'hasilProgram' => $hasilProgram,
+        'hasilHistoria' => $hasilHistoria,
+        'hasilLifestyle' => $hasilLifestyle
+    ];
+
+    return view('search_result', $data);
 }
 
 }
