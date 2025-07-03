@@ -7,10 +7,6 @@ PROFIL
 <?= $this->section('isi') ?>
 Edit Profil Disini
 
-<div class="d-flex justify-content-end">
-<a href="<?= site_url('/dataprogram') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-<img src="<?php echo base_url('asset-admin') ?>/img/back.png" alt="Category Thumbnail">Kembali</a>
-</div>
 <?= $this->endSection('isi') ?>
 
 <?= $this->section('form') ?>

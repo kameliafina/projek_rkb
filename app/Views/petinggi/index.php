@@ -13,7 +13,7 @@
     <title>PETINGGI RKB</title>
 
     <!-- Custom fonts for this template-->
-    <link href="<?php echo base_url('asset-admin') ?>/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="?php echo base_url('asset-admin') ?>/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -61,40 +61,17 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="<?= site_url('/jadwal')?>">
+                <a class="nav-link" href="<?= site_url('/user')?>">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Tambah User</span></a>
             </li>
 
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="<?= site_url('/iklan')?>">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Iklan</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<?= site_url('/iklan')?>">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Infografis</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Statement</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<?= site_url('/berita_foto')?>">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Historia</span></a>
-            </li>
+            
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
+            
 
             
 
@@ -259,7 +236,11 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; FINA 2025</span>
+                        <span><div class="copyright">
+                            2025, made with <span class="text-danger">❤</span> by
+                            <a href="https://www.instagram.com/pinkkamelia/" target="_blank">Fina</a>
+                        </div>
+                    </span>
                     </div>
                 </div>
             </footer>

@@ -1,16 +1,11 @@
 <?= $this->extend('main/layout') ?>
 
 <?= $this->section('judul') ?>
-BERITA
+IKLAN LAYANAN MASYARAKAT
 <?= $this->endSection('judul') ?>
 
 <?= $this->section('isi') ?>
-Tambah Berita
 
-<div class="d-flex justify-content-end">
-<a href="<?= site_url('/databerita') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-<img src="<?php echo base_url('asset-admin') ?>/img/back.png" alt="Category Thumbnail">Kembali</a>
-</div>
 <?= $this->endSection('isi') ?>
 
 <?= $this->section('form') ?>
@@ -18,6 +13,7 @@ Tambah Berita
 <a href="<?= site_url('/tambahilm') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
 <img src="<?php echo base_url('asset-admin') ?>/img/plus.png" alt="Category Thumbnail"> Tambah Data</a>
 
+<div class="table-responsive">
 <table class="table table-hover mt-3">
   <thead>
     <tr>
@@ -69,4 +65,5 @@ Tambah Berita
     <?php endif ?>
   </tbody>
 </table>
+</div>
 <?= $this->endSection('form') ?>

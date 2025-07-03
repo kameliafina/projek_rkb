@@ -5,12 +5,7 @@ HISTORIA
 <?= $this->endSection('judul') ?>
 
 <?= $this->section('isi') ?>
-Tambah Historia
 
-<div class="d-flex justify-content-end">
-<a href="<?= site_url('/datahistoria') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-<img src="<?php echo base_url('asset-admin') ?>/img/back.png" alt="Category Thumbnail">Kembali</a>
-</div>
 <?= $this->endSection('isi') ?>
 
 <?= $this->section('form') ?>
@@ -18,6 +13,7 @@ Tambah Historia
 <a href="<?= site_url('/tambahhistoria') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
 <img src="<?php echo base_url('asset-admin') ?>/img/plus.png" alt="Category Thumbnail"> Tambah Data</a>
 
+<div class="table-responsive">
 <table class="table table-hover mt-3">
   <br>
   <thead>
@@ -66,5 +62,6 @@ Tambah Historia
     <?php endforeach?>
   </tbody>
 </table>
+</div>
 
 <?= $this->endSection('form') ?>

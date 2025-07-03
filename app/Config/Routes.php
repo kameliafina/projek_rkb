@@ -95,6 +95,13 @@ $routes->group('', ['filter' => 'adminfilter'], function($routes) {
 
 $routes->group('', ['filter' => 'petinggifilter'], function($routes) {
     $routes->get('/petinggi2', 'CtrlAdmin::petinggi');
+    $routes->get('/petinggi', 'CtrlPetinggi::index');
+    $routes->get('/user', 'CtrlPetinggi::user');
+    $routes->get('/tambahuser', 'CtrlPetinggi::tambah_user');
+    $routes->post('ctrlpetinggi/simpan_user', 'CtrlPetinggi::simpan_user');
+    $routes->get('/ctrlpetinggi/edit_user/(:num)', 'CtrlPetinggi::edit_user/$1');
+    $routes->post('/ctrlpetinggi/update_user/(:num)', 'CtrlPetinggi::update_user/$1');
+    $routes->get('/ctrlpetinggi/delete_user/(:num)', 'CtrlPetinggi::delete_user/$1');
 });
 
 $routes->get('/lifestyle', 'CtrlLifestyle::index');
@@ -111,7 +118,6 @@ $routes->get('/ctrllifestyle/delete/(:num)', 'CtrlLifestyle::delete/$1');
 
 $routes->get('/berita/search', 'CtrlBerita::search');
 
-$routes->get('/petinggi', 'CtrlPetinggi::index');
 
 $routes->get('/login', 'CtrlLogin::index');
 $routes->post('/login/action', 'CtrlLogin::LoginAction');

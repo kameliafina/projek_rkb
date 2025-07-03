@@ -8,7 +8,7 @@ INFOGRAFIS
 Tambah Infografis
 
 <div class="d-flex justify-content-end">
-<a href="<?= site_url('/datalifestyle') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+<a href="<?= site_url('/datainfografis') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
 <img src="<?php echo base_url('asset-pelanggan') ?>/images/back.png" alt="Category Thumbnail">Kembali</a>
 </div>
 <?= $this->endSection('isi') ?>

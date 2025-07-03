@@ -800,3 +800,10 @@ ul li a:hover:before{
         background-color: #e0e0e0;
         color: black !important;
     }
+
+    .truncate {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }

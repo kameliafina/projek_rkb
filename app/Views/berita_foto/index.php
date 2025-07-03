@@ -18,6 +18,7 @@ Tambah Berita
 <a href="<?= site_url('/tambahberita_foto') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
 <img src="<?php echo base_url('asset-admin') ?>/img/plus.png" alt="Category Thumbnail"> Tambah Data</a>
 
+<div class="table-responsive">
 <table class="table table-hover mt-3">
   <br>
   <thead>
@@ -43,7 +44,7 @@ Tambah Berita
       <td><?= $berita['id']?></td>
       <td><?= $berita['nama_penyiar']?></td>
       <td><?= $berita['judul']?></td>
-      <td><?= $berita['deskripsi']?></td>
+      <td><?= esc(substr($berita['deskripsi'], 0, 50)) ?>...</td>
       <td>
       <img src="<?= base_url('upload/' . $berita['foto']) ?>"  width="100" height="auto">
       </td>
@@ -60,5 +61,6 @@ Tambah Berita
     <?php endforeach?>
   </tbody>
 </table>
+</div>
 
 <?= $this->endSection('form') ?>
