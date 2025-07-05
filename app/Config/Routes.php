@@ -146,6 +146,7 @@ $routes->get('/tips', 'CtrlHalamanDepan::tips');
 $routes->post('/komentar/simpan', 'CtrlHalamanDepan::simpankomentar');
 $routes->get('/detail_lifestyle/(:segment)', 'CtrlHalamanDepan::detail_lifestyle/$1');
 $routes->get('/detail_foto/(:segment)', 'CtrlHalamanDepan::detail_foto/$1');
+$routes->get('/tes', 'CtrlHalamanDepan::tes');
 
 
 $routes->get('/main', 'Home::main');

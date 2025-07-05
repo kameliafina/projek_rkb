@@ -603,5 +603,10 @@ public function detail_foto($slug)
         return redirect()->back()->with('error', 'Tipe komentar tidak dikenali.');
     }
 
+    public function tes()
+    {
+        return view('halaman_depan/tes');
+    }
+
 
 }
