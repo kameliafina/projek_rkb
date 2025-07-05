@@ -45,7 +45,6 @@ Tambah User
       <option value="">-- Pilih Level --</option>
       <option value="admin">Admin</option>
       <option value="petinggi">Petinggi</option>
-      <option value="pendengar">Pendengar</option>
     </select>
   </div>
 </div>

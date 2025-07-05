@@ -33,6 +33,12 @@ Tambah User
       <td><?= $user['name']?></td>
       <td><?= $user['username']?></td>
       <td><?= $user['level']?></td>
+      <td>
+        <a href="/ctrlpetinggi/delete_user/<?= $user['id'] ?>" class="btn btn-danger btn-circle">
+          <i class="fas fa-trash"></i></a>
+        <a href="/ctrlpetinggi/edit_user/<?= $user['id'] ?>" class="btn btn-success btn-circle">
+          <i class="fa-edit"></i></a>
+      </td>
     </tr>
     <?php endforeach?>
   </tbody>
