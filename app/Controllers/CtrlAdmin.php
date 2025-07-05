@@ -3,12 +3,17 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class CtrlAdmin extends BaseController
 {
     public function index()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $data['user'] = $user->find($id);
+
         $db = \Config\Database::connect();
         $builder = $db->table('berita');
         
@@ -57,5 +62,32 @@ class CtrlAdmin extends BaseController
 
     return view('main/laporan', $data);
 }
+
+public function update_user($id)
+    {
+        $user = new UserModel();
+
+        $validationRules = [
+            'name' => 'required|min_length[3]|max_length[50]',
+            'username' => 'required|min_length[3]|max_length[20]|is_unique[users.username,id,' . $id . ']',
+            'password' => 'permit_empty|min_length[3]|max_length[255]',
+            'level' => 'required|in_list[admin,petinggi,pendengar]'
+        ];
+        if (!$this->validate($validationRules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+        $data = [
+            'name' => $this->request->getPost('name'),
+            'username' => $this->request->getPost('username'),
+            'level' => $this->request->getPost('level')
+        ];
+        $password = $this->request->getPost('password');
+        if (!empty($password)) {
+            $data['password'] = password_hash($password, PASSWORD_DEFAULT);
+        }
+        $user->update($id, $data);
+        session()->setFlashdata('success', 'User berhasil diperbarui');
+        return redirect()->to('/admin');
+    }
 
 }

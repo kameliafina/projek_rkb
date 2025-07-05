@@ -9,6 +9,7 @@ $routes->get('/', 'Home::index');
 $routes->group('', ['filter' => 'adminfilter'], function($routes) {
     $routes->get('/admin', 'CtrlAdmin::index');
     $routes->get('/laporan', 'CtrlAdmin::laporanBulanan');
+    $routes->post('/ctrladmin/update_user/(:num)', 'CtrlAdmin::update_user/$1');
 
 
     $routes->get('/berita2', 'CtrlBerita::index');

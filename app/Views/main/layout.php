@@ -20,6 +20,8 @@
 
     <!-- Custom styles for this template-->
     <link href="<?php echo base_url('asset-admin') ?>/css/sb-admin-2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
 
 </head>
 
@@ -211,7 +213,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editProfilModal">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -329,6 +331,66 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Modal Edit Profil -->
+<div class="modal fade" id="editProfilModal" tabindex="-1" aria-labelledby="editProfilModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="<?= site_url('/ctrladmin/update_user/' . $user['id']) ?>" method="post">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editProfilModalLabel">Edit Profil</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+        <div class="modal-body">
+          <input type="hidden" name="id" value="<?= $user['id'] ?>">
+
+          <div class="mb-3">
+            <label>Nama</label>
+            <input type="text" name="name" class="form-control" required value="<?= set_value('name', $user['name']) ?>">
+          </div>
+
+          <div class="mb-3">
+            <label>Username</label>
+            <input type="text" name="username" class="form-control" required value="<?= set_value('username', $user['username']) ?>">
+          </div>
+
+            <div class="mb-3">
+                <label>Level</label>
+                <input type="text" name="level" class="form-control" required value="<?= set_value('level', $user['level']) ?>" readonly>
+            </div>
+
+          <div class="mb-3">
+            <label>Password</label>
+            <div class="input-group">
+              <input type="password" name="password" id="password" class="form-control" placeholder="Kosongkan jika tidak ingin mengubah">
+              <button type="button" class="btn btn-outline-secondary" onclick="togglePassword()">👁️</button>
+            </div>
+            <small class="text-muted">Kosongkan jika tidak ingin mengubah password</small>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<script>
+function togglePassword() {
+    var pwd = document.getElementById("password");
+    if (pwd.type === "password") {
+        pwd.type = "text";
+    } else {
+        pwd.type = "password";
+    }
+}
+</script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="<?php echo base_url('asset-admin') ?>/vendor/jquery/jquery.min.js"></script>

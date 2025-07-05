@@ -270,10 +270,20 @@ public function detail_foto($slug)
         ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
         ->where('kategori_berita.nama_kategori_b', 'Kota Pekalongan') // filter berdasarkan nama kategori Pekalongan
         ->orderBy('berita.created_at', 'DESC')
-        ->findAll();
+        ->paginate(5, 'beritaPekalongan');
+
+    $beritaPopuler = $beritaModel
+                ->select('berita.*, kategori_berita.nama_kategori_b')
+                ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
+                ->orderBy('berita.views', 'DESC')
+                ->findAll(5);
+
+        $pager = \Config\Services::pager();
 
     $data = [
-        'databerita' => $beritaPekalongan
+        'databerita' => $beritaPekalongan,
+        'beritaPopuler' => $beritaPopuler,
+        'pager' => $beritaModel->pager
     ];
 
     return view('halaman_depan/berita_pkl', $data);
@@ -289,10 +299,20 @@ public function detail_foto($slug)
             ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
             ->where('kategori_berita.nama_kategori_b', 'Nasional') // filter berdasarkan nama kategori Nasional
             ->orderBy('berita.created_at', 'DESC')
-            ->findAll();
+            ->paginate(5, 'beritaNasional');
+
+        $beritaPopuler = $beritaModel
+                ->select('berita.*, kategori_berita.nama_kategori_b')
+                ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
+                ->orderBy('berita.views', 'DESC')
+                ->findAll(5);
+
+        $pager = \Config\Services::pager();
 
         $data = [
-            'databerita' => $beritaNasional
+            'databerita' => $beritaNasional,
+            'beritaPopuler' => $beritaPopuler,
+            'pager' => $beritaModel->pager
         ];
 
         return view('halaman_depan/berita_nasional', $data);
@@ -307,10 +327,20 @@ public function detail_foto($slug)
             ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
             ->where('kategori_berita.nama_kategori_b', 'Internasional') // filter berdasarkan nama kategori Internasional
             ->orderBy('berita.created_at', 'DESC')
-            ->findAll();
+            ->paginate(5, 'beritaInternasional');
+
+            $beritaPopuler = $beritaModel
+                ->select('berita.*, kategori_berita.nama_kategori_b')
+                ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
+                ->orderBy('berita.views', 'DESC')
+                ->findAll(5);
+
+        $pager = \Config\Services::pager();
 
         $data = [
-            'databerita' => $beritaInternasional
+            'databerita' => $beritaInternasional,
+            'beritaPopuler' => $beritaPopuler,
+            'pager' => $beritaModel->pager
         ];
 
         return view('halaman_depan/berita_internasional', $data);
@@ -326,10 +356,20 @@ public function detail_foto($slug)
             ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
             ->where('kategori_berita.nama_kategori_b', 'Jawa Tengah') // filter berdasarkan nama kategori Jawa Tengah
             ->orderBy('berita.created_at', 'DESC')
-            ->findAll();
+            ->paginate(5, 'beritaJateng');
+            
+        $beritaPopuler = $beritaModel
+                ->select('berita.*, kategori_berita.nama_kategori_b')
+                ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
+                ->orderBy('berita.views', 'DESC')
+                ->findAll(5);
+
+        $pager = \Config\Services::pager();
 
         $data = [
-            'databerita' => $beritaJateng
+            'databerita' => $beritaJateng,
+            'beritaPopuler' => $beritaPopuler,
+            'pager' => $beritaModel->pager
         ];
 
         return view('halaman_depan/berita_jateng', $data);
@@ -339,16 +379,25 @@ public function detail_foto($slug)
     {
         $beritaModel = new BeritaModel();
 
-        // ambil berita dengan kategori nama 'Jawa Tengah'
-        $beritaJateng = $beritaModel
+        $beritaOlahraga = $beritaModel
             ->select('berita.*, kategori_berita.nama_kategori_b')
             ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
             ->where('kategori_berita.nama_kategori_b', 'Olahraga') // filter berdasarkan nama kategori Jawa Tengah
             ->orderBy('berita.created_at', 'DESC')
-            ->findAll();
+            ->paginate(5, 'beritaOlahraga');
+
+        $beritaPopuler = $beritaModel
+                ->select('berita.*, kategori_berita.nama_kategori_b')
+                ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
+                ->orderBy('berita.views', 'DESC')
+                ->findAll(5);
+
+        $pager = \Config\Services::pager();
 
         $data = [
-            'databerita' => $beritaJateng
+            'databerita' => $beritaOlahraga,
+            'beritaPopuler' => $beritaPopuler,
+            'pager' => $beritaModel->pager
         ];
 
         return view('halaman_depan/berita_olahraga', $data);
