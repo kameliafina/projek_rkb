@@ -87,7 +87,8 @@
                           
                           <div class="news-content" style="max-width: 120px; overflow: hidden;">
                             <h4 style="font-size: 13px; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                              <?= $populer['judul']; ?>
+                              <a href="<?= site_url('/detail/' . $berita['id']) ?>" class="text-decoration-none text-dark">
+                                    <?= esc($populer['judul']) ?></a>
                             </h4>
                             
                             <p class="views" style="font-size: 12px; color: #777; margin: 0;">
