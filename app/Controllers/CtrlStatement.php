@@ -4,37 +4,53 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\StatementModel;
+use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class CtrlStatement extends BaseController
 {
     public function index()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+        $db = \Config\Database::connect();
+
         $st = new StatementModel();
         $ambil = $st->findAll();
 
         $data = [
-            'datast' => $ambil
+            'datast' => $ambil,
+            'user' => $userData
         ];
         return view('statement/index', $data);
     }
 
     public function datast()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+
         $st = new StatementModel();
         $ambil = $st->findAll();
 
         $data = [
-            'datast' => $ambil
+            'datast' => $ambil,
+            'user' => $userData
         ];
         return view('statement/index', $data);
     }
 
     public function tambah()
     {
+        $userModel = new UserModel();
+        $id = session()->get('id');
+        $data['user'] = $userModel->find($id);
+
         helper('form');
 
-        return view('statement/tambah');
+        return view('statement/tambah', $data);
     }
 
     public function simpan()
@@ -72,11 +88,16 @@ class CtrlStatement extends BaseController
 
     public function edit($id)
     {
+        $user = new UserModel();
+        $id_user = session()->get('id');
+        $userData = $user->find($id_user);
+
         $st = new StatementModel();
         $ambil = $st->find($id);
 
         $data = [
-            'datast' => $ambil
+            'datast' => $ambil,
+            'user' => $userData
         ];
         return view('statement/edit', $data);
     }

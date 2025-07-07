@@ -5,37 +5,53 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\HistoriaDetailModel;
 use App\Models\HistoriaModel;
+use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class CtrlHistoria extends BaseController
 {
     public function index()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+        $db = \Config\Database::connect();
+
         $historia = new HistoriaModel();
         $ambil = $historia->findAll();
 
         $data = [
-            'datahistoria' => $ambil
+            'datahistoria' => $ambil,
+            'user' => $userData
         ];
         return view('historia/index', $data);
     }
 
     public function datahistoria()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+
         $historia = new HistoriaModel();
         $ambil = $historia->findAll();
 
         $data = [
-            'datahistoria' => $ambil
+            'datahistoria' => $ambil,
+            'user' => $userData
         ];
         return view('historia/index', $data);
     }
 
     public function tambah()
     {
+        $userModel = new UserModel();
+        $id = session()->get('id');
+        $data['user'] = $userModel->find($id);
+
         helper('form');
 
-        return view('historia/tambah');
+        return view('historia/tambah', $data);
     }
 
     public function simpan()
@@ -117,6 +133,10 @@ class CtrlHistoria extends BaseController
 
     public function edit($id)
     {
+        $user = new UserModel();
+        $id_user = session()->get('id');
+        $userData = $user->find($id_user);
+
         $historia = new HistoriaModel();
         $detailModel = new HistoriaDetailModel();
 
@@ -125,7 +145,8 @@ class CtrlHistoria extends BaseController
 
     $data = [
         'datahistoria' => $datahistoria,
-        'detailHistoria' => $detailHistoria
+        'detailHistoria' => $detailHistoria,
+        'user' => $userData
     ];
     return view('historia/edit', $data);
     }
@@ -261,11 +282,16 @@ class CtrlHistoria extends BaseController
 
     public function detail($id)
     {
+        $user = new UserModel();
+        $id_user = session()->get('id');
+        $userData = $user->find($id_user);
+
         $historia = new HistoriaModel();
         $ambil = $historia->find($id);
 
         $data = [
-            'datahistoria' => $ambil
+            'datahistoria' => $ambil,
+            'user' => $userData
         ];
         return view('historia/detail', $data);
     }

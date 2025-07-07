@@ -18,9 +18,9 @@ Tambah Berita
 <form action="<?= site_url('/ctrliklan/update/' . $dataiklan['id']) ?>" method="post" enctype="multipart/form-data">
 <input type="hidden" name="id" value="<?= $dataiklan['id'] ?>">
   <div class="row mb-3">
-    <label for="deskripsi" class="col-sm-2 col-form-label">Deskripsi Berita</label>
+    <label for="deskripsi" class="col-sm-2 col-form-label">Deskripsi Foto</label>
     <div class="col-sm-10">
-        <textarea class="form-control" id="deskripsi" name="deskripsi" required><?= esc($dataiklan['deskripsi']) ?></textarea>
+        <input type="text" class="form-control" id="deskripsi" name="deskripsi" readonly><?= esc($dataiklan['deskripsi']) ?>
     </div>
   </div>
   <div class="mb-3">

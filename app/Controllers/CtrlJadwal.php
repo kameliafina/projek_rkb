@@ -4,17 +4,24 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\JadwalModel;
+use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class CtrlJadwal extends BaseController
 {
     public function index()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+        $db = \Config\Database::connect();
+
         $jadwal = new JadwalModel();
         $ambil = $jadwal->findAll();
 
         $data = [
-            'datajadwal' => $ambil
+            'datajadwal' => $ambil,
+            'user' => $userData
         ];
 
         return view('jadwal/index', $data);
@@ -22,17 +29,26 @@ class CtrlJadwal extends BaseController
 
     public function datajadwal()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+
         $jadwal = new JadwalModel();
         $ambil = $jadwal->findAll();
 
         $data = [
-            'datajadwal' => $ambil
+            'datajadwal' => $ambil,
+            'user' => $userData
         ];
         return view('jadwal/index', $data);
     }
 
     public function tambah()
     {
+        $userModel = new UserModel();
+        $id = session()->get('id');
+        $data['user'] = $userModel->find($id);
+
         helper('form');
         $jadwal = new JadwalModel();
         $data['jadwal'] = $jadwal->findAll();
@@ -74,11 +90,16 @@ class CtrlJadwal extends BaseController
 
     public function edit($id)
     {
+        $user = new UserModel();
+        $id_user = session()->get('id');
+        $userData = $user->find($id_user);
+
         $jadwal = new JadwalModel();
         $ambil = $jadwal->find($id);
 
         $data = [
-            'datajadwal' => $ambil
+            'datajadwal' => $ambil,
+            'user' => $userData
         ];
 
         return view('jadwal/edit', $data);

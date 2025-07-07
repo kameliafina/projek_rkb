@@ -4,37 +4,53 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\IklanModel;
+use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class CtrlIklan extends BaseController
 {
     public function index()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+        $db = \Config\Database::connect();
+
         $iklan = new IklanModel();
         $ambil = $iklan->findAll();
 
         $data = [
-            'dataiklan' => $ambil
+            'dataiklan' => $ambil,
+            'user' => $userData
         ];
         return view('iklan/index', $data);
     }
 
     public function dataiklan()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+
         $iklan = new IklanModel();
         $ambil = $iklan->findAll();
 
         $data = [
-            'dataiklan' => $ambil
+            'dataiklan' => $ambil,
+            'user' => $userData
         ];
         return view('iklan/index', $data);
     }
 
     public function tambah()
     {
+        $userModel = new UserModel();
+        $id = session()->get('id');
+        $data['user'] = $userModel->find($id);
+
         helper('form');
 
-        return view('iklan/tambah');
+        return view('iklan/tambah', $data);
     }
 
     public function simpan()
@@ -75,11 +91,16 @@ class CtrlIklan extends BaseController
 
     public function edit($id)
     {
+        $user = new UserModel();
+        $id_user = session()->get('id');
+        $userData = $user->find($id_user);
+
         $iklan = new IklanModel();
         $ambil = $iklan->find($id);
 
         $data = [
-            'dataiklan' => $ambil
+            'dataiklan' => $ambil,
+            'user' => $userData
         ];
         return view('iklan/edit', $data);
     }

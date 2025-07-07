@@ -3,35 +3,53 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\BeritaModel;
 use App\Models\Kategori2Model;
 use App\Models\LifestyleModel;
+use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class CtrlLifestyle extends BaseController
 {
     public function index()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+        $db = \Config\Database::connect();
+
         $lifestyle = new LifestyleModel();
         $ambil = $lifestyle->findAll();
 
         $data = [
-            'datalifestyle' => $ambil
+            'datalifestyle' => $ambil,
+            'user' => $userData
         ];
         return view('lifestyle/index', $data);
     }
     public function datalifestyle()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+        $db = \Config\Database::connect();
+
         $lifestyle = new LifestyleModel();
         $ambil = $lifestyle->findAll();
 
         $data = [
-            'datalifestyle' => $ambil
+            'datalifestyle' => $ambil,
+            'user' => $userData
         ];
         return view('lifestyle/index', $data);
     }
 
     public function tambah()
     {
+        $userModel = new UserModel();
+        $id = session()->get('id');
+        $data['user'] = $userModel->find($id);
+
         helper('form');
         $kategori = new Kategori2Model();
         $data['kategori'] = $kategori->findAll();
@@ -88,6 +106,10 @@ class CtrlLifestyle extends BaseController
 
     public function edit($id)
     {
+        $user = new UserModel();
+        $id_user = session()->get('id');
+        $userData = $user->find($id_user);
+
         $lifestyle = new LifestyleModel();
         $ambil = $lifestyle->find($id);
 
@@ -96,6 +118,7 @@ class CtrlLifestyle extends BaseController
 
         $data = [
             'datalifestyle' => $ambil,
+            'user' => $userData,
             'kategori' => $data['kategori']
         ];
         return view('lifestyle/editlifestyle', $data);
@@ -167,6 +190,7 @@ class CtrlLifestyle extends BaseController
     public function lifestyle2()
     {
         $lifestyleModel = new LifestyleModel();
+        $beritaModel = new BeritaModel();
 
         // Lifestyle terbaru (dengan pagination)
         $lifestyle = $lifestyleModel
@@ -175,9 +199,17 @@ class CtrlLifestyle extends BaseController
             ->orderBy('lifestyle.created_at', 'DESC')
             ->paginate(5, 'lifestyle');
 
+        $beritaPopuler = $beritaModel
+                ->select('berita.*, kategori_berita.nama_kategori_b')
+                ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
+                ->orderBy('berita.views', 'DESC')
+                ->findAll(5);
+
         $pager = \Config\Services::pager();
+
         $data = [
             'datalifestyle' => $lifestyle,
+            'beritaPopuler' => $beritaPopuler,
             'pager' => $lifestyleModel->pager
         ];
 

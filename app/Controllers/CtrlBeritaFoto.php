@@ -5,23 +5,36 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\BeritaFotoModel;
 use App\Models\Kategori2Model;
+use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class CtrlBeritaFoto extends BaseController
 {
     public function index()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+        $db = \Config\Database::connect();
+
         $berita = new BeritaFotoModel();
         $ambil = $berita->findAll();
 
         $data = [
-            'databerita' => $ambil
+            'databerita' => $ambil,
+            'user' => $userData
         ];
         return view('berita_foto/index', $data);
     }
 
     public function databerita2()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+        $db = \Config\Database::connect();
+
+
         $berita = new BeritaFotoModel();
         $ambil = $berita->findAll();
 
@@ -33,9 +46,13 @@ class CtrlBeritaFoto extends BaseController
 
     public function tambah()
     {
+        $userModel = new UserModel();
+        $id = session()->get('id');
+        $data['user'] = $userModel->find($id);
+
         helper('form');
 
-        return view('berita_foto/tambah');
+        return view('berita_foto/tambah', $data);
     }
 
     public function simpan()
@@ -86,11 +103,16 @@ class CtrlBeritaFoto extends BaseController
 
     public function edit($id)
     {
+        $user = new UserModel();
+        $id_user = session()->get('id');
+        $userData = $user->find($id);
+
         $berita = new BeritaFotoModel();
         $ambil = $berita->find($id);
 
         $data = [
-            'databerita' => $ambil
+            'databerita' => $ambil,
+            'user' => $userData
         ];
         return view('berita_foto/edit', $data);
     }

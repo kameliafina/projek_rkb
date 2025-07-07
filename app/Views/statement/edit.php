@@ -1,7 +1,7 @@
 <?= $this->extend('main/layout') ?>
 
 <?= $this->section('judul') ?>
-INFOGRAFIS
+STATEMENT
 <?= $this->endSection('judul') ?>
 
 <?= $this->section('isi') ?>

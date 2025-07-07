@@ -4,37 +4,53 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\InfografisModel;
+use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class CtrlInfografis extends BaseController
 {
     public function index()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+        $db = \Config\Database::connect();
+
         $infografis = new InfografisModel();
         $ambil = $infografis->findAll();
 
         $data = [
-            'datainfografis' => $ambil
+            'datainfografis' => $ambil,
+            'user' => $userData
         ];
         return view('infografis/index', $data);
     }
 
     public function datainfografis()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+
         $infografis = new InfografisModel();
         $ambil = $infografis->findAll();
 
         $data = [
-            'datainfografis' => $ambil
+            'datainfografis' => $ambil,
+            'user' => $userData
         ];
         return view('infografis/index', $data);
     }
 
     public function tambah()
     {
+        $userModel = new UserModel();
+        $id = session()->get('id');
+        $data['user'] = $userModel->find($id);
+
         helper('form');
 
-        return view('infografis/tambah');
+        return view('infografis/tambah', $data);
     }
 
     public function simpan()
@@ -72,11 +88,16 @@ class CtrlInfografis extends BaseController
 
     public function edit($id)
     {
+        $user = new UserModel();
+        $id_user = session()->get('id');
+        $userData = $user->find($id_user);
+
         $infografis = new InfografisModel();
         $ambil = $infografis->find($id);
 
         $data = [
-            'datainfografis' => $ambil
+            'datainfografis' => $ambil,
+            'user' => $userData
         ];
         return view('infografis/edit', $data);
     }

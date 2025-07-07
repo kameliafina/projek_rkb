@@ -6,17 +6,12 @@ STATEMENT
 
 <?= $this->section('isi') ?>
 Tambah Statement
-
-<div class="d-flex justify-content-end">
-<a href="<?= site_url('/datast') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-<img src="<?php echo base_url('asset-admin') ?>/img/back.png" alt="Category Thumbnail">Kembali</a>
-</div>
 <?= $this->endSection('isi') ?>
 
 <?= $this->section('form') ?>
 
-<a href="<?= site_url('/tambahst') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-<img src="<?php echo base_url('asset-admin') ?>/img/plus.png" alt="Category Thumbnail"> Tambah Data</a>
+<!-- <a href="<?= site_url('/tambahst') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+<img src="<?php echo base_url('asset-admin') ?>/img/plus.png" alt="Category Thumbnail"> Tambah Data</a> -->
 
 <div class="table-responsive">
 <table class="table table-hover mt-3">

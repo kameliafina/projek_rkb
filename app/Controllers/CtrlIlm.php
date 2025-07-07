@@ -4,17 +4,23 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\IlmModel;
+use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class CtrlIlm extends BaseController
 {
     public function index()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+
         $ilm = new IlmModel();
         $ambil = $ilm->findAll();
 
         $data = [
-            'datailm' => $ambil
+            'datailm' => $ambil,
+            'user' => $userData
         ];
 
         return view('ilm/index', $data);
@@ -22,18 +28,27 @@ class CtrlIlm extends BaseController
 
     public function datailm()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+
         $ilm = new IlmModel();
         $ambil = $ilm->findAll();
 
         $data = [
-            'datailm' => $ambil
+            'datailm' => $ambil,
+            'user' => $userData
         ];
         return view('ilm/index', $data);
     }
 
     public function tambah()
     {
-        return view('ilm/tambah');
+        $userModel = new UserModel();
+        $id = session()->get('id');
+        $data['user'] = $userModel->find($id);
+
+        return view('ilm/tambah', $data);
     }
 
     public function simpan()
@@ -96,6 +111,10 @@ public function hapus($id)
 
 public function edit($id)
 {
+    $userModel = new UserModel();
+    $id_user = session()->get('id');
+    $userData = $userModel->find($id_user);
+    
     $ilm = new IlmModel();
     $data = $ilm->find($id);
 
@@ -103,7 +122,10 @@ public function edit($id)
         return redirect()->to('/ilm')->with('error', 'Data tidak ditemukan!');
     }
 
-    return view('ilm/edit', ['data' => $data]);
+    return view('ilm/edit', [
+        'data' => $data,
+        'user' => $userData
+    ]);
 }
 
 public function update($id)

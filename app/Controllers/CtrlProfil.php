@@ -4,39 +4,55 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\ProfilModel;
+use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class CtrlProfil extends BaseController
 {
     public function index()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+        
         $profil = new ProfilModel();
         $ambil = $profil->findAll();
 
         $data = [
-            'dataprofil' => $ambil
+            'dataprofil' => $ambil,
+            'user' => $userData
         ];
         return view('profil/index', $data);
     }
 
     public function dataprofil()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+
         $profil = new ProfilModel();
         $ambil = $profil->findAll();
 
         $data = [
-            'dataprofil' => $ambil
+            'dataprofil' => $ambil,
+            'user' => $userData
         ];
         return view('profil/index', $data);
     }
 
     public function edit($id)
     {
+        $userModel = new UserModel();
+        $id_user = session()->get('id');
+        $userData = $userModel->find($id_user);
+
         $profil = new ProfilModel();
         $ambil = $profil->find($id);
 
         $data = [
-            'dataprofil' => $ambil
+            'dataprofil' => $ambil,
+            'user' => $userData
         ];
         return view('profil/edit', $data);
     }

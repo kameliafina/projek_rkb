@@ -10,8 +10,8 @@ IKLAN
 
 <?= $this->section('form') ?>
 
-<a href="<?= site_url('/tambahiklan') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-<img src="<?php echo base_url('asset-admin') ?>/img/plus.png" alt="Category Thumbnail"> Tambah Data</a>
+<!-- <a href="<?= site_url('/tambahiklan') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+<img src="<?php echo base_url('asset-admin') ?>/img/plus.png" alt="Category Thumbnail"> Tambah Data</a> -->
 
 <div class="table-responsive">
 <table class="table table-hover mt-3">

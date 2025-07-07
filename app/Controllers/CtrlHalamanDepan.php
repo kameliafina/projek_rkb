@@ -474,16 +474,27 @@ public function detail_foto($slug)
      public function wisata()
     {
         $lifestyleModel = new LifestyleModel();
-
-        // ambil berita dengan kategori nama 'Jawa Tengah'
+        $beritaModel = new BeritaModel();
+        
         $wisata = $lifestyleModel
             ->select('lifestyle.*, kategori_lifestyle.nama_kategori_l')
             ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
             ->where('kategori_lifestyle.nama_kategori_l', 'Wisata') // filter berdasarkan nama kategori Jawa Tengah
             ->orderBy('lifestyle.created_at', 'DESC')
-            ->findAll();
+            ->paginate(5, 'lifestyle');
+
+        $beritaPopuler = $beritaModel
+                ->select('berita.*, kategori_berita.nama_kategori_b')
+                ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
+                ->orderBy('berita.views', 'DESC')
+                ->findAll(5);
+
+        $pager = \Config\Services::pager();
+
         $data = [
-            'datalifestyle' => $wisata
+            'datalifestyle' => $wisata,
+            'beritaPopuler' => $beritaPopuler,
+            'pager' => $lifestyleModel->pager
         ];
         return view('halaman_depan/wisata', $data);
             
@@ -492,6 +503,7 @@ public function detail_foto($slug)
     public function hiburan()
     {
         $lifestyleModel = new LifestyleModel();
+        $beritaModel = new BeritaModel();
 
         // ambil berita dengan kategori nama 'Jawa Tengah'
         $wisata = $lifestyleModel
@@ -499,9 +511,20 @@ public function detail_foto($slug)
             ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
             ->where('kategori_lifestyle.nama_kategori_l', 'hiburan') // filter berdasarkan nama kategori Jawa Tengah
             ->orderBy('lifestyle.created_at', 'DESC')
-            ->findAll();
+            ->paginate(5, 'wisata');
+
+        $beritaPopuler = $beritaModel
+                ->select('berita.*, kategori_berita.nama_kategori_b')
+                ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
+                ->orderBy('berita.views', 'DESC')
+                ->findAll(5);
+
+        $pager = \Config\Services::pager();
+        
         $data = [
-            'datalifestyle' => $wisata
+            'datalifestyle' => $wisata,
+            'beritaPopuler' => $beritaPopuler,
+            'pager' => $lifestyleModel->pager
         ];
         return view('halaman_depan/hiburan', $data);
             
@@ -510,6 +533,7 @@ public function detail_foto($slug)
     public function kesehatan()
     {
         $lifestyleModel = new LifestyleModel();
+        $beritaModel = new BeritaModel();
 
         // ambil berita dengan kategori nama 'Jawa Tengah'
         $wisata = $lifestyleModel
@@ -517,9 +541,21 @@ public function detail_foto($slug)
             ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
             ->where('kategori_lifestyle.nama_kategori_l', 'kesehatan') // filter berdasarkan nama kategori Jawa Tengah
             ->orderBy('lifestyle.created_at', 'DESC')
-            ->findAll();
+            ->paginate(5, 'wisata');
+
+        $beritaPopuler = $beritaModel
+                ->select('berita.*, kategori_berita.nama_kategori_b')
+                ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
+                ->orderBy('berita.views', 'DESC')
+                ->findAll(5);
+
+        $pager = \Config\Services::pager();
+
+        
         $data = [
-            'datalifestyle' => $wisata
+            'datalifestyle' => $wisata,
+            'beritaPopuler' => $beritaPopuler,
+            'pager' => $lifestyleModel->pager
         ];
         return view('halaman_depan/kesehatan', $data);
             
@@ -528,6 +564,7 @@ public function detail_foto($slug)
     public function tips()
     {
         $lifestyleModel = new LifestyleModel();
+        $beritaModel = new BeritaModel();
 
         // ambil berita dengan kategori nama 'Jawa Tengah'
         $wisata = $lifestyleModel
@@ -535,9 +572,20 @@ public function detail_foto($slug)
             ->join('kategori_lifestyle', 'kategori_lifestyle.id = lifestyle.kategori_id')
             ->where('kategori_lifestyle.nama_kategori_l', 'tips dan trik') // filter berdasarkan nama kategori Jawa Tengah
             ->orderBy('lifestyle.created_at', 'DESC')
-            ->findAll();
+            ->paginate(5, 'wisata');
+
+        $beritaPopuler = $beritaModel
+                ->select('berita.*, kategori_berita.nama_kategori_b')
+                ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
+                ->orderBy('berita.views', 'DESC')
+                ->findAll(5);
+
+        $pager = \Config\Services::pager();
+            
         $data = [
-            'datalifestyle' => $wisata
+            'datalifestyle' => $wisata,
+            'beritaPopuler' => $beritaPopuler,
+            'pager' => $lifestyleModel->pager
         ];
         return view('halaman_depan/tips', $data);
             

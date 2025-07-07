@@ -9,28 +9,43 @@ use App\Models\HistoriaModel;
 use App\Models\KategoriModel;
 use App\Models\LifestyleModel;
 use App\Models\ProgramModel;
+use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class CtrlBerita extends BaseController
 {
     public function index()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+
+        $db = \Config\Database::connect();
+
         $berita = new BeritaModel();
         $ambil = $berita->findAll();
 
         $data = [
-            'databerita' => $ambil
+            'databerita' => $ambil,
+            'user' => $userData
         ];
         return view('berita/index', $data);
     }
 
     public function databerita()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+
+        $db = \Config\Database::connect();
+
         $berita = new BeritaModel();
         $ambil = $berita->findAll();
 
         $data = [
-            'databerita' => $ambil
+            'databerita' => $ambil,
+            'user' => $userData
         ];
         return view('berita/index', $data);
     }
@@ -40,6 +55,11 @@ class CtrlBerita extends BaseController
         helper('form');
         $kategori = new KategoriModel();
         $data['kategori'] = $kategori->findAll();
+
+        $userModel = new UserModel();
+        $id = session()->get('id');
+        $data['user'] = $userModel->find($id);
+
 
         return view('berita/tambahberita', $data);
     }
@@ -110,6 +130,10 @@ class CtrlBerita extends BaseController
 
     public function edit($id)
     {
+        $user = new UserModel();
+        $id_user = session()->get('id');
+        $userData = $user->find($id);
+
         $berita = new BeritaModel();
         $ambil = $berita->find($id);
 
@@ -118,6 +142,7 @@ class CtrlBerita extends BaseController
 
         $data = [
             'databerita' => $ambil,
+            'user' => $userData,
             'kategori' => $data['kategori']
         ];
         return view('berita/editberita', $data);
@@ -224,5 +249,33 @@ class CtrlBerita extends BaseController
 
     return view('search_result', $data);
 }
+
+public function update_user($id)
+    {
+        $user = new UserModel();
+
+        $validationRules = [
+            'name' => 'required|min_length[3]|max_length[50]',
+            'username' => 'required|min_length[3]|max_length[20]|is_unique[users.username,id,' . $id . ']',
+            'password' => 'permit_empty|min_length[3]|max_length[255]',
+            'level' => 'required|in_list[admin,petinggi,pendengar]'
+        ];
+        if (!$this->validate($validationRules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+        $data = [
+            'name' => $this->request->getPost('name'),
+            'username' => $this->request->getPost('username'),
+            'level' => $this->request->getPost('level')
+        ];
+        $password = $this->request->getPost('password');
+        if (!empty($password)) {
+            $data['password'] = password_hash($password, PASSWORD_DEFAULT);
+        }
+        $user->update($id, $data);
+        session()->setFlashdata('success', 'User berhasil diperbarui');
+        return redirect()->to('/admin');
+    }
+
 
 }

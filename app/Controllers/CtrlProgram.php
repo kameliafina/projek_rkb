@@ -4,28 +4,40 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\ProgramModel;
+use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class CtrlProgram extends BaseController
 {
     public function index()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+        $db = \Config\Database::connect();
+
         $program = new ProgramModel();
         $ambil = $program->findAll();
 
         $data = [
-            'dataprogram' => $ambil
+            'dataprogram' => $ambil,
+            'user' => $userData
         ];
         return view('program/index', $data);
     }
 
     public function dataprogram()
     {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+
         $program = new ProgramModel();
         $ambil = $program->findAll();
 
         $data = [
-            'dataprogram' => $ambil
+            'dataprogram' => $ambil,
+            'user' => $userData
         ];
         return view('program/index', $data);
     }
@@ -33,8 +45,11 @@ class CtrlProgram extends BaseController
     public function tambah()
     {
         helper('form');
+        $userModel = new UserModel();
+        $id = session()->get('id');
+        $data['user'] = $userModel->find($id);
 
-        return view('program/tambah');
+        return view('program/tambah', $data);
     }
 
     public function simpan()
@@ -76,11 +91,16 @@ class CtrlProgram extends BaseController
 
     public function edit($id)
     {
+        $user = new UserModel();
+        $id_user = session()->get('id');
+        $userData = $user->find($id_user);
+
         $program = new ProgramModel();
         $ambil = $program->find($id);
 
         $data = [
-            'dataprogram' => $ambil
+            'dataprogram' => $ambil,
+            'user' => $userData
         ];
         return view('program/edit', $data);
     }
