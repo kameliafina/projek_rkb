@@ -458,6 +458,7 @@ public function detail_foto($slug)
         'beritaPopuler' => $beritaPopuler,
         'komentar' => $komentar,
         'pager' => $pager,
+        'berita' => $beritaModel,
         'target_type' => 'historia'
     ];
 
@@ -602,6 +603,10 @@ public function detail_foto($slug)
             ->where('slug', $slug)
             ->first();
 
+            if (!$lifestyle) {
+        throw new \CodeIgniter\Exceptions\PageNotFoundException('Berita tidak ditemukan.');
+    }
+
 
     $beritaModel = new BeritaModel();
     $beritaPopuler = $beritaModel
@@ -618,9 +623,7 @@ public function detail_foto($slug)
 
         $pager = \Config\Services::pager();
 
-    if (!$lifestyle) {
-        throw new \CodeIgniter\Exceptions\PageNotFoundException('Berita tidak ditemukan.');
-    }
+    
 
     return view('halaman_depan/detail_l', [
         'lifestyle' => $lifestyle, 

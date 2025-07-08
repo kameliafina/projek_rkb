@@ -95,7 +95,7 @@
                           <img src="<?= base_url('upload/' . $berita['foto']) ?>" alt="Berita" class="news-img"> <!-- Pastikan kolom gambar ada -->
                           <div class="news-content">
                             <h4>
-                                <a href="<?= site_url('/detail/' . $berita['id']) ?>" class="text-decoration-none text-dark">
+                                <a href="<?= site_url('/detail/' . $berita['slug']) ?>" class="text-decoration-none text-dark">
                                     <?= esc($berita['judul']) ?></a>
                             </h4>
                             <p class="views">
