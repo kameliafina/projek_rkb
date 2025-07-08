@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
 
@@ -372,14 +373,24 @@
             </div>            
             <p class="fw-bold mb-0">Kantor Pusat Radio Kota Batik</p>
             <p class="mb-2">Jl. Kurinci No.7, Podosugih, Kec. Pekalongan Barat., Kota Pekalongan, Jawa Tengah 51111</p>
+            <p class="mb-2">telp : 0285428900</p>
             <p class="fw-bold">hubungi kami</p>
             <div class="social-icons">
-              <i class="bi bi-x"></i>
-              <i class="bi bi-instagram"></i>
-              <i class="bi bi-facebook"></i>
-              <i class="bi bi-tiktok"></i>
-              <i class="bi bi-envelope"></i>
-              <i class="bi bi-whatsapp"></i>
+                <a href="https://x.com/radio_kotabatik" target="_blank">
+                    <i class="fa-brands fa-x-twitter" style="color: white"></i>
+                </a>
+                <a href="https://www.instagram.com/radio_kotabatik/" target="_blank">
+                    <i class="fa-brands fa-instagram" style="color: white"></i>
+                </a>
+                <a href="https://www.facebook.com/RadioKotaBatikOfficial" target="_blank">
+                    <i class="fa-brands fa-facebook" style="color: white"></i>
+                </a>
+                <a href="https://www.tiktok.com/@radio_kotabatik" target="_blank">
+                    <i class="fa-brands fa-tiktok" style="color: white"></i>
+                </a>
+                <a href="https://whatsapp.com/channel/0029VatYubX7z4khJcd4NG3S" target="_blank">
+                    <i class="fa-brands fa-whatsapp" style="color: white"></i>
+                </a>
             </div>
           </div>
           <div class="col-md-4"></div>
