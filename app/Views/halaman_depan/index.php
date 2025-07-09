@@ -39,7 +39,7 @@
                 </ul>
                 <form class="d-flex" action="<?= site_url('/berita/search') ?>" method="get">
                     <input class="form-control me-2" type="search" name="q" placeholder="" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
                 </form>
                 </div>
             </div>
@@ -70,28 +70,61 @@
     </div>
 </div>
 
-            <div class="radio-wrapper">
-              <div class="radio-container">
-                  <div class="row g-2">
-                      <div class="col-6">
-                          <div class="radio-card p-3 border rounded-5">
-                          <audio id="radio-player" src="https://studio1.indostreamers.com:8010/stream/1/" type="audio/mpeg"></audio>
-                              <img src="<?php echo base_url('asset-radio') ?>/img/streaming.png" alt="Radio Kota Batik" class="radio-logo">
-                              <div class="radio-info">
-                                  <h4>Radio Kota Batik</h4>
-                                  <p>91.2 FM</p>
-                              </div>
-                              <img src="<?php echo base_url('asset-radio') ?>/img/play.png" alt="Play Button" class="play-button">
-                              <div class="audio-controls">
-                                  <img src="<?php echo base_url('asset-radio') ?>/img/volume.png" alt="Volume" class="volume-icon">
-                                  <input type="range" class="volume-slider" min="0" max="100">
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+<div class="radio-wrapper">
+    <div class="radio-card">
+        <div class="card-header">
+            <audio id="radio-player" src="https://studio1.indostreamers.com:8010/stream/1/" type="audio/mpeg"></audio>
+            <img src="<?php echo base_url('asset-radio') ?>/img/streaming.png" alt="Radio Kota Batik" class="radio-logo">
+        </div>
+        <div card-body">
+        <div class="radio-info">
+            <h4>Radio Kota Batik</h4>
+            <p>91.2 FM</p>
+        </div>
+        </div>
+        <div class="card-body">
+            <center><img src="<?php echo base_url('asset-radio') ?>/img/play.png" alt="Play Button" class="play-button">
+            <div class="audio-controls">
+                <img src="<?php echo base_url('asset-radio') ?>/img/volume.png" alt="Volume" class="volume-icon">
+                <input type="range" class="volume-slider" min="0" max="100">
+            </div>
+        </div>
+    </div>
+    
+    <div class="radio-card">
+        <div class="card-header">
+            <audio id="radio-player" src="https://studio1.indostreamers.com:8010/stream/1/" type="audio/mpeg"></audio>
+            <a class="navbar-brand" href='https://www.youtube.com/@radiokotabatikpekalongan/streams' target="_blank" rel="noopener noreferrer">
+                <img src="<?php echo base_url('asset-radio') ?>/img/streaming_yt.png" alt="Radio Kota Batik" class="radio-logo">
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="radio-info">
+                <p id="live-schedule" class="text-danger fw-bold"></p>
+            </div>
+        </div>
+    </div>
 
-              <div class="radio-container2">
+    <!-- <div class="radio-container">
+        <div class="row g-2">
+            <div class="col-6">
+                <div class="radio-card p-3 border rounded-5">
+                    <audio id="radio-player" src="https://studio1.indostreamers.com:8010/stream/1/" type="audio/mpeg"></audio>
+                    <img src="<?php echo base_url('asset-radio') ?>/img/streaming.png" alt="Radio Kota Batik" class="radio-logo">
+                    <div class="radio-info">
+                        <h4>Radio Kota Batik</h4>
+                        <p>91.2 FM</p>
+                    </div>
+                    <img src="<?php echo base_url('asset-radio') ?>/img/play.png" alt="Play Button" class="play-button">
+                    <div class="audio-controls">
+                        <img src="<?php echo base_url('asset-radio') ?>/img/volume.png" alt="Volume" class="volume-icon">
+                        <input type="range" class="volume-slider" min="0" max="100">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
                   <div class="row g-2">
   <div class="col-6">
     <div class="radio-card p-3 border rounded-5">
@@ -101,10 +134,10 @@
         </a>
       <div class="radio-info">
         <p id="live-schedule" class="text-danger fw-bold"></p> <!-- Tampilkan waktu live -->
-      </div>
+      <!-- </div>
     </div>
-  </div>
-</div>
+  </div>  -->
+  
               </div>
 
               </div>
