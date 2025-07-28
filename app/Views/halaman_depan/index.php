@@ -37,8 +37,8 @@
                     <li><a href="<?= site_url('/historia') ?>">Historia</a></li>
                     <li><a href="<?= site_url('/ilm2') ?>">ILM</a></li>
                 </ul>
-                <form class="d-flex" action="<?= site_url('/berita/search') ?>" method="get">
-                    <input class="form-control me-2" type="search" name="q" placeholder="" aria-label="Search">
+                <form class="d-flex ms-auto" action="<?= site_url('/berita/search') ?>" method="get">
+                    <input class="form-control me-2" type="search" name="q" placeholder="" aria-label="Search" style="width: 150px;">
                     <button class="btn btn-outline-primary" type="submit">Search</button>
                 </form>
                 </div>

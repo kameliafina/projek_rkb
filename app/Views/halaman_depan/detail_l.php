@@ -16,7 +16,7 @@
         
         <p class="caption"><?= esc($lifestyle['ket_foto'] ?? '') ?></p>
         <div class="isi-berita">
-            <?= $lifestyle['deskripsi'] ?>
+          <?= nl2br($lifestyle['deskripsi']) ?>
         </div>
     </div>
 

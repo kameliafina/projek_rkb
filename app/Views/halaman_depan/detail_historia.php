@@ -23,7 +23,7 @@
       <?php endif; ?>
 
       <div class="mb-4">
-        <?= $historia['deskripsi'] ?>
+        <?= nl2br($historia['deskripsi']) ?>
       </div>
 
       <?php foreach ($fotoDeskripsi as $item): ?>
@@ -32,7 +32,7 @@
             <img src="<?= base_url('upload/' . $item['foto']) ?>" class="img-fluid rounded mb-2" alt="Foto Historia">
           <?php endif; ?>
           <?php if (!empty($item['deskripsi'])): ?>
-            <p><?= $item['deskripsi'] ?></p>
+            <p><?= nl2br($item['deskripsi']) ?></p>
           <?php endif; ?>
         </div>
       <?php endforeach; ?>

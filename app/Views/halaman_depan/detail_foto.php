@@ -32,10 +32,11 @@
                     <li><a href="<?= site_url('/lifestyle2') ?>">Lifestyle</a></li>
                     <li><a href="<?= site_url('/profil') ?>">Profil</a></li>
                     <li><a href="<?= site_url('/historia') ?>">Historia</a></li>
+                    <li><a href="<?= site_url('/ilm2') ?>">Ilm</a></li>
                 </ul>
-                <form class="d-flex" action="<?= site_url('/berita/search') ?>" method="get">
-                    <input class="form-control me-2" type="search" name="q" placeholder="Search..." aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                <form class="d-flex ms-auto" action="<?= site_url('/berita/search') ?>" method="get">
+                    <input class="form-control me-2" type="search" name="q" placeholder="" aria-label="Search" style="width: 150px;">
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
                 </form>
           </div>
         </div>
@@ -65,7 +66,7 @@
         
         <p class="caption"><?= esc($berita['ket_foto'] ?? '') ?></p>
         <div class="isi-berita">
-            <?= $berita['deskripsi'] ?>
+          <?= nl2br($berita['deskripsi']) ?>
         </div>
     </div>
 
