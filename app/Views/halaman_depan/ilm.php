@@ -46,10 +46,10 @@
 
   <!-- berita foto -->
         <div class="photo-news2">
-          <h2 class="section-title">HISTORIA</h2>
+          <h2 class="section-title">IKLAN LAYANAN MASYARAKAT</h2>
           <div class="photo-grid">
           
-          <?php foreach ($datailm as $item): ?>
+  <?php foreach ($datailm as $item): ?>
   <div class="card mb-3 shadow-sm" style="max-width: 400px; font-size: 0.9rem;">
     <img src="<?= base_url('upload/gambar/' . $item['gambar']) ?>" class="card-img-top" alt="gambar" style="height: 180px; object-fit: cover;">
     <div class="card-body p-2">

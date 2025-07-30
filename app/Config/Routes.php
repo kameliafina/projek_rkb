@@ -91,6 +91,14 @@ $routes->group('', ['filter' => 'adminfilter'], function($routes) {
     $routes->post('/ctrlilm/update/(:num)', 'CtrlIlm::update/$1');
     $routes->get('/ctrlilm/hapus/(:num)', 'CtrlIlm::hapus/$1');
 
+    $routes->get('/sensor', 'CtrlAdmin::sensor');
+    $routes->get('/datasensor', 'CtrlAdmin::datasensor');
+    $routes->get('/tambahsensor', 'CtrlAdmin::tambah_sensor');
+    $routes->post('ctrladmin/simpan', 'CtrlAdmin::simpan');
+    $routes->get('/ctrladmin/edit/(:num)', 'CtrlAdmin::edit_sensor/$1');
+    $routes->post('/ctrladmin/update/(:num)', 'CtrlAdmin::update_sensor/$1');
+    $routes->get('/ctrladmin/delete/(:num)', 'CtrlAdmin::delete/$1');
+
     $routes->get('/fina', 'CtrlFina::index');
 });
 

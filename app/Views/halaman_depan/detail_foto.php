@@ -66,7 +66,7 @@
         
         <p class="caption"><?= esc($berita['ket_foto'] ?? '') ?></p>
         <div class="isi-berita">
-          <?= nl2br($berita['deskripsi']) ?>
+          <?= nl2br(sensorBintang($berita['deskripsi'])) ?>
         </div>
     </div>
 
@@ -132,7 +132,7 @@
                                 <div class="border rounded p-3 mb-3 shadow-sm">
                                   <strong><?= esc($k['nama']) ?></strong>
                                   <p class="mb-1"><small class="text-muted"><?= date('d M Y H:i', strtotime($k['created_at'])) ?></small></p>
-                                  <p class="mb-0"><?= esc($k['komentar']) ?></p>
+                                  <p class="mb-0"><?= esc(sensorBintang($k['komentar'])) ?></p>
                                 </div>
                                 <?php endforeach; ?>
 

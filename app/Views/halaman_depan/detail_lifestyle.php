@@ -85,7 +85,7 @@
         
         <p class="caption"><?= esc($lifestyle['ket_foto'] ?? '') ?></p>
         <div class="isi-berita">
-          <?= nl2br($lifestyle['deskripsi']) ?>
+          <?= nl2br(sensorBintang($lifestyle['deskripsi'])) ?>
         </div>
     </div>
 

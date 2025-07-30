@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\SensorModel;
 use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -89,5 +90,93 @@ public function update_user($id)
         session()->setFlashdata('success', 'User berhasil diperbarui');
         return redirect()->to('/admin');
     }
+
+    public function sensor()
+    {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+
+        $db = \Config\Database::connect();
+
+        $model = new SensorModel();
+        $data['kata'] = $model->findAll();
+        $data['user'] = $userData;
+
+        return view('sensor/index', $data);
+    }
+
+    public function tambah_sensor()
+    {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+
+        $db = \Config\Database::connect();
+
+        $data['user'] = $userData;
+        $data['kata'] = [];
+
+        return view('sensor/tambah', $data);
+    }
+
+    public function simpan()
+    {
+         $model = new SensorModel();
+         $kata = $this->request->getPost('kata');
+
+         if ($kata) {
+            $model->save(['kata' => $kata]);
+            return redirect()->to(site_url('/sensor'))->with('success', 'Kata berhasil ditambahkan.');
+        }
+
+        return redirect()->back()->with('error', 'Kata tidak boleh kosong.');
+    }
+
+    public function hapus_sensor($id)
+    {
+        $model = new SensorModel();
+        $model->delete($id);
+        session()->setFlashdata('success', 'Kata berhasil dihapus');
+        return redirect()->to('/admin/sensor');
+    }
+
+    public function edit_sensor($id)
+    {
+        $user = new UserModel();
+        $idUser = session()->get('id');
+        $userData = $user->find($idUser);
+        $data['user'] = $userData;
+
+        $model = new SensorModel();
+        $data['kata'] = $model->find($id);
+
+        if (!$data['kata']) {
+            session()->setFlashdata('error', 'Kata tidak ditemukan');
+            return redirect()->to('/admin/sensor');
+        }
+
+        return view('sensor/edit', $data);
+    }
+
+    public function update_sensor($id)
+    {
+        $kata = $this->request->getPost('kata');
+        $db = \Config\Database::connect();
+    
+        $builder = $db->table('kata_terlarang');
+        $updated = $builder->where('id', $id)->update(['kata' => $kata]);
+
+        if ($updated) {
+            return redirect()->to('/sensor')->with('succes', 'update berhasil');
+        } else {
+            return redirect()->back()->with('error', 'Gagal memperbarui kata');
+        }
+        
+        exit;
+    }
+
+
+   
 
 }

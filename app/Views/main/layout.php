@@ -126,6 +126,11 @@
                     <span>ILM</span></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="<?= site_url('/sensor')?>">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Sensor</span></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="<?= site_url('/fina')?>">
                     <i class="fas fa-fw fa-table"></i>
                     <span>FINA</span></a>
