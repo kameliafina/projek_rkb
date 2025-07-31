@@ -16,11 +16,14 @@ class CtrlIlm extends BaseController
         $userData = $user->find($id);
 
         $ilm = new IlmModel();
-        $ambil = $ilm->findAll();
+        $ambil = $ilm
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
 
         $data = [
             'datailm' => $ambil,
-            'user' => $userData
+            'user' => $userData,
+            'pager' => $ilm->pager
         ];
 
         return view('ilm/index', $data);

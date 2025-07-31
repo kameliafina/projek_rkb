@@ -37,7 +37,7 @@ Tambah Berita
   </thead>
   <tbody>
     <?php 
-    $nomor = 1;
+    $nomor = 1 + (10 * ($pager->getCurrentPage() - 1));
     foreach ($databerita as $berita) :
     ?>
     <th scope="row"><?= $nomor++;?></th>
@@ -62,5 +62,6 @@ Tambah Berita
   </tbody>
 </table>
 </div>
+<?= $pager->links('default', 'bootstrap') ?>
 
 <?= $this->endSection('form') ?>

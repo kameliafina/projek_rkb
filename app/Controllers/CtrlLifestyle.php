@@ -19,11 +19,14 @@ class CtrlLifestyle extends BaseController
         $db = \Config\Database::connect();
 
         $lifestyle = new LifestyleModel();
-        $ambil = $lifestyle->findAll();
+        $ambil = $lifestyle
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
 
         $data = [
             'datalifestyle' => $ambil,
-            'user' => $userData
+            'user' => $userData,
+            'pager' => $lifestyle->pager
         ];
         return view('lifestyle/index', $data);
     }

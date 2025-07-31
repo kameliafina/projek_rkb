@@ -18,7 +18,9 @@ class CtrlHistoria extends BaseController
         $db = \Config\Database::connect();
 
         $historia = new HistoriaModel();
-        $ambil = $historia->findAll();
+        $ambil = $historia
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
 
         $data = [
             'datahistoria' => $ambil,

@@ -31,7 +31,7 @@ HISTORIA
   </thead>
   <tbody>
     <?php 
-    $nomor = 1;
+    $nomor = 1 + (10 * ($pager->getCurrentPage() - 1));
     foreach ($datahistoria as $his) :
     ?>
     <th scope="row"><?= $nomor++;?></th>
@@ -63,5 +63,6 @@ HISTORIA
   </tbody>
 </table>
 </div>
+<?= $pager->links('default', 'bootstrap') ?>
 
 <?= $this->endSection('form') ?>

@@ -24,7 +24,6 @@ Tambah Berita
   <thead>
     <tr>
       <th scope="col">No</th>
-      <th scope="col">Kode Berita</th>
       <th scope="col">Nama Reporter</th>
       <th scope="col">Judul Berita</th>
       <th scope="col">Deskripsi</th>
@@ -38,11 +37,10 @@ Tambah Berita
   </thead>
   <tbody>
     <?php 
-    $nomor = 1;
+    $nomor = 1 + (10 * ($pager->getCurrentPage() - 1));
     foreach ($databerita as $berita) :
     ?>
     <th scope="row"><?= $nomor++;?></th>
-      <td><?= $berita['id']?></td>
       <td><?= $berita['nama_penyiar']?></td>
       <td><?= $berita['judul']?></td>
       <td><?= esc(substr($berita['deskripsi'], 0, 50)) ?>...</td>
@@ -64,5 +62,6 @@ Tambah Berita
   </tbody>
 </table>
 </div>
+<?= $pager->links('default', 'bootstrap') ?>
 
 <?= $this->endSection('form') ?>

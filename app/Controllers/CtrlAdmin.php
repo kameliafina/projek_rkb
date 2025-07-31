@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\KomentarModel;
 use App\Models\SensorModel;
 use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -174,6 +175,33 @@ public function update_user($id)
         }
         
         exit;
+    }
+
+    public function komentar()
+    {
+        $user = new UserModel();
+        $id = session()->get('id');
+        $userData = $user->find($id);
+
+        $db = \Config\Database::connect();
+
+        $model = new KomentarModel();
+        $data['komentar'] = $model
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
+
+        $data['pager'] = $model->pager;
+        $data['user'] = $userData;
+
+        return view('komentar/index', $data);
+    }
+
+    public function hapus_komentar($id)
+    {
+        $model = new KomentarModel();
+        $model->delete($id);
+        session()->setFlashdata('success', 'Komentar berhasil dihapus');
+        return redirect()->to('/komentar');
     }
 
 

@@ -27,9 +27,11 @@ IKLAN LAYANAN MASYARAKAT
   </thead>
   <tbody>
     <?php if (!empty($datailm)): ?>
-      <?php $no = 1; foreach ($datailm as $item): ?>
+      <?php 
+      $nomor = 1 + (10 * ($pager->getCurrentPage() - 1));
+      foreach ($datailm as $item): ?>
         <tr>
-          <td><?= $no++ ?></td>
+          <td><?= $nomor++ ?></td>
           <td>
             <?php if ($item['gambar']): ?>
               <img src="<?= base_url('upload/gambar/' . $item['gambar']) ?>" width="100">
@@ -66,4 +68,5 @@ IKLAN LAYANAN MASYARAKAT
   </tbody>
 </table>
 </div>
+<?= $pager->links('default', 'bootstrap') ?>
 <?= $this->endSection('form') ?>

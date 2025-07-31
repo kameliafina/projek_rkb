@@ -81,6 +81,36 @@
                     </div>
                 </div>
             </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse2"
+                    aria-expanded="true" aria-controls="collapse2">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Foto</span>
+                </a>
+                <div id="collapse2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Upload Foto :</h6>
+                        <a class="collapse-item" href="<?= site_url('/iklan')?>">Iklan</a>
+                        <a class="collapse-item" href="<?= site_url('/infografis')?>">Infografis</a>
+                        <a class="collapse-item" href="<?= site_url('/statement')?>">Statement</a>
+                        <a class="collapse-item" href="<?= site_url('/profil2')?>">Profil</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse3"
+                    aria-expanded="true" aria-controls="collapse3">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Penyaringan Konten</span>
+                </a>
+                <div id="collapse3" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Upload Foto :</h6>
+                        <a class="collapse-item" href="<?= site_url('/sensor')?>">Sensor Kata</a>
+                        <a class="collapse-item" href="<?= site_url('/komentar')?>">Kelola Komentar</a>
+                    </div>
+                </div>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -95,41 +125,18 @@
             </li>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="<?= site_url('/iklan')?>">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Iklan</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<?= site_url('/infografis')?>">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Infografis</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<?= site_url('/statement')?>">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Statement</span></a>
-            </li>
+            
             <li class="nav-item">
                 <a class="nav-link" href="<?= site_url('/historia2')?>">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Historia</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?= site_url('/profil2')?>">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Profil</span></a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="<?= site_url('/ilm')?>">
                     <i class="fas fa-fw fa-table"></i>
                     <span>ILM</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<?= site_url('/sensor')?>">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Sensor</span></a>
-            </li>
+            
             <li class="nav-item">
                 <a class="nav-link" href="<?= site_url('/fina')?>">
                     <i class="fas fa-fw fa-table"></i>

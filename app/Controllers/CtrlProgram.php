@@ -17,11 +17,14 @@ class CtrlProgram extends BaseController
         $db = \Config\Database::connect();
 
         $program = new ProgramModel();
-        $ambil = $program->findAll();
+        $ambil = $program
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
 
         $data = [
             'dataprogram' => $ambil,
-            'user' => $userData
+            'user' => $userData,
+            'pager' => $program->pager
         ];
         return view('program/index', $data);
     }

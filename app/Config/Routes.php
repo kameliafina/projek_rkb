@@ -99,6 +99,10 @@ $routes->group('', ['filter' => 'adminfilter'], function($routes) {
     $routes->post('/ctrladmin/update/(:num)', 'CtrlAdmin::update_sensor/$1');
     $routes->get('/ctrladmin/delete/(:num)', 'CtrlAdmin::delete/$1');
 
+    $routes->get('/komentar', 'CtrlAdmin::komentar');
+    $routes->get('/datakomentar', 'CtrlAdmin::datakomentar');
+    $routes->get('/ctrladmin/hapus_komentar/(:num)', 'CtrlAdmin::hapus_komentar/$1');
+
     $routes->get('/fina', 'CtrlFina::index');
 });
 

@@ -38,7 +38,7 @@ Tambah Lifestyle
   </thead>
   <tbody>
     <?php 
-    $nomor = 1;
+    $nomor = 1 + (10 * ($pager->getCurrentPage() - 1));
     foreach ($datalifestyle as $berita) :
     ?>
     <th scope="row"><?= $nomor++;?></th>
@@ -64,5 +64,6 @@ Tambah Lifestyle
   </tbody>
 </table>
 </div>
+<?= $pager->links('default', 'bootstrap') ?>
 
 <?= $this->endSection('form') ?>
