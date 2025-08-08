@@ -44,11 +44,14 @@ class CtrlBerita extends BaseController
         $db = \Config\Database::connect();
 
         $berita = new BeritaModel();
-        $ambil = $berita->findAll();
+        $ambil = $berita
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
 
         $data = [
             'databerita' => $ambil,
-            'user' => $userData
+            'user' => $userData,
+            'pager' => $berita->pager
         ];
         return view('berita/index', $data);
     }
