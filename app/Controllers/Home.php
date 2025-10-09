@@ -106,17 +106,43 @@ $dataArray = json_decode($response, true);
                 ]);
             }
 
-            // Hitung pengunjung hari ini
-            $today = date('Y-m-d');
-            $pengunjungHariIni = $pengunjungModel
-                ->where('last_activity >=', $today . ' 00:00:00')
-                ->countAllResults();
-                
-                // Hitung pengunjung online
-                $pengunjungOnline = $pengunjungModel
-                    ->where('last_activity >=', date('Y-m-d H:i:s', strtotime('-5 minutes')))
-                    ->countAllResults();
+        $pengunjungModel = new PengunjungModel();
 
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
 
     $data = [
         'databerita' => $berita,
@@ -129,6 +155,7 @@ $dataArray = json_decode($response, true);
         'youtubeVideos' => $youtubeVideos,
         'pengunjungHariIni' => $pengunjungHariIni,
         'pengunjungOnline' => $pengunjungOnline,
+        'totalPengunjung' => $totalPengunjung,
         'pager' => $beritaModel->pager
     ];
 

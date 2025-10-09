@@ -368,13 +368,23 @@
 <?php endforeach; ?>
 </div>
 
-<div class="mt-4">
-    <h2 class="section-title">Pengunjung hari ini</h2>
-    <div class="photo-grid">
-            <p class="mb-1">Total Pengunjung Hari Ini: <strong><?= $pengunjungHariIni ?></strong></p>
-            <p class="mb-0">Sedang Online: <strong><?= $pengunjungOnline ?></strong></p>
-    </div>
+<div class="card p-3 mt-3" style="max-width: 320px; margin:auto; font-family: Arial, sans-serif;">
+    <table class="table table-borderless mb-0" style="width:100%; font-size: 14px;">
+        <tr>
+            <td><img src="asset-radio/img/hari.png" width="20"> Pengunjung Hari ini</td>
+            <td>: <?= $pengunjungHariIni ?></td>
+        </tr>
+        <tr>
+            <td><img src="asset-radio/img/total.png" width="20"> Total Pengunjung</td>
+            <td>: <?= $totalPengunjung ?></td>
+        </tr>
+        <tr>
+            <td><img src="asset-radio/img/online.png" width="20"> Pengunjung Online</td>
+            <td>: <?= $pengunjungOnline ?></td>
+        </tr>
+    </table>
 </div>
+
 
 </div>
 
