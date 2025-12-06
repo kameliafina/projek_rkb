@@ -163,6 +163,157 @@ $dataArray = json_decode($response, true);
         return view('halaman_depan/index', $data);
 }
 
+ public function indexcoba()
+    {
+        $beritaModel = new BeritaModel();
+        $berita = $beritaModel->orderBy('created_at', 'DESC')->findAll(5); 
+        $berita = $beritaModel->select('berita.*, kategori_berita.nama_kategori_b')
+                ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
+                ->orderBy('berita.created_at', 'DESC')
+                ->paginate(8, 'berita');
+
+        $beritaPopuler = $beritaModel
+                ->select('berita.*, kategori_berita.nama_kategori_b')
+                ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
+                ->orderBy('berita.views', 'DESC')
+                ->findAll(5);
+
+        $pager = \Config\Services::pager();
+
+        $beritafoto = new BeritaFotoModel();
+        $ambil = $beritafoto->findAll();
+
+        $infografisModel = new InfografisModel();
+        $infografis = $infografisModel->orderBy('id', 'DESC')->findAll();
+        
+        $statement = new StatementModel();
+        $statement = $statement->orderBy('id', 'DESC')->findAll();
+
+        $iklan = new IklanModel();
+        $iklan = $iklan->orderBy('id', 'DESC')->findAll();
+        
+        $jadwal = new JadwalModel();
+        $jadwal = $jadwal->orderBy('id', 'DESC')->findAll();
+
+        $apiKey = 'AIzaSyB7ueBHS8NGCzIdL0i46dPMYJJeqGEbHtA';
+        $channelId = 'UCbeghIwxvjCV2zsRUhrD1aQ';
+        $maxResults = 6;
+
+        $url = "https://www.googleapis.com/youtube/v3/search?key={$apiKey}&channelId={$channelId}&order=date&part=snippet&type=video&maxResults={$maxResults}";
+
+        $ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // bisa dihilangkan di server production
+$response = curl_exec($ch);
+curl_close($ch);
+
+$dataArray = json_decode($response, true);
+
+        
+        
+        $youtubeVideos = [];
+
+//         echo '<pre>';
+// print_r($dataArray);
+// echo '</pre>';
+// exit;
+
+        if (!empty($dataArray['items'])) {
+            foreach ($dataArray['items'] as $item) {
+                $youtubeVideos[] = [
+                    'title' => $item['snippet']['title'],
+                    'thumbnail' => $item['snippet']['thumbnails']['medium']['url'],
+                    'videoId' => $item['id']['videoId'],
+                    'channelTitle' => $item['snippet']['channelTitle']
+                ];
+            }
+        }
+
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
+
+    $data = [
+        'databerita' => $berita,
+        'beritaPopuler' => $beritaPopuler,
+        'beritafoto' => $ambil,
+        'infografis' => $infografis,
+        'statement' => $statement,
+        'iklan' => $iklan,
+        'jadwal' => $jadwal,
+        'youtubeVideos' => $youtubeVideos,
+        'pengunjungHariIni' => $pengunjungHariIni,
+        'pengunjungOnline' => $pengunjungOnline,
+        'totalPengunjung' => $totalPengunjung,
+        'pager' => $beritaModel->pager
+    ];
+
+    
+        return view('halaman_depan/indexcoba', $data);
+}
+
 
 
 private function fetchYoutubeData($url)

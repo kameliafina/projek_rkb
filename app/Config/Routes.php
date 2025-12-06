@@ -6,6 +6,7 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
+$routes->get('/coba', 'Home::indexcoba');
 $routes->group('', ['filter' => 'adminfilter'], function($routes) {
     $routes->get('/admin', 'CtrlAdmin::index');
     $routes->get('/laporan', 'CtrlAdmin::laporanBulanan');

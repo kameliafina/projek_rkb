@@ -35,6 +35,12 @@ Tambah Berita
       <input type="text" class="form-control" name="pembawa">
     </div>
   </div>
+  <div class="row mb-3">
+    <label class="col-sm-2 col-form-label">Foto</label>
+    <div class="col-sm-10">
+      <input type="file" class="form-control" name="foto">
+    </div>
+  </div>
   
   
   

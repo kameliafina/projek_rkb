@@ -67,59 +67,7 @@
             <?php endforeach; ?>
 
 
-            <!-- Form Komentar -->
-             <div class="card mt-5">
-              <div class="card-header text-white" style="background-color: #5a6ba2;"> Tinggalkan Komentar </div>
-              <div class="card-body">
-                <?php if (session()->getFlashdata('success')): ?>
-                  <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
-                  <?php endif; ?>
-
-                  <form action="<?= site_url('komentar/simpan') ?>" method="post">
-                    <input type="hidden" name="target_id" value="<?= $historia['id'] ?>">
-                    <input type="hidden" name="target_type" value="historia">
-
-                    <?php if (session()->get('logged_in')): ?>
-                      <form action="<?= site_url('simpankomentar') ?>" method="post">
-                        <input type="hidden" name="target_id" value="<?= $historia['id'] ?>">
-                        <input type="hidden" name="target_type" value="<?= $target_type ?>"> 
-                        <div class="mb-2">
-                          <label>Komentar</label>
-                          <textarea name="komentar" class="form-control" required></textarea>
-                        </div>
-                        <button type="submit" class="btn text-white" style="background-color:rgb(163, 183, 248);">Kirim Komentar</button>
-                      </form>
-
-                      <?php else: ?>
-                        <div class="alert alert-warning"> Untuk memberikan komentar, 
-                          <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a> atau 
-                          <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Buat Akun</a>
-                        </div>
-                        <?php endif; ?>
-                      </form>
-                    </div>
-                  </div>
-
-                  <!-- Daftar Komentar -->
-                   <div class="mt-4">
-                    <h5>Komentar</h5>
-                    <?php if (!empty($komentar)): ?>
-                      <?php foreach ($komentar as $k): ?>
-                        <div class="border rounded p-3 mb-3 shadow-sm">
-                          <strong><?= esc($k['nama']) ?></strong>
-                          <p class="mb-1"><small class="text-muted"><?= date('d M Y H:i', strtotime($k['created_at'])) ?></small></p>
-                          <p class="mb-0"><?= esc(sensorBintang($k['komentar'])) ?></p>
-                        </div>
-                        <?php endforeach; ?>
-
-                        <!-- Pagination -->
-                         <div class="pagination-komentar mt-3">
-                          <?= $pager->links('komentar', 'default_full') ?>
-                        </div>
-                        <?php else: ?>
-                          <p class="text-muted">Belum ada komentar.</p>
-                          <?php endif; ?>
-                        </div>
+            
           </div>
         </div>
       </aside>

@@ -36,6 +36,14 @@ Tambah Berita
       <input type="text" class="form-control" id="pembawa" name="pembawa" value="<?= esc($datajadwal['pembawa']) ?>" required>
     </div>
   </div>
+  <div class="row mb-3">
+        <label for="foto" class="col-sm-2 col-form-label">Foto</label>
+        <input type="file" class="form-control" id="foto" name="foto">
+        <?php if ($datajadwal['foto']): ?>
+            <img src="<?= base_url('upload/' . $datajadwal['foto']) ?>" width="150">
+        <?php endif; ?>
+    </div>
+
 </div>
 
   

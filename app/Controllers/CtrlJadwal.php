@@ -57,36 +57,48 @@ class CtrlJadwal extends BaseController
     }
 
     public function simpan()
-    {
-        $jadwal = new JadwalModel();
+{
+    $jadwal = new JadwalModel();
 
-        // Validation rules
-        $validationRules = [
-            'jam' => 'required',
-            'judul' => 'required',
-            'pembawa' => 'required'
-        ];
+    $validationRules = [
+        'jam' => 'required',
+        'judul' => 'required',
+        'pembawa' => 'required',
+        'foto' => [
+            'rules' => 'is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png]|max_size[foto,2048]',
+            'errors' => [
+                'is_image' => 'File harus berupa gambar.',
+                'mime_in' => 'Format gambar harus JPG, JPEG, atau PNG.',
+                'max_size' => 'Ukuran gambar maksimal 2MB.'
+            ]
+        ]
+    ];
 
-        if (!$this->validate($validationRules)) {
-            // Redirect back with validation errors and old input
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
-
-        // Insert data into the database
-        $jadwal->insert([
-            'jam' => $this->request->getVar('jam'),
-            'judul' => $this->request->getVar('judul'),
-            'pembawa' => $this->request->getVar('pembawa')
-        ]);
-
-        // Set flashdata for success message
-        session()->setFlashdata('pesan', 'Data berhasil disimpan');
-
-        date_default_timezone_set('Asia/Jakarta');
-
-        // Redirect to the data list page
-        return redirect()->to(site_url('/datajadwal'));
+    if (!$this->validate($validationRules)) {
+        return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
     }
+
+    // Proses upload foto
+    $foto = $this->request->getFile('foto');
+    $namaFoto = null;
+
+    if ($foto && $foto->isValid() && !$foto->hasMoved()) {
+        $namaFoto = $foto->getRandomName();
+        $foto->move('uploads/jadwal/', $namaFoto);
+    }
+
+    // Simpan data
+    $jadwal->insert([
+        'jam' => $this->request->getVar('jam'),
+        'judul' => $this->request->getVar('judul'),
+        'pembawa' => $this->request->getVar('pembawa'),
+        'foto' => $namaFoto
+    ]);
+
+    session()->setFlashdata('pesan', 'Data berhasil disimpan');
+    return redirect()->to(site_url('/datajadwal'));
+}
+
 
     public function edit($id)
     {
@@ -106,34 +118,44 @@ class CtrlJadwal extends BaseController
     }
 
     public function update($id)
-    {
-        $jadwal = new JadwalModel();
+{
+    $jadwal = new JadwalModel();
 
-        // Validation rules
-        $validationRules = [
-            'jam' => 'required',
-            'judul' => 'required',
-            'pembawa' => 'required'
-        ];
+    $validationRules = [
+        'jam' => 'required',
+        'judul' => 'required',
+        'pembawa' => 'required',
+        'foto' => 'is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png]|max_size[foto,2048]'
+    ];
 
-        if (!$this->validate($validationRules)) {
-            // Redirect back with validation errors and old input
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
-
-        // Update data in the database
-        $jadwal->update($id, [
-            'jam' => $this->request->getVar('jam'),
-            'judul' => $this->request->getVar('judul'),
-            'pembawa' => $this->request->getVar('pembawa')
-        ]);
-
-        // Set flashdata for success message
-        session()->setFlashdata('pesan', 'Data berhasil diupdate');
-
-        // Redirect to the data list page
-        return redirect()->to(site_url('/datajadwal'));
+    if (!$this->validate($validationRules)) {
+        return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
     }
+
+    $foto = $this->request->getFile('foto');
+    $namaFoto = null;
+
+    if ($foto && $foto->isValid() && !$foto->hasMoved()) {
+        $namaFoto = $foto->getRandomName();
+        $foto->move('uploads/jadwal/', $namaFoto);
+    }
+
+    $data = [
+        'jam' => $this->request->getVar('jam'),
+        'judul' => $this->request->getVar('judul'),
+        'pembawa' => $this->request->getVar('pembawa')
+    ];
+
+    if ($namaFoto) {
+        $data['foto'] = $namaFoto;
+    }
+
+    $jadwal->update($id, $data);
+    session()->setFlashdata('pesan', 'Data berhasil diupdate');
+
+    return redirect()->to(site_url('/datajadwal'));
+}
+
 
     public function delete($id)
     {

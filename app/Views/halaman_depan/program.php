@@ -71,7 +71,7 @@
 
         <!-- berita foto -->
         <div class="photo-news">
-          <h2 class="section-title">BERITA FOTO</h2>
+          <h2 class="section-title">PROGRAM</h2>
           <div class="photo-grid">
           <?php foreach ($program as $program) : ?>
               <div class="photo-item">

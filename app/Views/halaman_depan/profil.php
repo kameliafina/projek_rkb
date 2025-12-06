@@ -64,13 +64,11 @@
   
     <!-- Visi Misi -->
     <div class="card mb-4 shadow p-4" style="background-color: #87CEFA;">
-      <h5 class="fw-bold">VISI MISI</h5>
       <div class="row mt-3">
         <div class="col-md-4">
           <img src="<?php echo base_url('asset-radio') ?>/img/logo-rkb.png" alt="Logo RKB" class="img-fluid" style="max-width: 300px;">
         </div>
         <div class="col-md-8">
-          <h6><strong>VISI dan MISI</strong></h6>
           <p>lembaga penyiara publik lokal radio kota batik pekalongan didirikan sebagai radio publik dengan maksud dan tujuan memberikan akses informasi dan komunikasi dari masyarakat kepada pemerintah dan sebaliknya dari pemerintah ke masyarakat. Adapun visi dan misi lembaga penyiaran publik lokal radio kota batik pekalongan sebagai berikut :</p>
           <h6><strong>VISI</strong></h6>
           <p>Terdepan dalam pelayanan informasi publik</p>
@@ -87,7 +85,7 @@
     <div class="card mb-4 shadow p-4" style="background-color: #87CEFA;">
       <h5 class="fw-bold text-center">STRUKTUR ORGANISASI</h5>
       <?php foreach ($profil as $profil): ?>
-      <img src="<?= base_url('upload/' . $profil['foto']) ?>" alt="">
+      <img src="<?= base_url('upload/' . $profil['foto']) ?>" alt="kantor rkb" class="img-fluid rounded mx-auto d-block">
       <?php endforeach; ?>
     </div>
   </section>

@@ -41,7 +41,8 @@ class CtrlHistoria extends BaseController
 
         $data = [
             'datahistoria' => $ambil,
-            'user' => $userData
+            'user' => $userData,
+            'pager' => $historia->pager
         ];
         return view('historia/index', $data);
     }

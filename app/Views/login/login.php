@@ -82,8 +82,13 @@
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
             </div>
+            <div class="input-group">
+                <div class="g-recaptcha" data-sitekey="6Lf4tgIsAAAAAHNL5K6oYApJ5tP9L_xfirCT_lIv"></div>
+            </div>
             <button type="submit">Login</button>
         </form>
+        <br>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     </div>
 </body>
 </html>

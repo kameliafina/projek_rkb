@@ -23,6 +23,7 @@ JADWAL
       <th scope="col">Jam</th>
       <th scope="col">Nama Acara</th>
       <th scope="col">Pembawa Acara</th>
+      <th scope="col">Foto</th>
       <th scope="col">Aksi</th>
     </tr>
   </thead>
@@ -35,6 +36,14 @@ JADWAL
       <td><?= $jadwal['jam']?></td>
       <td><?= $jadwal['judul']?></td>
       <td><?= $jadwal['pembawa']?></td>
+      <td>
+    <?php if ($jadwal['foto']): ?>
+        <img src="<?= base_url('uploads/jadwal/' . $jadwal['foto']) ?>" width="100">
+    <?php else: ?>
+        <span class="text-muted">Tidak ada foto</span>
+    <?php endif; ?>
+</td>
+
       <td>
       <a href="/ctrljadwal/delete/<?= $jadwal['id'] ?>" class="btn btn-danger btn-circle">
           <i class="fas fa-trash"></i></a>

@@ -15,12 +15,20 @@ class CtrlLogin extends BaseController
 
     public function LoginAction()
     {
-        // //untuk mengecek apakah datanya masuk saat login
-        // $data = [
-        //     'username' => $this->request->getPost('username'),
-        //     'password' => $this->request->getPost('password'),
-        // ];
-        // dd($data);
+        $recaptchaResponse = $this->request->getPost('g-recaptcha-response');
+        $secretKey = '6Lf4tgIsAAAAAPKKyBGobxe47Kidxpm64u9SeO-_';
+        $userIP = $this->request->getIPAddress();
+
+        // Verifikasi ke server Google
+        $response = file_get_contents(
+            "https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$recaptchaResponse}&remoteip={$userIP}"
+        );
+        $status = json_decode($response, true);
+
+        if (!$status['success']) {
+            session()->setFlashdata('pesan', 'Silakan centang reCAPTCHA terlebih dahulu.');
+            return redirect()->to('/login');
+        }
 
         $session = session();
         $username = $this->request->getPost('username'); //mengambil rewues dari username
