@@ -125,8 +125,15 @@
         </div>
 
         <div class="captcha-box">
-            <div class="g-recaptcha" data-sitekey="6Lf4tgIsAAAAAHNL5K6oYApJ5tP9L_xfirCT_lIv"></div>
-        </div>
+    <img src="<?= base_url('captcha') ?>" alt="CAPTCHA" id="captcha-img" style="border-radius: 4px; margin-right: 10px;">
+    
+    <button type="button" onclick="document.getElementById('captcha-img').src='<?= base_url('captcha') ?>?'+Math.random();" class="btn-refresh">
+        Refresh
+    </button>
+</div>
+<div class="form-group">
+    <input type="text" name="captcha_input" placeholder="Masukkan kode di atas" required autocomplete="off">
+</div>
 
         <button type="submit" class="btn-login">Masuk</button>
     </form>

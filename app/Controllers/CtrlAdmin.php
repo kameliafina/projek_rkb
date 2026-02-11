@@ -99,7 +99,7 @@ public function update_user($id)
         }
         $user->update($id, $data);
         session()->setFlashdata('success', 'User berhasil diperbarui');
-        return redirect()->to('/admin');
+        return redirect()->to('/news-center');
     }
 
     public function sensor()

@@ -15,20 +15,14 @@ class CtrlLogin extends BaseController
 
     public function LoginAction()
     {
-        $recaptchaResponse = $this->request->getPost('g-recaptcha-response');
-        $secretKey = '6Lf4tgIsAAAAAPKKyBGobxe47Kidxpm64u9SeO-_';
-        $userIP = $this->request->getIPAddress();
+        $userInputCaptcha = $this->request->getPost('captcha_input');
+        $sessionCaptcha = session()->get('captcha_code');
 
-        // Verifikasi ke server Google
-        $response = file_get_contents(
-            "https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$recaptchaResponse}&remoteip={$userIP}"
-        );
-        $status = json_decode($response, true);
-
-        if (!$status['success']) {
-            session()->setFlashdata('pesan', 'Silakan centang reCAPTCHA terlebih dahulu.');
-            return redirect()->to('/login');
-        }
+    // 2. Verifikasi CAPTCHA (Gantiin logika reCAPTCHA Google)
+        if ($userInputCaptcha === null || $userInputCaptcha !== $sessionCaptcha) {
+            session()->setFlashdata('pesan', 'Kode CAPTCHA salah atau belum diisi.');
+            return redirect()->to('/login')->withInput();
+    }
 
         $session = session();
         $username = $this->request->getPost('username'); //mengambil rewues dari username
@@ -54,7 +48,7 @@ class CtrlLogin extends BaseController
                 
                 switch($cek['level']){
                     case 'admin':
-                        return redirect()->to('/admin');
+                        return redirect()->to('/news-center');
                         break;
                     case 'petinggi':
                         return redirect()->to('/petinggi');
@@ -102,7 +96,7 @@ class CtrlLogin extends BaseController
         'name' => $name,
         'username' => $username,
         'password' => password_hash($password, PASSWORD_DEFAULT),
-        'level' => 'pendengar' // default level
+        'level' => 'pendengar' // default 
     ]);
 
     return redirect()->to('/halaman_depan/index')->with('pesan', 'Akun berhasil dibuat, silakan login.');
@@ -120,5 +114,22 @@ class CtrlLogin extends BaseController
     {
         return view('login/hash');
     }
+
+    public function auth()
+{
+    $rules = [
+        'username'      => 'required',
+        'password'      => 'required',
+        'captcha_input' => 'required|check_captcha' // Pakai rule kustom kita!
+    ];
+
+    if (!$this->validate($rules)) {
+        // Jika gagal, kembali ke form dengan pesan error
+        return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+    }
+
+    // Jika lolos validasi
+    return "Login Berhasil dan Captcha Cocok!";
+}
 }
 

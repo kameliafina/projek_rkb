@@ -76,7 +76,7 @@
   <h4>Berita</h4>
   <?php foreach ($hasilBerita as $b): ?>
     <div class="col-12">
-      <a href="<?= site_url('/detail/' . $b['id']) ?>" class="text-decoration-none text-dark">
+      <a href="<?= site_url('/detail/' . $b['slug']) ?>" class="text-decoration-none text-dark">
         <div class="news-card p-3 border bg-light rounded-4 d-flex">
           <img src="<?= base_url('upload/' . $b['foto']) ?>" alt="Berita" class="berita rounded-4">
           <div class="news-content">

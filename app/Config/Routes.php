@@ -7,8 +7,10 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('/coba', 'Home::indexcoba');
+$routes->get('captcha', 'CaptchaCtrl::index');
+$routes->post('captcha/verify', 'CaptchaCtrl::verify');
 $routes->group('', ['filter' => 'adminfilter'], function($routes) {
-    $routes->get('/admin', 'CtrlAdmin::index');
+    $routes->get('/news-center', 'CtrlAdmin::index');
     $routes->get('/laporan', 'CtrlAdmin::laporanBulanan');
     $routes->post('/ctrladmin/update_user/(:num)', 'CtrlAdmin::update_user/$1');
 
