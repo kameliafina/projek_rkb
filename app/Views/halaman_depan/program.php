@@ -1,164 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radio Kota Batik</title>
-    <link rel="stylesheet" href="<?php echo base_url('asset-radio') ?>/style.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-</head>
-<body>
+<?= $this->extend('main/cihuy') ?>
+<?= $this->section('isi') ?>
 
-  <!-- navbar -->
-  <header>
-    <nav class="navbar navbar-expand-lg navbar-brand2">
-        <div class="container-fluid">
-        <a class="navbar-brand" href="<?= site_url('/halamanindex') ?>">
-            <img src="<?php echo base_url('asset-radio') ?>/img/logo-rkb.png" alt="" class="custom-logo">
-          </a>
-          
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul>
-                    <li><a href="<?= site_url('/berita') ?>">Berita</a></li>
-                    <li><a href="<?= site_url('/program') ?>">Program</a></li>
-                    <li><a href="<?= site_url('/lifestyle2') ?>">Lifestyle</a></li>
-                    <li><a href="<?= site_url('/profil') ?>">Profil</a></li>
-                    <li><a href="<?= site_url('/historia') ?>">Historia</a></li>
-                </ul>
-                <form class="d-flex ms-auto" action="<?= site_url('/berita/search') ?>" method="get">
-                    <input class="form-control me-2" type="search" name="q" placeholder="" aria-label="Search" style="width: 150px;">
-                    <button class="btn btn-outline-primary" type="submit">Search</button>
-                </form>
-          </div>
-        </div>
-      </nav>
-  </header>
+<style>
+    /* 1. CSS Dasar Layout */
+    .section-title {
+        color: #1B264F;
+        position: relative;
+        padding-bottom: 10px;
+        margin-bottom: 30px;
+    }
+    .section-title::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50px;
+        height: 4px;
+        background-color: #4F46E5;
+        border-radius: 2px;
+    }
+    .card-custom {
+        border: none;
+        border-radius: 20px;
+        background: #9DBBF3;
+        transition: transform 0.3s ease;
+    }
 
-      <div class="container">
-        <!-- jadwal radio -->
-        
+    /* 2. CSS Grid Agar PASTI KE KIRI */
+    .photo-grid {
+        display: grid;
+        /* auto-fill memastikan item mulai dari kiri dan tidak memaksa ke tengah */
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        width: 100%;
+        justify-content: start; /* Ini kuncinya agar ke kiri */
+    }
 
-        <!-- play -->
-        
-      
+    /* 3. CSS Item & Overlay */
+    .photo-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+        height: 280px; /* Tinggi seragam agar rapi */
+        background: #fff;
+    }
+    .photo-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s ease;
+    }
+    .photo-item:hover img {
+        transform: scale(1.1);
+    }
+    .photo-item .overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(27, 38, 79, 0.9), transparent 70%);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 15px;
+        color: white;
+    }
+    .photo-item .overlay h4 {
+        font-size: 1rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .photo-item .overlay a {
+        color: #4ed8ef;
+        text-decoration: none;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+</style>
 
-        <!-- berita -->
-        <div class="row">
-          <div class="col-12 col-md-6 p-3">
-            
-        </div>
-        
-            <div class="col-12 col-md-6">
-                <div class="row">
-                  <div class="">    
-                </div>
-                
-                </div>
-                <div class="row">
-                    
-                </div>
-            </div>
-        </div>
-
-        <!-- berita foto -->
-        <div class="photo-news">
-          <h2 class="section-title">PROGRAM</h2>
-          <div class="photo-grid">
-          <?php foreach ($program as $program) : ?>
-              <div class="photo-item">
-                  <img src="<?= base_url('upload/' . $program['foto']) ?>" alt="program">
-                  <div class="overlay">
-                      <h4><?= esc($program['judul']) ?></h4>
-                      <a href="<?= esc($program['link']) ?>" target="_blank" rel="noopener">selengkapnya →</a>
-                  </div>
-              </div>
-                <?php endforeach; ?>
-          </div>
-      </div>
-              
-          </div>
-      </div>
-      
-
-        <!-- infografis -->
-        <div class="row">
-    <!-- Infografis -->
-    
-
-    <!-- Youtube -->
-    
-</div>
-
-
-        <!-- statement -->
-        <div class="row">
-            <div class="col-12 col-md-6 p-3">
-                
-            </div>
-            <div class="col-12 col-md-6 p-3">
-                
-            </div>
-        </div>
+<section class="container mt-5 pb-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold" style="color: #1B264F;">PROGRAM</h2>
+        <p class="text-muted">Ketinggalan siaran favorit di radio? Tenang, sekarang kamu bisa dengerin obrolan seru kami kapan saja dan di mana saja lewat Spotify!</p>
     </div>
 
-    <!-- footer -->
-    <footer class="footer">
-      <div class="container text-white">
-        <div class="row">
-          <div class="col-md-4 text-start">
-            <div class="logo-box mb-3">
-              <img src="<?php echo base_url('asset-radio') ?>/img/logo-rkb.png" alt="Radio Kota Batik" class="logo-img">
-            </div>            
-            <p class="fw-bold mb-0">Kantor Pusat Radio Kota Batik</p>
-            <p class="mb-2">Jl. Kurinci No.7, Podosugih, Kec. Pekalongan Barat., Kota Pekalongan, Jawa Tengah 51111</p>
-            <p class="mb-2">telp : 0285428900</p>
-            <p class="fw-bold">hubungi kami</p>
-            <div class="social-icons">
-              <a href="https://x.com/radio_kotabatik" target="_blank">
-                    <i class="fa-brands fa-x-twitter" style="color: white"></i>
-                </a>
-                <a href="https://www.instagram.com/radio_kotabatik/" target="_blank">
-                    <i class="fa-brands fa-instagram" style="color: white"></i>
-                </a>
-                <a href="https://www.facebook.com/RadioKotaBatikOfficial" target="_blank">
-                    <i class="fa-brands fa-facebook" style="color: white"></i>
-                </a>
-                <a href="https://www.tiktok.com/@radio_kotabatik" target="_blank">
-                    <i class="fa-brands fa-tiktok" style="color: white"></i>
-                </a>
-                <a href="https://whatsapp.com/channel/0029VatYubX7z4khJcd4NG3S" target="_blank">
-                    <i class="fa-brands fa-whatsapp" style="color: white"></i>
-                </a>
-            </div>
-          </div>
-          <div class="col-md-4"></div>
-          <div class="col-md-4 text-end">
-            <p class="fw-bold mb-0">Link Terkait</p>
-            <p class="mb-1">Kominfo Pekalongan</p>
-            <p><a href="<?= site_url('/login') ?>" class="text-dark text-decoration-none" target="_blank">
-                Radio Kota Batik
-            </a>
-            </p>
-            <p><a href="https://forms.gle/NnuF3Jk3cv3D9icJ7" class="text-dark text-decoration-none" target="_blank">
-                Kritik Saran dan Bug Aplikasi
-            </a>
-            </p>
-          </div>
+    <div class="card card-custom shadow-sm p-4 mb-5">
+        <div class="photo-grid">
+            <?php foreach ($program as $p) : ?>
+                <div class="photo-item">
+                    <img src="<?= base_url('upload/' . $p['foto']) ?>" alt="program">
+                    <div class="overlay">
+                        <h4><?= esc($p['judul']) ?></h4>
+                        <a href="<?= esc($p['link']) ?>" target="_blank" rel="noopener">selengkapnya →</a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-        <div class="text-center mt-4">
-          <strong>Radio Kota Batik Pekalongan. © 2025 copyright rkb.co.id</strong>
-        </div>
-      </div>
-    </footer>    
-    
-</body>
-</html>
+    </div>
+</section>
+
+<?= $this->endSection('isi') ?>

@@ -33,8 +33,6 @@ Tambah Statement
       <img src="<?= base_url('upload/' . $st['foto']) ?>"  width="100" height="auto">
       </td>
       <td>
-        <a href="/ctrlstatement/delete/<?= $st['id'] ?>" class="btn btn-danger btn-circle">
-          <i class="fas fa-trash"></i></a>
         <a href="/ctrlstatement/edit/<?= $st['id'] ?>" class="btn btn-success btn-circle">
           <i class="fas fa-edit"></i></a>
       </td>

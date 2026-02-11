@@ -1,4 +1,4 @@
-<?= $this->extend('main/layout2') ?>
+<?= $this->extend('main/cihuy') ?>
 
 <?= $this->section('isi') ?>
       <div class="container my-5 d-flex flex-column flex-md-row gap-4">

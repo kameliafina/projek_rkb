@@ -46,9 +46,9 @@ Tambah Program
       <td><?= $pr['created_at']?></td>
       <td><?= $pr['updated_at']?></td>
       <td>
-        <a href="/ctrlhistoria/delete/<?= $pr['id'] ?>" class="btn btn-danger btn-circle">
+        <a href="/ctrlprogram/delete/<?= $pr['id'] ?>" class="btn btn-danger btn-circle">
           <i class="fas fa-trash"></i></a>
-        <a href="/ctrlhistoria/edit/<?= $pr['id'] ?>" class="btn btn-success btn-circle">
+        <a href="/ctrlprogram/edit/<?= $pr['id'] ?>" class="btn btn-success btn-circle">
           <i class="fas fa-edit"></i></a>
       </td>
     </tr>

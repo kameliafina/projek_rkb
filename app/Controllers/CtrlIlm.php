@@ -60,6 +60,7 @@ class CtrlIlm extends BaseController
     $model = new \App\Models\IlmModel();
 
     $judul = $this->request->getPost('judul');
+    $sumber = $this->request->getPost('sumber');
     $keterangan = $this->request->getPost('keterangan');
 
     $audioFile = $this->request->getFile('audio');
@@ -95,6 +96,7 @@ class CtrlIlm extends BaseController
     // Simpan ke database
     $model->save([
         'judul' => $judul,
+        'sumber' => $sumber,
         'keterangan' => $keterangan,
         'audio' => $namaAudio,
         'gambar' => $namaGambar
@@ -140,6 +142,7 @@ public function update($id)
     $dataLama = $model->find($id);
 
     $judul = $this->request->getPost('judul');
+    $sumber = $this->request->getPost('sumber');
     $keterangan = $this->request->getPost('keterangan');
 
     $audioFile = $this->request->getFile('audio');
@@ -184,6 +187,7 @@ public function update($id)
     // Update ke database
     $model->update($id, [
         'judul' => $judul,
+        'sumber' => $sumber,
         'keterangan' => $keterangan,
         'audio' => $namaAudio,
         'gambar' => $namaGambar

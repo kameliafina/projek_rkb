@@ -1,11 +1,11 @@
 <?= $this->extend('main/layout') ?>
 
 <?= $this->section('judul') ?>
-BERITA
+IKLAN
 <?= $this->endSection('judul') ?>
 
 <?= $this->section('isi') ?>
-Tambah Berita
+Edit Iklan
 
 <div class="d-flex justify-content-end">
 <a href="<?= site_url('barangctrl/databarang') ?>" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">

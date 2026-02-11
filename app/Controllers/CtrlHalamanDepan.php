@@ -173,10 +173,78 @@ class CtrlHalamanDepan extends BaseController
 
         $pager = \Config\Services::pager();
 
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
+
     $data = [
         'databerita' => $berita,
         'beritaPopuler' => $beritaPopuler,
-        'pager' => $beritaModel->pager
+        'pager' => $beritaModel->pager,
+        'pengunjungHariIni' => $pengunjungHariIni,
+        'totalPengunjung' => $totalPengunjung,
+        'pengunjungOnline' => $pengunjungOnline
     ];
         return view('halaman_depan/berita', $data);
     }
@@ -212,12 +280,80 @@ class CtrlHalamanDepan extends BaseController
 
     $pager = \Config\Services::pager();
 
+    $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
+
     return view('halaman_depan/detail_berita', [
         'berita' => $berita, 
         'beritaPopuler' => $beritaPopuler,
         'komentar' => $komentar,
         'pager' => $pager,
-        'target_type' => 'berita'
+        'target_type' => 'berita',
+        'pengunjungHariIni' => $pengunjungHariIni,
+        'totalPengunjung' => $totalPengunjung,
+        'pengunjungOnline' => $pengunjungOnline
     ]);
 }
 
@@ -280,10 +416,78 @@ public function detail_foto($slug)
 
         $pager = \Config\Services::pager();
 
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
+
     $data = [
         'databerita' => $beritaPekalongan,
         'beritaPopuler' => $beritaPopuler,
-        'pager' => $beritaModel->pager
+        'pager' => $beritaModel->pager,
+        'pengunjungHariIni' => $pengunjungHariIni,
+        'totalPengunjung' => $totalPengunjung,
+        'pengunjungOnline' => $pengunjungOnline
     ];
 
     return view('halaman_depan/berita_pkl', $data);
@@ -309,10 +513,78 @@ public function detail_foto($slug)
 
         $pager = \Config\Services::pager();
 
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
+
         $data = [
             'databerita' => $beritaNasional,
             'beritaPopuler' => $beritaPopuler,
-            'pager' => $beritaModel->pager
+            'pager' => $beritaModel->pager,
+            'pengunjungHariIni' => $pengunjungHariIni,
+            'totalPengunjung' => $totalPengunjung,
+            'pengunjungOnline' => $pengunjungOnline
         ];
 
         return view('halaman_depan/berita_nasional', $data);
@@ -337,10 +609,78 @@ public function detail_foto($slug)
 
         $pager = \Config\Services::pager();
 
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
+
         $data = [
             'databerita' => $beritaInternasional,
             'beritaPopuler' => $beritaPopuler,
-            'pager' => $beritaModel->pager
+            'pager' => $beritaModel->pager,
+            'pengunjungHariIni' => $pengunjungHariIni,
+            'totalPengunjung' => $totalPengunjung,
+            'pengunjungOnline' => $pengunjungOnline
         ];
 
         return view('halaman_depan/berita_internasional', $data);
@@ -366,10 +706,78 @@ public function detail_foto($slug)
 
         $pager = \Config\Services::pager();
 
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
+
         $data = [
             'databerita' => $beritaJateng,
             'beritaPopuler' => $beritaPopuler,
-            'pager' => $beritaModel->pager
+            'pager' => $beritaModel->pager,
+            'pengunjungHariIni' => $pengunjungHariIni,
+            'totalPengunjung' => $totalPengunjung,
+            'pengunjungOnline' => $pengunjungOnline
         ];
 
         return view('halaman_depan/berita_jateng', $data);
@@ -394,10 +802,78 @@ public function detail_foto($slug)
 
         $pager = \Config\Services::pager();
 
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
+
         $data = [
             'databerita' => $beritaOlahraga,
             'beritaPopuler' => $beritaPopuler,
-            'pager' => $beritaModel->pager
+            'pager' => $beritaModel->pager,
+            'pengunjungHariIni' => $pengunjungHariIni,
+            'totalPengunjung' => $totalPengunjung,
+            'pengunjungOnline' => $pengunjungOnline
         ];
 
         return view('halaman_depan/berita_olahraga', $data);
@@ -409,9 +885,79 @@ public function detail_foto($slug)
     public function historia()
     {
         $historia = new HistoriaModel();
-        $ambil = $historia->findAll();
+        $ambil = $historia->orderBy('id', 'DESC')->paginate(8);
+        
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
+
         $data = [
-            'historia' => $ambil
+            'historia' => $ambil,
+            'pager' => $historia->pager,
+            'pengunjungHariIni' => $pengunjungHariIni,
+            'totalPengunjung' => $totalPengunjung,
+            'pengunjungOnline' => $pengunjungOnline
         ];
 
         return view('halaman_depan/historia', $data);
@@ -452,6 +998,71 @@ public function detail_foto($slug)
 
     $pager = \Config\Services::pager();
 
+    $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
+
     $data = [
         'historia' => $historia,
         'fotoDeskripsi' => $fotoDeskripsi,
@@ -459,7 +1070,10 @@ public function detail_foto($slug)
         'komentar' => $komentar,
         'pager' => $pager,
         'berita' => $beritaModel,
-        'target_type' => 'historia'
+        'target_type' => 'historia',
+        'pengunjungHariIni' => $pengunjungHariIni,
+        'totalPengunjung' => $totalPengunjung,
+        'pengunjungOnline' => $pengunjungOnline
     ];
 
     return view('halaman_depan/detail_historia', $data);
@@ -492,10 +1106,78 @@ public function detail_foto($slug)
 
         $pager = \Config\Services::pager();
 
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
+
         $data = [
             'datalifestyle' => $wisata,
             'beritaPopuler' => $beritaPopuler,
-            'pager' => $lifestyleModel->pager
+            'pager' => $lifestyleModel->pager,
+            'pengunjungHariIni' => $pengunjungHariIni,
+            'totalPengunjung' => $totalPengunjung,
+            'pengunjungOnline' => $pengunjungOnline
         ];
         return view('halaman_depan/wisata', $data);
             
@@ -521,11 +1203,79 @@ public function detail_foto($slug)
                 ->findAll(5);
 
         $pager = \Config\Services::pager();
+
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
         
         $data = [
             'datalifestyle' => $wisata,
             'beritaPopuler' => $beritaPopuler,
-            'pager' => $lifestyleModel->pager
+            'pager' => $lifestyleModel->pager,
+            'pengunjungHariIni' => $pengunjungHariIni,
+            'totalPengunjung' => $totalPengunjung,
+            'pengunjungOnline' => $pengunjungOnline
         ];
         return view('halaman_depan/hiburan', $data);
             
@@ -552,11 +1302,78 @@ public function detail_foto($slug)
 
         $pager = \Config\Services::pager();
 
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
         
         $data = [
             'datalifestyle' => $wisata,
             'beritaPopuler' => $beritaPopuler,
-            'pager' => $lifestyleModel->pager
+            'pager' => $lifestyleModel->pager,
+            'pengunjungHariIni' => $pengunjungHariIni,
+            'totalPengunjung' => $totalPengunjung,
+            'pengunjungOnline' => $pengunjungOnline
         ];
         return view('halaman_depan/kesehatan', $data);
             
@@ -582,11 +1399,79 @@ public function detail_foto($slug)
                 ->findAll(5);
 
         $pager = \Config\Services::pager();
+
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
             
         $data = [
             'datalifestyle' => $wisata,
             'beritaPopuler' => $beritaPopuler,
-            'pager' => $lifestyleModel->pager
+            'pager' => $lifestyleModel->pager,
+            'pengunjungHariIni' => $pengunjungHariIni,
+            'totalPengunjung' => $totalPengunjung,
+            'pengunjungOnline' => $pengunjungOnline
         ];
         return view('halaman_depan/tips', $data);
             
@@ -623,14 +1508,81 @@ public function detail_foto($slug)
 
         $pager = \Config\Services::pager();
 
-    
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
 
     return view('halaman_depan/detail_l', [
         'lifestyle' => $lifestyle, 
         'beritaPopuler' => $beritaPopuler,
         'komentar' => $komentar,
         'pager' => $pager,
-        'target_type' => 'lifestyle'
+        'target_type' => 'lifestyle',
+        'berita' => $beritaModel,
+        'pengunjungHariIni' => $pengunjungHariIni,
+        'totalPengunjung' => $totalPengunjung,
+        'pengunjungOnline' => $pengunjungOnline
     ]);
 }
 
@@ -639,8 +1591,76 @@ public function detail_foto($slug)
         $profil = new ProfilModel();
         $ambil = $profil->findAll();
 
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
+
         $data = [
-            'profil' => $ambil
+            'profil' => $ambil,
+            'pengunjungHariIni' => $pengunjungHariIni,
+            'totalPengunjung' => $totalPengunjung,
+            'pengunjungOnline' => $pengunjungOnline
         ];
         return view('halaman_depan/profil', $data);
     }
@@ -648,8 +1668,77 @@ public function detail_foto($slug)
     {
         $program = new ProgramModel();
         $ambil = $program->findAll();
+
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
+
         $data = [
-            'program' => $ambil
+            'program' => $ambil,
+            'pengunjungHariIni' => $pengunjungHariIni,
+            'totalPengunjung' => $totalPengunjung,
+            'pengunjungOnline' => $pengunjungOnline
         ];
 
         return view('halaman_depan/program', $data);
@@ -660,8 +1749,76 @@ public function detail_foto($slug)
         $ilm = new IlmModel();
         $ambil = $ilm->findAll();
 
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
+
         $data = [
-            'datailm' => $ambil
+            'datailm' => $ambil,
+            'pengunjungHariIni' => $pengunjungHariIni,
+            'totalPengunjung' => $totalPengunjung,
+            'pengunjungOnline' => $pengunjungOnline
         ];
 
         return view('halaman_depan/ilm', $data);

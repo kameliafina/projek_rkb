@@ -19,7 +19,7 @@ class Home extends BaseController
         $berita = $beritaModel->select('berita.*, kategori_berita.nama_kategori_b')
                 ->join('kategori_berita', 'kategori_berita.id = berita.kategori_id')
                 ->orderBy('berita.created_at', 'DESC')
-                ->paginate(5, 'berita');
+                ->paginate(8, 'berita');
 
         $beritaPopuler = $beritaModel
                 ->select('berita.*, kategori_berita.nama_kategori_b')
@@ -30,7 +30,7 @@ class Home extends BaseController
         $pager = \Config\Services::pager();
 
         $beritafoto = new BeritaFotoModel();
-        $ambil = $beritafoto->findAll();
+        $ambil = $beritafoto->orderBy('id', 'DESC')->findAll();
 
         $infografisModel = new InfografisModel();
         $infografis = $infografisModel->orderBy('id', 'DESC')->findAll();

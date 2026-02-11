@@ -39,10 +39,14 @@ class CtrlBeritaFoto extends BaseController
 
 
         $berita = new BeritaFotoModel();
-        $ambil = $berita->findAll();
+        $ambil = $berita
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
 
         $data = [
-            'databerita' => $ambil
+            'databerita' => $ambil,
+            'user' => $userData,
+            'pager' => $berita->pager
         ];
         return view('berita_foto/index', $data);
     }
@@ -108,7 +112,7 @@ class CtrlBeritaFoto extends BaseController
     {
         $user = new UserModel();
         $id_user = session()->get('id');
-        $userData = $user->find($id);
+        $userData = $user->find($id_user);
 
         $berita = new BeritaFotoModel();
         $ambil = $berita->find($id);

@@ -8,5 +8,5 @@ class IlmModel extends Model
 {
     protected $table = 'ilm';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['judul', 'keterangan', 'audio', 'gambar'];
+    protected $allowedFields = ['judul', 'keterangan', 'audio', 'gambar', 'sumber'];
 }

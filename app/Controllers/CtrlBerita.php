@@ -15,25 +15,41 @@ use CodeIgniter\HTTP\ResponseInterface;
 class CtrlBerita extends BaseController
 {
     public function index()
-    {
-        $user = new UserModel();
-        $id = session()->get('id');
-        $userData = $user->find($id);
+{
+    $beritaModel = new \App\Models\BeritaModel(); // Sesuaikan nama modelmu
+    
+    // 1. Ambil tanggal dari form
+    $tgl_awal  = $this->request->getGet('tgl_awal');
+    $tgl_akhir = $this->request->getGet('tgl_akhir');
 
-        $db = \Config\Database::connect();
+    // 2. Siapkan Query
+    $query = $beritaModel->orderBy('created_at', 'DESC');
 
-        $berita = new BeritaModel();
-        $ambil = $berita
-            ->orderBy('created_at', 'DESC')
-            ->paginate(10);
-
-        $data = [
-            'databerita' => $ambil,
-            'user' => $userData,
-            'pager' => $berita->pager
-        ];
-        return view('berita/index', $data);
+    // 3. Filter jika tanggal diisi
+    if ($tgl_awal && $tgl_akhir) {
+        $query->where('created_at >=', $tgl_awal . ' 00:00:00')
+              ->where('created_at <=', $tgl_akhir . ' 23:59:59');
     }
+
+    $keyword = $this->request->getGet('keyword');
+
+    if ($keyword) {
+        $query->groupStart()
+              ->like('judul', $keyword)
+              ->orLike('deskripsi', $keyword)
+              ->groupEnd();
+    }
+
+    $data = [
+        'databerita' => $query->paginate(10, 'default'),
+        'pager'      => $beritaModel->pager,
+        'tgl_awal'   => $tgl_awal,
+        'tgl_akhir'  => $tgl_akhir,
+        'user'       => (new \App\Models\UserModel())->find(session()->get('id'))
+    ];
+
+    return view('berita/index', $data);
+}
 
     public function databerita()
     {
@@ -146,10 +162,14 @@ class CtrlBerita extends BaseController
         $kategori = new KategoriModel();
         $data['kategori'] = $kategori->findAll();
 
+        $user = new UserModel();
+        $id_user = session()->get('id');
+        $userData = $user->find($id_user);
+
         $data = [
             'databerita' => $ambil,
-            'user' => $userData,
-            'kategori' => $data['kategori']
+            'kategori' => $data['kategori'],
+            'user' => $userData
         ];
         return view('berita/editberita', $data);
     }

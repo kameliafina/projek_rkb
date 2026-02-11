@@ -62,8 +62,10 @@
   }
 
   .navbar-brand2 {
-    background: linear-gradient(90deg,rgba(207,236,254,1) 0%, rgba(152,216,239,1) 40%, rgb(123, 96, 193));
+    background: linear-gradient(90deg,#C5D6F8 0%,#9DBBF3 40%, #9C6ADE);
     font-weight: bold;
+    color: #ffffff; /* Pastikan teks berwarna putih bersih */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2)
   }
   
   .navbar-nav {
@@ -119,70 +121,109 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Styling Gambar 1:1 */
-.image-container-1-1 {
-    width: 100%; /* Lebar mengambil 100% dari .jadwal-item > div */
-    /* Teknik untuk Rasio 1:1 (Padding Top = Lebar) */
-    padding-top: 100%; 
-    position: relative; /* Penting untuk menempatkan gambar di dalamnya secara absolut */
-    margin-bottom: 1rem; /* Jarak antara gambar dan teks di bawahnya */
-    overflow: hidden; /* Memastikan tidak ada bagian gambar yang bocor */
-    border-radius: 0.8rem; /* Sudut melengkung untuk wadah gambar */
+
+/* Container Utama */
+.jadwal-container {
+    padding: 10px 0;
+    overflow: hidden;
 }
 
-.jadwal-image {
-    position: absolute; /* Posisikan gambar secara absolut di dalam wadah */
+/* Track Scrolling */
+.jadwal-track {
+    display: flex;
+    gap: 15px; /* Jarak antar kartu lebih rapat sesuai request sebelumnya */
+    padding: 10px;
+}
+
+/* Card Styling */
+.jadwal-card {
+    flex: 0 0 220px; /* Lebar kartu sedikit lebih ramping agar padat */
+    transition: all 0.3s ease;
+}
+
+.jadwal-card:nth-child(4n+1) .card-inner { background: linear-gradient(135deg, #c3b5ea 0%, #fecfef 100%); }
+.jadwal-card:nth-child(4n+2) .card-inner { background: linear-gradient(135deg, #c3b5ea 0%, #fecfef 100%); }
+.jadwal-card:nth-child(4n+3) .card-inner { background: linear-gradient(135deg, #c3b5ea 0%, #fecfef 100%); }
+.jadwal-card:nth-child(4n+4) .card-inner { background: linear-gradient(135deg, #c3b5ea 0%, #fecfef 100%); }
+
+.card-inner {
+    background: #c3b5ea;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid #eef2f7;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Hover Effect */
+.jadwal-card:hover {
+    transform: translateY(-5px);
+}
+
+.jadwal-card:hover .card-inner {
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    border-color: #d1d9e6;
+}
+
+/* Image & Badge */
+.image-box {
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* Membuat gambar kotak sempurna 1:1 */
+    overflow: hidden;
+}
+
+.image-box img {
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Penting: Memastikan gambar menutupi wadah tanpa terdistorsi */
-    border-radius: 0.8rem; /* Sudut melengkung untuk gambar itu sendiri */
+    object-fit: cover;
+    transition: transform 0.5s ease;
 }
 
-/* Modifikasi pada jadwal-item > div agar memiliki lebar yang lebih terkontrol */
-.jadwal-item > div {
-    /* Tambahkan lebar tetap agar gambar 1:1 terlihat rapi */
-    width: 250px; /* Misalnya, lebar item 250px */
-    min-height: 250px; /* Tambahkan min-height agar tidak terlalu pendek */
-    background-color: #c3b5ea;
-    border-radius: 1rem;
-    /* Ubah properti display menjadi flex untuk penataan yang lebih baik */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Tengahkan konten (opsional) */
+.jadwal-card:hover img {
+    transform: scale(1.1);
+}
+
+.time-badge {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px); /* Efek kaca */
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Content Area */
+.content-box {
+    padding: 15px;
     text-align: center;
 }
 
-.jadwal-track {
-    display: flex;
-    animation: scroll-left 20s linear infinite;
+.program-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #2d3436;
+    margin-bottom: 5px;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Maksimal 2 baris agar rapi */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.jadwal-item {
-    flex: 0 0 auto;
-    margin-right: 2rem;
-}
-
-.pembawa-acara {
-  font-family: "Montserrat", sans-serif;
-  font-size: 14px;
-  font-style: italic;
-  color: #555;
-}
-
-.jadwal-radio {
-  font-family: "Montserrat", sans-serif; 
-  font-size: 24px; 
-  font-weight: bold; 
-  color: #333;
-  text-align: center;
-}
-
-.jadwal-wrapper {
-  overflow: hidden;
-  width: 100%;
-  position: relative;
+.host-name {
+    font-size: 0.8rem;
+    color: #636e72;
+    margin: 0;
 }
 
 .jadwal-scroll {
@@ -196,7 +237,7 @@
 }
 
 .jadwal-item > div {
-  background-color: #c3b5ea;
+  background-color: #D3C3FC;
   border-radius: 1rem;
   
 }
@@ -471,7 +512,7 @@ radio-card2 {
 
 /* Container utama berita populer */
 .popular-news {
-  background: linear-gradient(to bottom, #a993e6, #d0ddf3, #ffffff);
+  background: linear-gradient(to bottom, #9C6ADE, #E3D0FF, #ffffff);
   padding: 20px;
   border-radius: 10px;
 }
@@ -556,7 +597,7 @@ radio-card2 {
 
 /* Container utama */
 .photo-news {
-  background: linear-gradient(to bottom, #6b8fc4, #d0ddf3);
+  background: linear-gradient(to bottom, #9DBBF3, #d0ddf3);
   padding: 20px;
   border-radius: 10px;
 }
@@ -745,7 +786,7 @@ radio-card2 {
 
 
 .btn-category {
-  background-color: #dce8f6;
+  background-color: #E1E5FD;
   text-decoration: none;
   padding: 10px 20px;
   border-radius: 30px;
@@ -995,3 +1036,69 @@ ul li a:hover:before {
 .radio-logo {
   width: 160px;
 }
+
+/* Cari class pembungkus pagination atau tambahkan ke tag style */
+.pagination {
+    display: flex;
+    flex-wrap: nowrap !important; /* Paksa satu baris */
+    overflow-x: auto;            /* Munculkan scroll samping */
+    -webkit-overflow-scrolling: touch; 
+    padding-bottom: 5px;
+}
+
+.pagination li {
+    flex: 0 0 auto;              /* Supaya item tidak menyusut */
+}
+
+.section-title {
+        color: #1B264F; /* Warna Navy dari logo */
+        position: relative;
+        padding-bottom: 10px;
+        margin-bottom: 30px;
+    }
+    .section-title::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50px;
+        height: 4px;
+        background-color: #4F46E5; /* Aksen Indigo */
+        border-radius: 2px;
+    }
+
+    .card-custom {
+        border: none;
+        border-radius: 20px;
+        background: #9DBBF3;
+        transition: transform 0.3s ease;
+    }
+    .card-custom:hover {
+        transform: translateY(-5px);
+    }
+    .bg-soft-blue {
+        background-color: #f8faff;
+    }
+    .vision-box {
+        border-left: 4px solid #4F46E5;
+        padding-left: 20px;
+        background: #f0f4ff;
+        border-radius: 0 15px 15px 0;
+    }
+    .mission-list {
+        list-style: none;
+        padding-left: 0;
+    }
+    .mission-list li {
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        align-items: center;
+    }
+    .mission-list li:last-child { border-bottom: none; }
+    .mission-list li::before {
+        content: "\f058"; /* FontAwesome check circle jika ada */
+        margin-right: 10px;
+        color: #4F46E5;
+    }
+    

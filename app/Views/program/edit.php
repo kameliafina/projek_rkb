@@ -34,7 +34,7 @@ Tambah Historia
         <label for="foto" class="form-label">Foto</label>
         <input type="file" class="form-control" id="foto" name="foto">
         <?php if ($dataprogram['foto']): ?>
-            <img src="<?= base_url('upload/' . $dataprogram['foto']) ?>" alt="<?= esc($dataprogram['ket_foto']) ?>" width="150">
+            <img src="<?= base_url('upload/' . $dataprogram['foto']) ?>" width="150">
         <?php endif; ?>
     </div>
 

@@ -23,11 +23,21 @@ class CtrlAdmin extends BaseController
         $query = $builder
         ->select("MONTH(created_at) AS bulan, YEAR(created_at) AS tahun, COUNT(*) AS total")
         ->groupBy("YEAR(created_at), MONTH(created_at)")
-        ->orderBy("tahun", "ASC")
+        ->orderBy("tahun", "DESC")
         ->orderBy("bulan", "ASC")
         ->get();
 
-        $data['laporan'] = $query->getResultArray();
+        $results = $query->getResultArray();
+
+        $laporanGrouped = [];
+        foreach ($results as $row) {
+            $laporanGrouped[$row['tahun']][] = [
+                'bulan' => $row['bulan'],
+                'total' => $row['total']
+            ];
+        }
+
+        $data['laporan'] = $laporanGrouped;
         
         return view('main/laporan', $data);
     }

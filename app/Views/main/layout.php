@@ -424,3 +424,20 @@ function togglePassword() {
 </body>
 
 </html>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        <?php if (session()->getFlashdata('login_sukses')) : ?>
+            Swal.fire({
+                title: 'Selamat Datang!',
+                text: 'Halo <?= session()->getFlashdata('login_sukses'); ?>, selamat bertugas di Radio Kota Batik.',
+                icon: 'success',
+                timer: 3000,
+                showConfirmButton: false,
+                timerProgressBar: true
+            });
+        <?php endif; ?>
+    });
+</script>

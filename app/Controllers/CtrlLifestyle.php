@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\BeritaModel;
 use App\Models\Kategori2Model;
 use App\Models\LifestyleModel;
+use App\Models\PengunjungModel;
 use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -38,11 +39,12 @@ class CtrlLifestyle extends BaseController
         $db = \Config\Database::connect();
 
         $lifestyle = new LifestyleModel();
-        $ambil = $lifestyle->findAll();
+        $ambil = $lifestyle->paginate(10);
 
         $data = [
             'datalifestyle' => $ambil,
-            'user' => $userData
+            'user' => $userData,
+            'pager' => $lifestyle->pager
         ];
         return view('lifestyle/index', $data);
     }
@@ -210,10 +212,78 @@ class CtrlLifestyle extends BaseController
 
         $pager = \Config\Services::pager();
 
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
+
         $data = [
             'datalifestyle' => $lifestyle,
             'beritaPopuler' => $beritaPopuler,
-            'pager' => $lifestyleModel->pager
+            'pager' => $lifestyleModel->pager,
+            'pengunjungHariIni' => $pengunjungHariIni,
+            'totalPengunjung' => $totalPengunjung,
+            'pengunjungOnline' => $pengunjungOnline
         ];
 
         return view('halaman_depan/lifestyle', $data);
@@ -234,9 +304,76 @@ class CtrlLifestyle extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Lifestyle tidak ditemukan.');
         }
 
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
 
         return view('halaman_depan/detail_lifestyle', [
-            'lifestyle' => $lifestyle
+            'lifestyle' => $lifestyle,
+            'pengunjungHariIni' => $pengunjungHariIni,
+            'totalPengunjung' => $totalPengunjung,
+            'pengunjungOnline' => $pengunjungOnline
         ]);
     }
 
@@ -252,9 +389,77 @@ class CtrlLifestyle extends BaseController
             ->orderBy('lifestyle.created_at', 'DESC')
             ->findAll();
 
+        $pengunjungModel = new PengunjungModel();
+        
+        $ip = $this->request->getIPAddress();
+        $agent = $this->request->getUserAgent();
+        $user_agent = $agent->getAgentString();
+        $now = date('Y-m-d H:i:s');
+
+        // Hapus data pengunjung yang tidak aktif lebih dari 5 menit
+        $pengunjungModel->where('last_activity <', date('Y-m-d H:i:s', strtotime('-5 minutes')))->delete();
+
+        // Cek apakah sudah ada data untuk IP dan user agent
+        $existing = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('user_agent', $user_agent)
+            ->first();
+
+            if ($existing) {
+                $pengunjungModel->update($existing['id'], ['last_activity' => $now]);
+            
+            } else {
+                $pengunjungModel->insert([
+                    'ip_address' => $ip,
+                    'user_agent' => $user_agent,
+                    'last_activity' => $now
+                ]);
+            }
+
+        $pengunjungModel = new PengunjungModel();
+
+        $ip = $this->request->getIPAddress();
+        $tanggal = date('Y-m-d');
+        $waktuSekarang = date('Y-m-d H:i:s');
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+
+        $cek = $pengunjungModel
+            ->where('ip_address', $ip)
+            ->where('tanggal', $tanggal)
+            ->first();
+
+        if ($cek) {
+            $pengunjungModel->update($cek['id'], [
+                'last_activity' => $waktuSekarang,
+                'user_agent' => $userAgent
+            ]);
+        } else {
+            $pengunjungModel->insert([
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'last_activity' => $waktuSekarang,
+                'tanggal' => $tanggal
+            ]);
+        }
+
+        $pengunjungHariIni = $pengunjungModel
+            ->where('tanggal', date('Y-m-d'))
+            ->countAllResults();
+
+        $totalPengunjung = $pengunjungModel->countAllResults();
+
+        //menghitung pengunjung online
+        $batasOnline = date('Y-m-d H:i:s', strtotime('-5 minutes'));
+        $pengunjungOnline = $pengunjungModel
+            ->where('last_activity >=', $batasOnline)
+            ->countAllResults();
+
         $data = [
             'datalifestyle' => $dataKategori,
-            'kategori' => ucfirst($kategori)
+            'kategori' => ucfirst($kategori),
+            'pengunjungHariIni' => $pengunjungHariIni,
+            'totalPengunjung' => $totalPengunjung,
+            'pengunjungOnline' => $pengunjungOnline
         ];
 
         return view('halaman_depan/lifestyle_kategori', $data);

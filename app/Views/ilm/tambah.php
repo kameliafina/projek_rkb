@@ -23,7 +23,12 @@ TAMBAH ILM
 </div>
 
 <div class="mb-3">
-    <label class="form-label">Keterangan</label>
+    <label class="form-label">Narasumber</label>
+    <input type="text" class="form-control" name="sumber" required>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Deskripsi Singkat</label>
     <textarea class="form-control" name="keterangan" rows="4"></textarea>
 </div>
 

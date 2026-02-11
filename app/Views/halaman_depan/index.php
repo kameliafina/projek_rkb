@@ -1,138 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radio Kota Batik</title>
-    <link rel="stylesheet" href="<?php echo base_url('asset-radio') ?>/style.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-</head>
-<body>
+<?= $this->extend('main/cihuy') ?>
 
-  <!-- navbar -->
-  <header>
-        <nav class="navbar navbar-expand-lg navbar-brand2">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="<?= site_url('/halamanindex') ?>">
-                    <img src="<?php echo base_url('asset-radio') ?>/img/logo-rkb.png" alt="" class="custom-logo">
-                </a>
-                
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul>
-                    <li><a href="<?= site_url('/berita') ?>"><strong>Berita</strong></a></li>
-                    <li><a href="<?= site_url('/program') ?>"><strong>Program</strong></a></li>
-                    <li><a href="<?= site_url('/lifestyle2') ?>"><strong>Lifestyle</strong></a></li>
-                    <li><a href="<?= site_url('/profil') ?>"><strong>Profil</strong></a></li>
-                    <li><a href="<?= site_url('/historia') ?>"><strong>Historia</strong></a></li>
-                    <li><a href="<?= site_url('/ilm2') ?>"><strong>ILM</strong></a></li>
-                </ul>
-                <form class="d-flex ms-auto" action="<?= site_url('/berita/search') ?>" method="get">
-                    <input class="form-control me-2" type="search" name="q" placeholder="" aria-label="Search" style="width: 150px;">
-                    <button class="btn btn-outline-light" type="submit">
-                        <i class="fa fa-search text-white"></i>
-                    </button>
-                </form>
-                </div>
-            </div>
-        </nav>
+<?= $this->section('isi') ?>
         <div class="col-12 p-3 jadwal-radio"> 
-            <br>
-            <div class="jadwal-wrapper">
-                <div class="jadwal-scroll">
-                    <div class="jadwal-track">
-                        <?php foreach ($jadwal as $j) : ?>
-                            <div class="jadwal-item">
-                                <div class="p-3 border rounded-4">
-                                    <div class="image-container-1-1">
-                                        <img src="<?= base_url('uploads/jadwal/' . $j['foto']) ?>" alt="<?= esc($j['judul']) ?>" class="jadwal-image">
-                                    </div>
-                                    <?= esc($j['jam']) ?><br><br><?= esc($j['judul']) ?><br>
-                                    <span class="pembawa-acara">(Pembawa acara: <?= esc($j['pembawa']) ?>)</span>
-                                </div>
+    <div class="jadwal-container">
+        <div class="jadwal-wrapper">
+            <div class="jadwal-track">
+                <?php 
+                // Kita gabungkan loop agar kode lebih ringkas jika tujuannya untuk infinite scroll
+                $displayJadwal = array_merge($jadwal, $jadwal); 
+                foreach ($displayJadwal as $j) : 
+                ?>
+                    <div class="jadwal-card">
+                        <div class="card-inner">
+                            <div class="image-box">
+                                <img src="<?= base_url('uploads/jadwal/' . $j['foto']) ?>" alt="<?= esc($j['judul']) ?>">
+                                <div class="time-badge"><?= esc($j['jam']) ?></div>
                             </div>
-                            <?php endforeach; ?>
-                            <?php foreach ($jadwal as $j) : ?>
-                                <div class="jadwal-item">
-                                    <div class="p-3 border rounded-4">
-                                        <div class="image-container-1-1">
-                                            <img src="<?= base_url('uploads/jadwal/' . $j['foto']) ?>" alt="<?= esc($j['judul']) ?>" class="jadwal-image">
-                                        </div>
-                                        <?= esc($j['jam']) ?><br><br><?= esc($j['judul']) ?><br>
-                                        <span class="pembawa-acara">(Pembawa acara: <?= esc($j['pembawa']) ?>)</span>
-                                    </div>
-                                </div>
-                                <?php endforeach; ?>
+                            <div class="content-box"> 
+                                <h5 class="program-title"><?= esc($j['judul']) ?></h5>
+                                <p class="host-name">
+                                    <i class="fas fa-microphone-alt"></i> <?= esc($j['pembawa']) ?>
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-<div class="radio-wrapper">
-    <div class="radio-card2">
-        <div class="card-header">
-            <audio id="radio-player" src="https://studio1.indostreamers.com:8010/stream/1/" type="audio/mpeg"></audio>
-            <img src="<?php echo base_url('asset-radio') ?>/img/streaming.png" alt="Radio Kota Batik" class="radio-logo">
-        </div>
-        <div card-body">
-        <div class="radio-info">
-            <h4>Radio Kota Batik</h4>
-            <p>91.2 FM</p>
-        </div>
-        </div>
-        <div class="card-body">
-            <center><img src="<?php echo base_url('asset-radio') ?>/img/play.png" alt="Play Button" class="play-button">
-            <div class="audio-controls">
-                <img src="<?php echo base_url('asset-radio') ?>/img/volume.png" alt="Volume" class="volume-icon">
-                <input type="range" class="volume-slider" min="0" max="100">
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
-    
-    <!-- <div class="radio-card">
-        <div class="card-header">
-            <audio id="radio-player" src="https://studio1.indostreamers.com:8010/stream/1/" type="audio/mpeg"></audio>
-            <a class="navbar-brand" href='https://www.youtube.com/@radiokotabatikpekalongan/streams' target="_blank" rel="noopener noreferrer">
-                <img src="<?php echo base_url('asset-radio') ?>/img/streaming_yt.png" alt="Radio Kota Batik" class="radio-logo">
-            </a>
-        </div>
-        <div class="card-body">
-            <div class="radio-info">
-                <p id="live-schedule" class="text-danger fw-bold"></p>
-            </div>
-        </div>
-    </div> -->
-
-    <!-- basru -->
-    <div class="radio-card text-center">
-  <div class="card-header">
-    <div id="youtube-live-container" class="mb-3"></div>
-
-    <a class="navbar-brand" 
-       href="https://www.youtube.com/@radiokotabatikpekalongan/streams" 
-       target="_blank" rel="noopener noreferrer">
-      <img src="<?= base_url('asset-radio') ?>/img/streaming_yt.png" 
-           alt="Radio Kota Batik" class="radio-logo mt-2">
-    </a>
-  </div>
-
-  <div class="card-body">
-    <div class="radio-info">
-      <p id="live-status" class="text-danger fw-bold"></p>
-    </div>
-  </div>
 </div>
+
+
 
     <!-- <div class="radio-container">
         <div class="row g-2">
@@ -189,67 +87,105 @@
         
       
 
-        <!-- berita -->
-        <div class="row">
-          <div class="col-12 col-md-6 p-3">
-            <div class="container">
-                <div class="row g-2">
-                    <?php foreach ($databerita as $b) : ?>
-                      <div class="col-12">
+       <div class="row">
+    <div class="col-12 col-md-6 p-3">
+        <div class="container">
+            <div class="row g-2">
+                <?php foreach ($databerita as $b) : ?>
+                    <div class="col-12">
                         <a href="<?= site_url('/detail/' . $b['slug']) ?>" class="text-decoration-none text-dark">
-                          <div class="news-card p-3 border bg-light rounded-4 d-flex">
-                            <img src="<?= base_url('upload/' . $b['foto']) ?>" alt="Berita" class="berita rounded-4">
-                            <div class="news-content">
-                              <span class="kategori"><?= esc($b['nama_kategori_b']) ?></span>
-                              <h4 class="judul-berita"><?= esc($b['judul']) ?></h4>
-                              <p class="waktu">
-                                <img src="<?php echo base_url('asset-radio') ?>/img/jam.png" alt="Jam" class="icon-jam">
-                                <?= time_elapsed_string($b['created_at']) ?> 
-                              </p>
+                            <div class="news-card p-3 border bg-light rounded-4 d-flex">
+                                <img src="<?= base_url('upload/' . $b['foto']) ?>" alt="Berita" class="berita rounded-4">
+                                <div class="news-content">
+                                    <span class="kategori"><?= esc($b['nama_kategori_b']) ?></span>
+                                    <h4 class="judul-berita"><?= esc($b['judul']) ?></h4>
+                                    <p class="waktu">
+                                        <img src="<?php echo base_url('asset-radio') ?>/img/jam.png" alt="Jam" class="icon-jam">
+                                        <?= time_elapsed_string($b['created_at']) ?>
+                                    </p>
+                                </div>
                             </div>
-                          </div>
                         </a>
-                      </div>
-                      <?php endforeach; ?>
-                      
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
 
-                    
-                </div>
-            </div>
-        </div>
+    <div class="col-12 col-md-6">
         
-            <div class="col-12 col-md-6">
-                <div class="row">
-                  <div class="popular-news">
-                    <div class="title">
-                        <h2>BERITA POPULER</h2>
-                    </div>
-                    <div class="news-list">
-                        <div class="news-list">
-                      <?php $no = 1; foreach ($beritaPopuler as $berita): ?>
+        <div class="row mb-4"> <div class="popular-news">
+                <div class="title">
+                    <h2>BERITA POPULER</h2>
+                </div>
+                <div class="news-list">
+                    <?php $no = 1; foreach ($beritaPopuler as $berita): ?>
                         <div class="news-item">
-                          <span class="rank"><?= $no++; ?></span>
-                          <img src="<?= base_url('upload/' . $berita['foto']) ?>" alt="Berita" class="news-img"> <!-- Pastikan kolom gambar ada -->
-                          <div class="news-content">
-                            <h4>
-                                <a href="<?= site_url('/detail/' . $berita['slug']) ?>" class="text-decoration-none text-dark">
-                                    <?= esc($berita['judul']) ?></a>
-                            </h4>
-                            <p class="views">
-                              <img src="<?= base_url('asset-radio') ?>/img/mata.png" alt="Views" class="icon-view"> 
-                              <?= $berita['views']; ?>
-                            </p>
-                          </div>
+                            <span class="rank"><?= $no++; ?></span>
+                            <img src="<?= base_url('upload/' . $berita['foto']) ?>" alt="Berita" class="news-img">
+                            <div class="news-content">
+                                <h4>
+                                    <a href="<?= site_url('/detail/' . $berita['slug']) ?>" class="text-decoration-none text-dark">
+                                        <?= esc($berita['judul']) ?>
+                                    </a>
+                                </h4>
+                                <p class="views">
+                                    <img src="<?= base_url('asset-radio') ?>/img/mata.png" alt="Views" class="icon-view">
+                                    <?= $berita['views']; ?>
+                                </p>
+                            </div>
                         </div>
-                        <?php endforeach; ?>
-                      </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
-                
-                </div>
-                
             </div>
         </div>
+
+        <div class="radio-wrapper mb-3">
+
+            <div class="radio-card2 w-100 mb-3 p-3 border rounded-4"> 
+        <div class="card-header">
+            <audio id="radio-player" src="https://studio1.indostreamers.com:8010/stream/1/" type="audio/mpeg"></audio>
+            <img src="<?php echo base_url('asset-radio') ?>/img/streaming.png" alt="Radio Kota Batik" class="radio-logo">
+        </div>
+        <div class="card-body"> 
+            <div class="radio-info">
+                <h4>Radio Kota Batik</h4>
+                <p>91.2 FM</p>
+            </div>
+        </div>
+        <div class="card-body">
+            <center>
+                <img src="<?php echo base_url('asset-radio') ?>/img/play.png" alt="Play Button" class="play-button">
+                <div class="audio-controls">
+                    <img src="<?php echo base_url('asset-radio') ?>/img/volume.png" alt="Volume" class="volume-icon">
+                    <input type="range" class="volume-slider" min="0" max="100">
+                </div>
+            </center>
+        </div>
+    </div>
+        </div>
+
+        <div class="radio-card text-center w-100 mb-3 border rounded-4">
+        <div class="card-header">
+            <div id="youtube-live-container" class="mb-3"></div>
+
+            <a class="navbar-brand" 
+                href="https://www.youtube.com/@radiokotabatikpekalongan/streams" 
+                target="_blank" rel="noopener noreferrer">
+                <img src="<?= base_url('asset-radio') ?>/img/streaming_yt.png" 
+                    alt="Radio Kota Batik" class="radio-logo mt-2">
+            </a>
+        </div>
+            <div class="card-body">
+                <div class="radio-info">
+                    <p id="live-status" class="text-danger fw-bold"></p>
+                </div>
+            </div>
+        </div>
+
+    </div> </div> ```
+
+
 
         <div class="row">
     <div class="col-12 col-md-6 p-3">
@@ -284,7 +220,7 @@
         
 
         <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-6 text-center">
         <h2 class="section-title">Infografis</h2>
 
         <div class="row g-2 justify-content-center">
@@ -324,8 +260,10 @@
             </div>
 
             <!-- Gambar kedua -->
-            <h2 class="section-title">Statement</h2>
-            <div class="col-md-8 d-flex justify-content-center mt-4">
+            <div class="col-12 text-center">
+                <h2 class="section-title">Statement</h2>
+            </div>
+            <div class="col-md-8 d-flex justify-content-center">
                 <div id="infografisCarousel2" class="carousel slide" data-bs-ride="carousel" style="width: 100%; max-width: 400px;">
                     <?php if (!empty($statement)): ?>
                         <div class="carousel-inner rounded-4 shadow">
@@ -361,6 +299,8 @@
         </div>
     </div>
 
+    
+
     <!-- Youtube -->
      <div class="col-lg-6 p-3">
         <h2 class="section-title">Youtube</h2>
@@ -384,45 +324,43 @@
 </div>
 
 
-<div class="card p-3 mt-3" style="max-width: 320px; margin:auto; font-family: Arial, sans-serif;">
-    <table class="table table-borderless mb-0" style="width:100%; font-size: 14px;">
-        <tr>
-            <td><img src="asset-radio/img/hari.png" width="20"> Pengunjung Hari ini</td>
-            <td>: <?= $pengunjungHariIni ?></td>
-        </tr>
-        <tr>
-            <td><img src="asset-radio/img/total.png" width="20"> Total Pengunjung</td>
-            <td>: <?= $totalPengunjung ?></td>
-        </tr>
-        <tr>
-            <td><img src="asset-radio/img/online.png" width="20"> Pengunjung Online</td>
-            <td>: <?= $pengunjungOnline ?></td>
-        </tr>
-    </table>
-</div>
 
 
 </div>
+
+<div class="">
+          <h2></h2>
+          
+          </div>
+      </div>
 
 <!-- berita foto -->
-        <div class="photo-news">
-          <h2 class="section-title">ALBUM</h2>
-          <div class="photo-grid">
-          <?php foreach ($beritafoto as $beritafoto) : ?>
-              <div class="photo-item">
-                  <img src="<?= base_url('upload/' . $beritafoto['foto']) ?>" alt="Berita Foto">
-                  <div class="overlay">
-                      <h4><?= esc($beritafoto['judul']) ?></h4>
-                      <!-- <a href="<?= site_url('/detail_foto/' . $beritafoto['slug']) ?>">selengkapnya →</a> -->
-                  </div>
-              </div>
-                <?php endforeach; ?>
-          </div>
-      </div>
+        <section class="photo-news">
+    <div class="container">
+        <h2 class="section-title">ALBUM</h2>
+        <div class="photo-grid">
+            <?php foreach ($beritafoto as $item) : ?>
+                <div class="photo-card">
+                    <div class="photo-wrapper">
+                        <img src="<?= base_url('upload/' . $item['foto']) ?>" alt="<?= esc($item['judul']) ?>">
+                        <div class="photo-overlay">
+                            <div class="overlay-content">
+                                <h4><?= esc($item['judul']) ?></h4>
+                                <a href="<?= site_url('/detail_foto/' . $item['slug']) ?>" class="btn-detail">
+                                    Lihat Detail →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
 
   <div class="">
-          <h2 class="section-title"></h2>
-          <div class="photo-grid">
+          <h2></h2>
+          <div>
           </div>
       </div>
 
@@ -430,50 +368,113 @@
 </div>
     </div>
 
+<style>
+    /* Container Utama */
+.photo-news {
+    padding: 20px 0;
+    background-color: #f8f9fa;
+}
 
-    <!-- footer -->
-    <footer class="footer">
-      <div class="container text-white">
-        <div class="row">
-  <!-- Kolom kiri -->
-  <div class="col-md-4 text-start">
-    <div class="logo-box mb-3">
-      <img src="<?php echo base_url('asset-radio') ?>/img/logo-rkb.png" alt="Radio Kota Batik" class="logo-img">
-    </div>            
-    <p class="fw-bold mb-0">Kantor Pusat Radio Kota Batik</p>
-    <p class="mb-2">Jl. Kurinci No.7, Podosugih, Kec. Pekalongan Barat., Kota Pekalongan, Jawa Tengah 51111</p>
-    <p class="mb-2">telp : 0285428900</p>
-    <p class="fw-bold">hubungi kami</p>
-    <div class="social-icons">
-        <a href="https://x.com/radio_kotabatik" target="_blank"><i class="fa-brands fa-x-twitter" style="color: white"></i></a>
-        <a href="https://www.instagram.com/radio_kotabatik/" target="_blank"><i class="fa-brands fa-instagram" style="color: white"></i></a>
-        <a href="https://www.facebook.com/RadioKotaBatikOfficial" target="_blank"><i class="fa-brands fa-facebook" style="color: white"></i></a>
-        <a href="https://www.tiktok.com/@radio_kotabatik" target="_blank"><i class="fa-brands fa-tiktok" style="color: white"></i></a>
-        <a href="https://whatsapp.com/channel/0029VatYubX7z4khJcd4NG3S" target="_blank"><i class="fa-brands fa-whatsapp" style="color: white"></i></a>
-    </div>
-  </div>
+.section-title {
+    text-align: left;
+    font-weight: 800;
+    margin-bottom: 10px;
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
 
-<div class="col-md-4 text-center text-white visitor-section">
-    <p><img src="<?= base_url('asset-radio/img/hari.png') ?>" width="20"> Pengunjung Hari Ini: <?= $pengunjungHariIni ?></p>
-    <p><img src="<?= base_url('asset-radio/img/total.png') ?>" width="20"> Total Pengunjung: <?= $totalPengunjung ?></p>
-    <p><img src="<?= base_url('asset-radio/img/online.png') ?>" width="20"> Pengunjung Online: <?= $pengunjungOnline ?></p>
-</div>
+/* Layout Grid yang Responsif */
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 15px;
+}
+
+/* Card Styling */
+.photo-card {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    background: #fff;
+    transition: transform 0.3s ease;
+}
+
+.photo-card:hover {
+    transform: translateY(-10px);
+}
+
+/* Wrapper untuk Efek Zoom */
+.photo-wrapper {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+}
+
+.photo-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.photo-card:hover .photo-wrapper img {
+    transform: scale(1.15);
+}
+
+/* Overlay Transparan */
+.photo-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 25px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.photo-card:hover .photo-overlay {
+    opacity: 1;
+}
+
+/* Konten di dalam Overlay */
+.overlay-content h4 {
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+}
+
+.photo-card:hover .overlay-content h4 {
+    transform: translateY(0);
+}
+
+.btn-detail {
+    display: inline-block;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    border: 1px solid #fff;
+    padding: 8px 15px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.btn-detail:hover {
+    background: #fff;
+    color: #333;
+}
 
 
-  <!-- Kolom kanan -->
-  <div class="col-md-4 text-end">
-    <p class="fw-bold mb-0">Link Terkait</p>
-    <p class="mb-1">Kominfo Pekalongan</p>
-    <p><a href="<?= site_url('/login') ?>" class="text-dark text-decoration-none" target="_blank">Radio Kota Batik</a></p>
-    <p><a href="https://forms.gle/NnuF3Jk3cv3D9icJ7" class="text-dark text-decoration-none" target="_blank">Kritik Saran dan Bug Aplikasi</a></p>
-  </div>
-</div>
+</style>
 
-        <div class="text-center mt-4">
-          <strong>Radio Kota Batik Pekalongan. © 2025 copyright rkb.co.id</strong>
-        </div>
-      </div>
-    </footer>    
+   
     
     <script>
   const playButton = document.querySelector('.play-button');
@@ -569,4 +570,4 @@ checkLiveStatus();
 </body>
 </html>
 
-
+<?= $this->endSection('isi') ?>

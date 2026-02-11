@@ -1,4 +1,4 @@
-<?= $this->extend('main/layout2') ?>
+<?= $this->extend('main/cihuy') ?>
 
 <?= $this->section('isi') ?>
 <!-- Konten -->

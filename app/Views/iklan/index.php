@@ -35,8 +35,6 @@ IKLAN
       <img src="<?= base_url('upload/' . $iklan['foto']) ?>"  width="100" height="auto">
       </td>
       <td>
-        <a href="/ctrliklan/delete/<?= $iklan['id'] ?>" class="btn btn-danger btn-circle">
-          <i class="fas fa-trash"></i></a>
         <a href="/ctrliklan/edit/<?= $iklan['id'] ?>" class="btn btn-success btn-circle">
           <i class="fas fa-edit"></i></a>
       </td>

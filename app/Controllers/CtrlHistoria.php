@@ -37,7 +37,7 @@ class CtrlHistoria extends BaseController
         $userData = $user->find($id);
 
         $historia = new HistoriaModel();
-        $ambil = $historia->findAll();
+        $ambil = $historia->paginate(10);
 
         $data = [
             'datahistoria' => $ambil,
@@ -300,7 +300,7 @@ class CtrlHistoria extends BaseController
         return view('historia/detail', $data);
     }
 
-    public function hapus($id)
+    public function delete($id)
     {
         $historia = new HistoriaModel();
         $ambil = $historia->find($id);

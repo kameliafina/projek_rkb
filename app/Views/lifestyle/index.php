@@ -54,7 +54,7 @@ Tambah Lifestyle
       <td><?= $berita['created_at']?></td>
       <td><?= $berita['updated_at']?></td>
       <td>
-        <a href="/ctrllifestyle/delete/<?= $berita['id'] ?>" class="btn btn-danger btn-circle">
+        <a href="/ctrllifestyle/delete/<?= $berita['id'] ?>" class="btn btn-danger btn-circle btn-hapus">
           <i class="fas fa-trash"></i></a>
         <a href="/ctrllifestyle/edit/<?= $berita['id'] ?>" class="btn btn-success btn-circle">
           <i class="fas fa-edit"></i></a>
@@ -65,5 +65,73 @@ Tambah Lifestyle
 </table>
 </div>
 <?= $pager->links('default', 'bootstrap') ?>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // Tunggu sampai halaman selesai dimuat
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // Cek apakah ada flashdata 'pesan' dari Controller
+        <?php if (session()->getFlashdata('pesan')) : ?>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '<?= session()->getFlashdata('pesan'); ?>',
+                showConfirmButton: false,
+                timer: 3000, // Hilang dalam 3 detik
+                timerProgressBar: true
+            });
+        <?php endif; ?>
+
+        // Cek jika ada error (opsional)
+        <?php if (session()->getFlashdata('errors')) : ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: 'Periksa kembali inputan Anda.',
+                confirmButtonColor: '#d33'
+            });
+        <?php endif; ?>
+    });
+</script>
+
+<script>
+    document.querySelectorAll('.btn-hapus').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault(); // Mencegah link langsung terbuka
+            const href = this.getAttribute('href');
+
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Data berita yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Jika user klik Ya, arahkan ke URL hapus
+                    window.location.href = href;
+                }
+            });
+        });
+    });
+</script>
+
+<?php if (session()->getFlashdata('pesan')) : ?>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: '<?= session()->getFlashdata('pesan'); ?>',
+            timer: 2000,
+            showConfirmButton: false
+        });
+    </script>
+<?php endif; ?>
 
 <?= $this->endSection('form') ?>

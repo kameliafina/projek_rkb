@@ -49,6 +49,9 @@ class CtrlLogin extends BaseController
                     'logged_in' => TRUE
                 ];
                 $session->set($ses_data); //mengeset session data
+
+                session()->setFlashdata('login_sukses', $cek['name']);
+                
                 switch($cek['level']){
                     case 'admin':
                         return redirect()->to('/admin');

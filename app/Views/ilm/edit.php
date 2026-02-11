@@ -22,7 +22,12 @@ EDIT ILM
     </div>
 
     <div class="mb-3">
-        <label for="keterangan" class="form-label">Keterangan</label>
+        <label for="sumber" class="form-label">Narasumber</label>
+        <input type="text" class="form-control" name="sumber" id="sumber" value="<?= esc($data['sumber']) ?>" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="keterangan" class="form-label">Deskripsi Singkat</label>
         <textarea class="form-control" name="keterangan" id="keterangan" rows="4" required><?= esc($data['keterangan']) ?></textarea>
     </div>
 

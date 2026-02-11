@@ -14,6 +14,7 @@ $routes->group('', ['filter' => 'adminfilter'], function($routes) {
 
 
     $routes->get('/berita2', 'CtrlBerita::index');
+    $routes->get('/search', 'CtrlBerita::index');
     $routes->get('/databerita', 'CtrlBerita::databerita');
     $routes->get('/tambahberita', 'CtrlBerita::tambah_berita');
     $routes->post('ctrlberita/simpan', 'CtrlBerita::simpan');
@@ -73,7 +74,7 @@ $routes->group('', ['filter' => 'adminfilter'], function($routes) {
     $routes->get('/dataprogram', 'CtrlProgram::dataprogram');
     $routes->get('/tambahprogram', 'CtrlProgram::tambah');
     $routes->post('ctrlprogram/simpan', 'CtrlProgram::simpan');
-    $routes->get('/ctrlProgram/edit/(:num)', 'CtrlProgram::edit/$1');
+    $routes->get('/ctrlprogram/edit/(:num)', 'CtrlProgram::edit/$1');
     $routes->post('/ctrlprogram/update/(:num)', 'CtrlProgram::update/$1');
     $routes->get('/ctrlprogram/delete/(:num)', 'CtrlProgram::delete/$1');
 
@@ -139,7 +140,7 @@ $routes->get('/login/logout', 'CtrlLogin::logout');
 $routes->get('/hash', 'CtrlLogin::hash');
 $routes->post('/register-action', 'CtrlLogin::registerAction');
 
-$routes->get('/halamanindex', 'CtrlHalamanDepan::index');
+$routes->get('/halamanindex', 'Home::index');
 $routes->get('/berita', 'CtrlHalamanDepan::berita');
 $routes->get('/program', 'CtrlHalamanDepan::program');
 $routes->get('/historia', 'CtrlHalamanDepan::historia');

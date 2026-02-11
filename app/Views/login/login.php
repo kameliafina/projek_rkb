@@ -3,92 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login RKB</title>
+    <title>Login Admin | RKB</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Abu-abu sangat muda */
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+            color: #1e293b;
         }
 
-        .login-container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
+        .login-card {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .header {
             text-align: center;
+            margin-bottom: 32px;
         }
 
-        h2 {
-            margin-bottom: 20px;
+        .header h2 {
+            margin: 0;
             font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.025em;
         }
 
-        .input-group {
-            margin-bottom: 15px;
-            text-align: left;
+        .header p {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #64748b;
         }
 
-        .input-group label {
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
             display: block;
-            margin-bottom: 5px;
             font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 6px;
         }
 
-        .input-group input {
+        .form-group input {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
+            padding: 10px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.2s;
+            box-sizing: border-box;
         }
 
-        button {
+        .form-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .captcha-box {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .btn-login {
             width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
+            padding: 12px;
+            background-color: #1e293b; /* Warna gelap elegan */
             color: white;
             border: none;
-            border-radius: 4px;
-            font-size: 16px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
             cursor: pointer;
+            transition: background 0.2s;
         }
 
-        button:hover {
-            background-color: #45a049;
+        .btn-login:hover {
+            background-color: #334155;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 12px;
+            color: #94a3b8;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
-        <?php
-            if(session()->getFlashdata('pesan')){ //menambil pesan error dari session yang ada di login ctrl
-                echo '<p style="color:red">'.session()->getflashdata('pesan').'</p>';
-            }
-        ?>
-        <form action="<?php echo base_url('/login/action')?>" method="POST">
-            <div class="input-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div class="input-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div class="input-group">
-                <div class="g-recaptcha" data-sitekey="6Lf4tgIsAAAAAHNL5K6oYApJ5tP9L_xfirCT_lIv"></div>
-            </div>
-            <button type="submit">Login</button>
-        </form>
-        <br>
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<div class="login-card">
+    <div class="header">
+        <h2>Radio Kota Batik</h2>
+        <p>Masuk ke panel manajemen berita</p>
     </div>
+
+    <form action="<?= base_url('/login/action') ?>" method="POST">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Masukkan username" required autocomplete="off">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="••••••••" required>
+        </div>
+
+        <div class="captcha-box">
+            <div class="g-recaptcha" data-sitekey="6Lf4tgIsAAAAAHNL5K6oYApJ5tP9L_xfirCT_lIv"></div>
+        </div>
+
+        <button type="submit" class="btn-login">Masuk</button>
+    </form>
+
+    <div class="footer">
+        &copy; 2025 Radio Kota Batik Pekalongan
+    </div>
+</div>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        <?php if(session()->getFlashdata('pesan')): ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: '<?= session()->getFlashdata('pesan') ?>',
+                confirmButtonColor: '#1e293b'
+            });
+        <?php endif; ?>
+    });
+</script>
+
 </body>
 </html>
